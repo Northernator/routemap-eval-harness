@@ -349,6 +349,19 @@ data/v1/gold/
 data/v1/runs/
 ```
 
+Before annotation, sanity-check the v1 document corpus:
+
+```bash
+python src/check_document_corpus.py --docs data/v1/documents
+```
+
+This writes:
+
+```text
+data/v1/corpus_report.md
+data/v1/corpus_report.csv
+```
+
 Build annotation targets from an annotation batch:
 
 ```bash
