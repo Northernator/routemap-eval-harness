@@ -1,0 +1,49 @@
+{
+  "roles": [
+    "DEFINE",
+    "CLAIM",
+    "METHOD",
+    "RESULT",
+    "LIMITATION",
+    "NEXT_STEP",
+    "EXAMPLE",
+    "BACKGROUND",
+    "MODIFY",
+    "EXCEPT",
+    "SUPPORTS",
+    "CONTRADICTS",
+    "DEPENDS_ON"
+  ],
+  "operative_status": [
+    "OPERATIVE",
+    "BACKGROUND",
+    "EXAMPLE",
+    "REJECTED_DRAFT",
+    "HISTORICAL",
+    "NON_BINDING",
+    "UNKNOWN"
+  ],
+  "relations": [
+    "defines",
+    "modifies",
+    "excepts",
+    "supports",
+    "contradicts",
+    "depends_on",
+    "causes",
+    "measures",
+    "reports",
+    "limits",
+    "next_step",
+    "background_to"
+  ],
+  "required_fields": [
+    "doc_id",
+    "segment_id",
+    "role",
+    "entities",
+    "operative_status",
+    "relation"
+  ],
+  "route_signature_format": "DOC:{doc_id} ROLE:{role} ENTITIES:{entities} STATUS:{operative_status} RELATION:{relation}"
+}

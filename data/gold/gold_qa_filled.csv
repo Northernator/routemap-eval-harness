@@ -1,0 +1,7 @@
+query_id,query,target_doc_id,gold_required_segment_ids,gold_answer,judge_correctness_0_2,judge_completeness_0_2,judge_hallucination_0_2,judge_notes
+Q0001,What does rent mean in this agreement?,DOC0001,DOC0001_S0001,Rent refers to the standard monthly obligation.,2,2,0,demo QA label
+Q0002,When is rent widened to include administration costs?,DOC0001,DOC0001_S0003,Rent is widened to cover administration costs when the tenant is commercial.,2,2,0,demo QA label
+Q0003,Which rent cases are carved out?,DOC0001,DOC0001_S0005,Legacy agreements are carved out when the tenancy began before the policy date.,2,2,0,demo QA label
+Q0004,How is sigma computed?,DOC0001,DOC0001_S0007,Sigma is computed over rolling document windows.,2,2,0,demo QA label
+Q0005,What result does route retrieval show?,DOC0001,DOC0001_S0008,Route retrieval reduces comparisons.,2,2,0,demo QA label
+Q0006,What limitation remains for labels?,DOC0001,DOC0001_S0009,The labels are silver labels rather than human-gold labels.,2,2,0,demo QA label
