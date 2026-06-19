@@ -55,6 +55,26 @@ def main():
         "--out",
         "data/outputs/route_extraction_scores.csv",
     ])
+    run([
+        "src/generate_answers.py",
+        "--gold-qa",
+        "data/gold/gold_qa_filled.csv",
+        "--gold-segments",
+        "data/gold/gold_segments_filled.csv",
+        "--method",
+        "routemap",
+        "--out",
+        "data/outputs/answers_routemap.csv",
+    ])
+    run([
+        "src/judge_answers.py",
+        "--answers",
+        "data/outputs/answers_routemap.csv",
+        "--gold-qa",
+        "data/gold/gold_qa_filled.csv",
+        "--out",
+        "data/outputs/qa_judgement_scores.csv",
+    ])
     run(["src/score_results.py", "--outputs", "data/outputs"])
 
     print("\nDemo complete. Outputs are in data/outputs.")

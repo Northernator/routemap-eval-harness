@@ -44,6 +44,8 @@ src/run_routemap.py
 src/run_neural_embeddings.py
 src/run_llm_route_extractor.py
 src/score_route_extraction.py
+src/generate_answers.py
+src/judge_answers.py
 src/run_qa_eval.py
 src/score_results.py
 ```
@@ -420,7 +422,65 @@ invalid output count
 
 ### QA source evaluation
 
-If you have generated answers with `query_id`, `answer`, and `used_segment_ids`, run:
+Generate extractive answers from retrieved passages:
+
+```bash
+python src/generate_answers.py --gold-qa data/gold/gold_qa_filled.csv --gold-segments data/gold/gold_segments_filled.csv --method routemap --out data/outputs/answers_routemap.csv
+```
+
+Supported methods:
+
+```text
+keyword
+routemap
+neural
+```
+
+`neural` uses the optional `sentence-transformers` dependency. `keyword` and `routemap` are offline and deterministic.
+
+Answer CSVs include:
+
+```text
+query_id
+query
+method
+answer
+used_segment_ids
+```
+
+Judge generated answers against human-gold QA labels and required source segments:
+
+```bash
+python src/judge_answers.py --answers data/outputs/answers_routemap.csv --gold-qa data/gold/gold_qa_filled.csv --out data/outputs/qa_judgement_scores.csv
+```
+
+Outputs:
+
+```text
+data/outputs/qa_judgement_scores.csv
+data/outputs/qa_judgement_summary.csv
+```
+
+Offline deterministic judge metrics:
+
+```text
+source_hit
+all_required_sources_used
+answer_contains_gold_terms
+hallucination_flag_simple
+correctness_proxy
+completeness_proxy
+```
+
+The optional evaluator-model prompt lives at:
+
+```text
+prompts/qa_judge_prompt.md
+```
+
+Default judging does not call any model or require API keys.
+
+If you already have generated answers with `query_id`, `answer`, and `used_segment_ids`, you can still run the older source-only evaluator:
 
 ```bash
 python src/run_qa_eval.py --answers data/outputs/answers.csv --gold-qa data/gold/gold_qa_filled.csv
