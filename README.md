@@ -40,6 +40,7 @@ src/run_batch_eval.py
 src/generate_run_report.py
 src/build_annotation_batch.py
 src/build_gold_sample.py
+src/annotation_summary.py
 src/validate_gold_labels.py
 src/sample_annotation_targets.py
 src/build_qa_targets.py
@@ -275,6 +276,7 @@ Use the field vocabulary in:
 
 ```text
 data/gold/ANNOTATION_GUIDELINES.md
+docs/ANNOTATION_QUICK_REFERENCE.md
 configs/route_schema.json
 ```
 
@@ -288,6 +290,18 @@ Validate completed labels:
 
 ```bash
 python src/validate_gold_labels.py --gold data/gold/annotation_batch_filled.csv
+```
+
+Validate and print an annotation summary:
+
+```bash
+python src/validate_gold_labels.py --gold data/gold/v1_annotation_targets_filled.csv --summary
+```
+
+Print a summary without validation:
+
+```bash
+python src/annotation_summary.py --gold data/gold/v1_annotation_targets_filled.csv
 ```
 
 Validation checks:

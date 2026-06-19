@@ -2,6 +2,7 @@ import argparse
 import json
 from pathlib import Path
 import pandas as pd
+from annotation_summary import summary_text
 
 
 REQUIRED_COLUMNS = [
@@ -85,6 +86,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--gold", required=True)
     ap.add_argument("--schema", default=str(project_root() / "configs" / "route_schema.json"))
+    ap.add_argument("--summary", action="store_true")
     args = ap.parse_args()
 
     errors = validate(args.gold, args.schema)
@@ -95,6 +97,9 @@ def main():
         raise SystemExit(1)
 
     print(f"Validation passed: {args.gold}")
+    if args.summary:
+        print()
+        print(summary_text(Path(args.gold)))
 
 
 if __name__ == "__main__":
