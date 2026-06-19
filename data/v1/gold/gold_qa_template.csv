@@ -1,0 +1,1 @@
+query_id,query,target_doc_id,gold_required_segment_ids,gold_answer,judge_correctness_0_2,judge_completeness_0_2,judge_hallucination_0_2,judge_notes

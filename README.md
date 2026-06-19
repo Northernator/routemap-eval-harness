@@ -335,6 +335,20 @@ The operational run checklist lives at:
 docs/V1_RUN_CHECKLIST.md
 ```
 
+Initialize a clean v1 workspace:
+
+```bash
+python src/init_v1_benchmark.py
+```
+
+This creates:
+
+```text
+data/v1/documents/
+data/v1/gold/
+data/v1/runs/
+```
+
 Build annotation targets from an annotation batch:
 
 ```bash
