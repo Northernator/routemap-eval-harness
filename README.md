@@ -43,6 +43,7 @@ src/run_baselines.py
 src/run_routemap.py
 src/run_neural_embeddings.py
 src/run_llm_route_extractor.py
+src/score_route_extraction.py
 src/run_qa_eval.py
 src/score_results.py
 ```
@@ -387,6 +388,34 @@ Examples:
 python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --provider openai --model gpt-4.1-mini
 python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --provider anthropic --model claude-3-5-haiku-latest
 python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --provider ollama --model llama3.1
+```
+
+### Route extraction scoring
+
+Compare LLM or stub route labels against human-gold annotation labels:
+
+```bash
+python src/score_route_extraction.py --gold data/gold/annotation_batch_filled.csv --pred data/outputs/llm_route_labels.csv --out data/outputs/route_extraction_scores.csv
+```
+
+Outputs:
+
+```text
+data/outputs/route_extraction_scores.csv
+data/outputs/role_confusion_matrix.csv
+data/outputs/status_confusion_matrix.csv
+data/outputs/relation_confusion_matrix.csv
+```
+
+Metrics:
+
+```text
+role accuracy
+operative_status accuracy
+relation accuracy
+entity exact match
+entity partial overlap / Jaccard
+invalid output count
 ```
 
 ### QA source evaluation

@@ -46,6 +46,15 @@ def main():
         "--out",
         "data/outputs/llm_route_labels_offline_stub.csv",
     ])
+    run([
+        "src/score_route_extraction.py",
+        "--gold",
+        "data/gold/annotation_batch_filled.csv",
+        "--pred",
+        "data/outputs/llm_route_labels_offline_stub.csv",
+        "--out",
+        "data/outputs/route_extraction_scores.csv",
+    ])
     run(["src/score_results.py", "--outputs", "data/outputs"])
 
     print("\nDemo complete. Outputs are in data/outputs.")
