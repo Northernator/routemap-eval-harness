@@ -423,6 +423,9 @@ The runner accepts:
 ```text
 --provider stub|openai|anthropic|ollama
 --model optional-model-name
+--limit N
+--sleep-seconds S
+--dry-run
 ```
 
 Stub mode copies existing gold labels when present. If labels are missing, it falls back to:
@@ -446,28 +449,50 @@ Invalid provider outputs are written to:
 data/outputs/llm_route_errors.csv
 ```
 
+The parser tolerates common model wrappers such as Markdown code fences or prose before/after the JSON object, then validates the extracted object against required fields and allowed route values.
+
 The prompt template lives at:
 
 ```text
 prompts/llm_route_extractor_prompt.md
 ```
 
-To add a real provider call later, implement the selected branch in `call_provider()` inside `src/run_llm_route_extractor.py`:
+Provider environment variables:
 
 ```text
-openai = call OpenAI Responses/Chat API and return JSON text
-anthropic = call Anthropic Messages API and return JSON text
-ollama = call local Ollama HTTP API and return JSON text
+OPENAI_API_KEY
+ANTHROPIC_API_KEY
+OLLAMA_BASE_URL
 ```
 
-Keep API keys in environment variables or local secret stores, not in repository files.
+Default models:
+
+```text
+openai = gpt-4.1-mini
+anthropic = claude-3-5-haiku-latest
+ollama = llama3.1
+```
+
+Keep API keys in environment variables or local secret stores, not in repository files. `OLLAMA_BASE_URL` defaults to `http://localhost:11434` when unset.
+
+Dry-run prompts without calling any provider:
+
+```bash
+python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --provider openai --limit 2 --dry-run
+```
+
+Use `--limit` and `--sleep-seconds` for safe provider testing:
+
+```bash
+python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --provider openai --limit 2 --sleep-seconds 1
+```
 
 Examples:
 
 ```bash
-python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --provider openai --model gpt-4.1-mini
-python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --provider anthropic --model claude-3-5-haiku-latest
-python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --provider ollama --model llama3.1
+python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --provider openai
+python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --provider anthropic
+python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --provider ollama
 ```
 
 ### Route extraction scoring

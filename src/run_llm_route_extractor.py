@@ -1,5 +1,10 @@
 import argparse
 import json
+import os
+import re
+import time
+import urllib.error
+import urllib.request
 from pathlib import Path
 import pandas as pd
 
@@ -14,6 +19,13 @@ REQUIRED_FIELDS = [
 ]
 
 ERROR_COLUMNS = ["segment_id", "provider", "model", "errors", "raw_output"]
+
+DEFAULT_MODELS = {
+    "stub": "stub",
+    "openai": "gpt-4.1-mini",
+    "anthropic": "claude-3-5-haiku-latest",
+    "ollama": "llama3.1",
+}
 
 
 def project_root():
@@ -54,9 +66,50 @@ def stub_label(row):
     }
 
 
+def default_model(provider, model):
+    return model or DEFAULT_MODELS[provider]
+
+
+def extract_json_object(raw_output):
+    text = str(raw_output).strip()
+    fence_match = re.search(r"```(?:json)?\s*(.*?)```", text, flags=re.IGNORECASE | re.DOTALL)
+    if fence_match:
+        text = fence_match.group(1).strip()
+    if text.startswith("{") and text.endswith("}"):
+        return text
+
+    start = text.find("{")
+    if start == -1:
+        return text
+
+    depth = 0
+    in_string = False
+    escape = False
+    for index, char in enumerate(text[start:], start):
+        if escape:
+            escape = False
+            continue
+        if char == "\\":
+            escape = True
+            continue
+        if char == '"':
+            in_string = not in_string
+            continue
+        if in_string:
+            continue
+        if char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start:index + 1]
+    return text
+
+
 def parse_json(raw_output):
+    candidate = extract_json_object(raw_output)
     try:
-        data = json.loads(raw_output)
+        data = json.loads(candidate)
     except json.JSONDecodeError as exc:
         return None, [f"invalid JSON: {exc.msg}"]
     if not isinstance(data, dict):
@@ -88,15 +141,86 @@ def validate_label(data, schema):
     return errors
 
 
+def request_json(url, payload, headers):
+    body = json.dumps(payload).encode("utf-8")
+    request = urllib.request.Request(url, data=body, headers=headers, method="POST")
+    try:
+        with urllib.request.urlopen(request, timeout=120) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"HTTP {exc.code} from {url}: {detail}") from exc
+
+
+def call_openai(prompt, model):
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY is not set")
+    response = request_json(
+        "https://api.openai.com/v1/chat/completions",
+        {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": "Return only strict JSON matching the requested schema."},
+                {"role": "user", "content": prompt},
+            ],
+            "temperature": 0,
+            "response_format": {"type": "json_object"},
+        },
+        {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+    )
+    return response["choices"][0]["message"]["content"]
+
+
+def call_anthropic(prompt, model):
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise RuntimeError("ANTHROPIC_API_KEY is not set")
+    response = request_json(
+        "https://api.anthropic.com/v1/messages",
+        {
+            "model": model,
+            "max_tokens": 800,
+            "temperature": 0,
+            "messages": [{"role": "user", "content": prompt}],
+        },
+        {
+            "x-api-key": api_key,
+            "anthropic-version": "2023-06-01",
+            "Content-Type": "application/json",
+        },
+    )
+    return "\n".join(block.get("text", "") for block in response.get("content", []) if block.get("type") == "text")
+
+
+def call_ollama(prompt, model):
+    base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434").rstrip("/")
+    response = request_json(
+        f"{base_url}/api/generate",
+        {
+            "model": model,
+            "prompt": prompt,
+            "stream": False,
+            "format": "json",
+            "options": {"temperature": 0},
+        },
+        {"Content-Type": "application/json"},
+    )
+    return response.get("response", "")
+
+
 def call_provider(provider, prompt, row, model):
     if provider == "stub":
         return json.dumps(stub_label(row))
     if provider == "openai":
-        raise NotImplementedError("OpenAI provider call is not wired yet.")
+        return call_openai(prompt, model)
     if provider == "anthropic":
-        raise NotImplementedError("Anthropic provider call is not wired yet.")
+        return call_anthropic(prompt, model)
     if provider == "ollama":
-        raise NotImplementedError("Ollama provider call is not wired yet.")
+        return call_ollama(prompt, model)
     raise ValueError(f"Unknown provider: {provider}")
 
 
@@ -109,20 +233,40 @@ def main():
     ap.add_argument("--prompt", default="prompts/llm_route_extractor_prompt.md")
     ap.add_argument("--schema", default=str(project_root() / "configs" / "route_schema.json"))
     ap.add_argument("--errors-out", default="data/outputs/llm_route_errors.csv")
+    ap.add_argument("--limit", type=int, default=0, help="Process only the first N segments when N > 0")
+    ap.add_argument("--sleep-seconds", type=float, default=0.0, help="Sleep between non-stub provider calls")
+    ap.add_argument("--dry-run", action="store_true", help="Print prompts without calling the selected provider")
     args = ap.parse_args()
 
     schema = load_schema(args.schema)
     segments = pd.read_csv(args.segments, keep_default_na=False)
+    if args.limit > 0:
+        segments = segments.head(args.limit)
     template = Path(args.prompt).read_text(encoding="utf-8")
+    selected_model = default_model(args.provider, args.model)
     rows = []
     errors = []
 
     for _, row in segments.iterrows():
         prompt = template.replace("{{PASSAGE}}", str(row.get("text", "")))
-        try:
-            raw_output = call_provider(args.provider, prompt, row, args.model)
-        except NotImplementedError as exc:
-            raise SystemExit(f"{args.provider} provider selected, but no provider call is configured yet: {exc}") from exc
+        if args.dry_run:
+            print(f"\n--- prompt for {row.get('segment_id', '')} ({args.provider}/{selected_model}) ---")
+            print(prompt)
+            raw_output = json.dumps(stub_label(row))
+        else:
+            try:
+                raw_output = call_provider(args.provider, prompt, row, selected_model)
+            except Exception as exc:
+                raw_output = ""
+                errors.append({
+                    "segment_id": row.get("segment_id", ""),
+                    "provider": args.provider,
+                    "model": selected_model,
+                    "errors": f"provider call failed: {exc}",
+                    "raw_output": raw_output,
+                })
+            if args.sleep_seconds > 0 and args.provider != "stub":
+                time.sleep(args.sleep_seconds)
 
         data, parse_errors = parse_json(raw_output)
         label_errors = parse_errors if parse_errors else validate_label(data, schema)
@@ -130,7 +274,7 @@ def main():
             errors.append({
                 "segment_id": row.get("segment_id", ""),
                 "provider": args.provider,
-                "model": args.model,
+                "model": selected_model,
                 "errors": " | ".join(label_errors),
                 "raw_output": raw_output,
             })
@@ -145,7 +289,7 @@ def main():
 
         rows.append({**row.to_dict(), **{
             "llm_provider": args.provider,
-            "llm_model": args.model,
+            "llm_model": selected_model,
             "llm_role": data.get("role", ""),
             "llm_entities": "|".join(data.get("entities", [])) if isinstance(data.get("entities", []), list) else "",
             "llm_operative_status": data.get("operative_status", ""),
