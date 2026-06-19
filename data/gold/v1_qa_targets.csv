@@ -1,0 +1,11 @@
+query_id,doc_id,target_role,candidate_segment_ids,candidate_text,query,gold_required_segment_ids,gold_answer,notes
+V1_Q0001,DOC0001,BACKGROUND,DOC0001_S0002,"A background note says previous drafts discussed rent, but those drafts are not in force.",,,,
+V1_Q0002,DOC0001,DEFINE,DOC0001_S0001,"For the purposes of this agreement, rent refers to the standard monthly obligation.",,,,
+V1_Q0003,DOC0001,DEFINE,DOC0001_S0006,Sigma is defined as the normalized coordination measure.,,,,
+V1_Q0004,DOC0001,EXAMPLE,DOC0001_S0004,The comparison table adds rent for illustration only.,,,,
+V1_Q0005,DOC0001,EXCEPT,DOC0001_S0005,Legacy agreements are carved out of rent where the tenancy began before the policy date.,,,,
+V1_Q0006,DOC0001,LIMITATION,DOC0001_S0009,A limitation is that labels are silver labels rather than human-gold labels.,,,,
+V1_Q0007,DOC0001,METHOD,DOC0001_S0007,The method computes sigma over rolling document windows.,,,,
+V1_Q0008,DOC0001,MODIFY,DOC0001_S0003,"Later, rent is widened to cover administration costs when the tenant is commercial.",,,,
+V1_Q0009,DOC0001,NEXT_STEP,DOC0001_S0010,The next step is to test human annotations.,,,,
+V1_Q0010,DOC0001,RESULT,DOC0001_S0008,The result shows that route retrieval reduces comparisons.,,,,

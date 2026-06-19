@@ -41,6 +41,9 @@ src/generate_run_report.py
 src/build_annotation_batch.py
 src/build_gold_sample.py
 src/validate_gold_labels.py
+src/sample_annotation_targets.py
+src/build_qa_targets.py
+src/validate_qa_targets.py
 src/run_baselines.py
 src/run_routemap.py
 src/run_neural_embeddings.py
@@ -301,6 +304,47 @@ The repository includes a small filled sample at:
 ```text
 data/gold/annotation_batch_filled.csv
 ```
+
+---
+
+## Preparing the v1.0 benchmark
+
+The v1.0 benchmark plan lives at:
+
+```text
+docs/V1_BENCHMARK_PLAN.md
+```
+
+Build annotation targets from an annotation batch:
+
+```bash
+python src/sample_annotation_targets.py --gold data/gold/annotation_batch.csv --out data/gold/v1_annotation_targets.csv --max-per-role 50
+```
+
+The sampler stratifies by existing `gold_role`, `llm_role`, `predicted_role`, or a simple text-based role inference when no role label is present.
+
+Build QA authoring targets from completed segment labels:
+
+```bash
+python src/build_qa_targets.py --gold-segments data/gold/annotation_batch_filled.csv --out data/gold/v1_qa_targets.csv
+```
+
+Humans fill:
+
+```text
+query
+gold_required_segment_ids
+gold_answer
+notes
+```
+
+Validate filled QA targets:
+
+```bash
+python src/validate_qa_targets.py --qa data/gold/v1_qa_targets_filled.csv --gold-segments data/gold/annotation_batch_filled.csv
+```
+
+For the first serious benchmark, target 25-50 documents, 1,000-2,500 annotated segments, and 150-300 QA queries.
 
 ---
 
