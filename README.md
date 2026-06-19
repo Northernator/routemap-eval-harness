@@ -37,6 +37,7 @@ The key claim to test:
 ```text
 src/run_local_demo.py
 src/run_batch_eval.py
+src/generate_run_report.py
 src/build_annotation_batch.py
 src/build_gold_sample.py
 src/validate_gold_labels.py
@@ -191,6 +192,9 @@ qa_judgement_scores.csv
 qa_judgement_summary.csv
 run_summary.md
 run_manifest.json
+report.md
+report.html
+charts/
 ```
 
 `neural_embedding_results.csv` and `answers_neural.csv` are present only when the optional neural baseline runs.
@@ -198,6 +202,23 @@ run_manifest.json
 `run_manifest.json` records timestamp, git commit, corpus counts, QA count, methods run, Python version, and optional dependency detection.
 
 `run_summary.md` includes retrieval comparison, route extraction summary, QA judgement summary, comparison reduction summary, and known limitations.
+
+Generate or refresh the shareable report for an existing run:
+
+```bash
+python src/generate_run_report.py --run-dir data/runs/<timestamp>
+```
+
+Report outputs:
+
+```text
+report.md
+report.html
+charts/retrieval_comparison.png
+charts/qa_judgement.png
+charts/comparison_reduction.png
+charts/route_extraction_scores.png
+```
 
 ---
 

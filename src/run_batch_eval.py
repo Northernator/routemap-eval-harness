@@ -266,6 +266,7 @@ def main():
     retrieval = retrieval_summary(run_dir)
     route_summary = pd.read_csv(run_dir / "route_extraction_scores.csv")
     write_summary(run_dir / "run_summary.md", retrieval, route_summary, qa_summary, manifest)
+    run(["src/generate_run_report.py", "--run-dir", rel(run_dir)])
     print(f"Batch run complete: {run_dir}")
 
 
