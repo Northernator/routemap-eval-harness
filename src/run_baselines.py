@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from common import token_overlap_score, reciprocal_rank
 
-RESULT_COLUMNS = ["query_id", "method", "hit", "mrr", "comparisons"]
+RESULT_COLUMNS = ["query_id", "method", "hit", "mrr", "comparisons", "comparison_reduction_pct"]
 
 def run_keyword(segments, queries, topk=10):
     rows = []
@@ -17,7 +17,14 @@ def run_keyword(segments, queries, topk=10):
         required = str(q.gold_required_segment_ids).split("|")
         hit = any(x in ranked for x in required)
         rr = max([reciprocal_rank(ranked, x) for x in required] or [0])
-        rows.append({"query_id": q.query_id, "method": "keyword", "hit": float(hit), "mrr": rr, "comparisons": len(doc_segments)})
+        rows.append({
+            "query_id": q.query_id,
+            "method": "keyword",
+            "hit": float(hit),
+            "mrr": rr,
+            "comparisons": len(doc_segments),
+            "comparison_reduction_pct": 0.0,
+        })
     return pd.DataFrame(rows, columns=RESULT_COLUMNS)
 
 def main():
@@ -35,7 +42,7 @@ def main():
     if res.empty:
         print(f"No QA rows to score. Wrote empty results to {args.out}")
     else:
-        print(res.groupby("method").agg(hit=("hit","mean"), mrr=("mrr","mean"), comparisons=("comparisons","mean")))
+        print(res.groupby("method").agg(hit=("hit","mean"), mrr=("mrr","mean"), comparisons=("comparisons","mean"), comparison_reduction_pct=("comparison_reduction_pct","mean")))
 
 if __name__ == "__main__":
     main()

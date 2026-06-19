@@ -15,6 +15,8 @@ import pandas as pd
 import numpy as np
 from common import reciprocal_rank
 
+RESULT_COLUMNS = ["query_id", "method", "hit", "mrr", "comparisons", "comparison_reduction_pct"]
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--gold-segments", required=True)
@@ -23,7 +25,13 @@ def main():
     ap.add_argument("--out", default="data/outputs/neural_embedding_results.csv")
     args = ap.parse_args()
 
-    from sentence_transformers import SentenceTransformer
+    try:
+        from sentence_transformers import SentenceTransformer
+    except ImportError as exc:
+        raise SystemExit(
+            "sentence-transformers is not installed. "
+            "Install optional neural dependencies with: python -m pip install sentence-transformers"
+        ) from exc
     model = SentenceTransformer(args.model)
 
     seg = pd.read_csv(args.gold_segments)
@@ -41,12 +49,22 @@ def main():
         required = str(q.gold_required_segment_ids).split("|")
         hit = any(x in ranked for x in required)
         rr = max([reciprocal_rank(ranked, x) for x in required] or [0])
-        rows.append({"query_id": q.query_id, "method": "neural_embedding", "hit": float(hit), "mrr": rr, "comparisons": len(doc_idx)})
+        rows.append({
+            "query_id": q.query_id,
+            "method": "neural_embedding",
+            "hit": float(hit),
+            "mrr": rr,
+            "comparisons": len(doc_idx),
+            "comparison_reduction_pct": 0.0,
+        })
 
-    out = pd.DataFrame(rows)
+    out = pd.DataFrame(rows, columns=RESULT_COLUMNS)
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(args.out, index=False)
-    print(out.groupby("method").agg(hit=("hit","mean"), mrr=("mrr","mean"), comparisons=("comparisons","mean")))
+    if out.empty:
+        print(f"No neural embedding rows to score. Wrote empty results to {args.out}")
+    else:
+        print(out.groupby("method").agg(hit=("hit","mean"), mrr=("mrr","mean"), comparisons=("comparisons","mean"), comparison_reduction_pct=("comparison_reduction_pct","mean")))
 
 if __name__ == "__main__":
     main()

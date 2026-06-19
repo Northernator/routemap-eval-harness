@@ -65,6 +65,12 @@ source .venv/bin/activate
 
 The required demo dependencies are only `pandas` and `numpy`.
 
+Optional neural embedding baseline dependency:
+
+```bash
+python -m pip install sentence-transformers
+```
+
 ---
 
 ## Data files
@@ -128,6 +134,8 @@ data/outputs/llm_route_labels_offline_stub.csv
 ```
 
 No external API is required for the demo path.
+
+The offline demo does not import or require `sentence-transformers`.
 
 ---
 
@@ -210,6 +218,12 @@ This scores whether answers used correct segments and whether answer quality pas
 python src/score_results.py --outputs data/outputs
 ```
 
+When `baseline_results.csv`, `routemap_results.csv`, and `neural_embedding_results.csv` are present, this prints one combined table:
+
+```text
+keyword vs RouteMap vs neural embeddings
+```
+
 ---
 
 ## Optional integrations
@@ -222,6 +236,40 @@ This is not part of the no-API demo because it needs the optional `sentence-tran
 python -m pip install sentence-transformers
 python src/run_neural_embeddings.py --gold-segments data/gold/gold_segments_filled.csv --gold-qa data/gold/gold_qa_filled.csv
 python src/score_results.py --outputs data/outputs
+```
+
+Default model:
+
+```text
+sentence-transformers/all-MiniLM-L6-v2
+```
+
+Output:
+
+```text
+data/outputs/neural_embedding_results.csv
+```
+
+Neural embeddings do not require API keys.
+
+### Combined retrieval comparison
+
+Run all retrieval methods, including the optional neural embedding baseline:
+
+```bash
+python src/run_baselines.py --gold-segments data/gold/gold_segments_filled.csv --gold-qa data/gold/gold_qa_filled.csv
+python src/run_routemap.py --gold-segments data/gold/gold_segments_filled.csv --gold-qa data/gold/gold_qa_filled.csv
+python src/run_neural_embeddings.py --gold-segments data/gold/gold_segments_filled.csv --gold-qa data/gold/gold_qa_filled.csv
+python src/score_results.py --outputs data/outputs
+```
+
+The comparison table reports:
+
+```text
+Hit@K
+MRR
+comparisons/query
+comparison reduction %
 ```
 
 ### LLM route extraction
