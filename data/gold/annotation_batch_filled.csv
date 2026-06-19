@@ -1,0 +1,11 @@
+doc_id,segment_id,title,segment_index,text,gold_role,gold_entities,gold_operative_status,gold_relation,gold_answer_relevant,notes
+DOC0001,DOC0001_S0001,sample_document.md,0,"For the purposes of this agreement, rent refers to the standard monthly obligation.",DEFINE,rent|standard monthly obligation,OPERATIVE,defines,1,sample human-gold label
+DOC0001,DOC0001_S0002,sample_document.md,1,"A background note says previous drafts discussed rent, but those drafts are not in force.",BACKGROUND,rent|previous drafts,HISTORICAL,background_to,0,sample human-gold label
+DOC0001,DOC0001_S0003,sample_document.md,2,"Later, rent is widened to cover administration costs when the tenant is commercial.",MODIFY,rent|administration costs|commercial tenant,OPERATIVE,modifies,1,sample human-gold label
+DOC0001,DOC0001_S0004,sample_document.md,3,The comparison table adds rent for illustration only.,EXAMPLE,rent|comparison table,EXAMPLE,background_to,0,sample human-gold label
+DOC0001,DOC0001_S0005,sample_document.md,4,Legacy agreements are carved out of rent where the tenancy began before the policy date.,EXCEPT,legacy agreements|rent|policy date,OPERATIVE,excepts,1,sample human-gold label
+DOC0001,DOC0001_S0006,sample_document.md,5,Sigma is defined as the normalized coordination measure.,DEFINE,sigma|coordination measure,OPERATIVE,defines,1,sample human-gold label
+DOC0001,DOC0001_S0007,sample_document.md,6,The method computes sigma over rolling document windows.,METHOD,sigma|rolling document windows,OPERATIVE,measures,1,sample human-gold label
+DOC0001,DOC0001_S0008,sample_document.md,7,The result shows that route retrieval reduces comparisons.,RESULT,route retrieval|comparisons,OPERATIVE,reports,1,sample human-gold label
+DOC0001,DOC0001_S0009,sample_document.md,8,A limitation is that labels are silver labels rather than human-gold labels.,LIMITATION,labels|silver labels|human-gold labels,UNKNOWN,limits,1,sample human-gold label
+DOC0001,DOC0001_S0010,sample_document.md,9,The next step is to test human annotations.,NEXT_STEP,human annotations,OPERATIVE,next_step,1,sample human-gold label

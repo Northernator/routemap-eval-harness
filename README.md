@@ -36,7 +36,9 @@ The key claim to test:
 
 ```text
 src/run_local_demo.py
+src/build_annotation_batch.py
 src/build_gold_sample.py
+src/validate_gold_labels.py
 src/run_baselines.py
 src/run_routemap.py
 src/run_neural_embeddings.py
@@ -162,6 +164,61 @@ EXCEPT
 SUPPORTS
 CONTRADICTS
 DEPENDS_ON
+```
+
+---
+
+## Human annotation workflow
+
+Create an annotation batch from documents:
+
+```bash
+python src/build_annotation_batch.py --docs data/documents --out data/gold/annotation_batch.csv
+```
+
+Annotators fill:
+
+```text
+gold_role
+gold_entities
+gold_operative_status
+gold_relation
+gold_answer_relevant
+notes
+```
+
+Use the field vocabulary in:
+
+```text
+data/gold/ANNOTATION_GUIDELINES.md
+configs/route_schema.json
+```
+
+Save the completed file as:
+
+```text
+data/gold/annotation_batch_filled.csv
+```
+
+Validate completed labels:
+
+```bash
+python src/validate_gold_labels.py --gold data/gold/annotation_batch_filled.csv
+```
+
+Validation checks:
+
+- required columns exist
+- required labels are not empty
+- `gold_role` values match `configs/route_schema.json`
+- `gold_operative_status` values match `configs/route_schema.json`
+- `gold_relation` values match `configs/route_schema.json`
+- `gold_answer_relevant` uses `0`, `1`, `yes`, `no`, `true`, or `false`
+
+The repository includes a small filled sample at:
+
+```text
+data/gold/annotation_batch_filled.csv
 ```
 
 ---

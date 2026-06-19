@@ -1,0 +1,11 @@
+doc_id,segment_id,title,segment_index,text,gold_role,gold_entities,gold_operative_status,gold_relation,gold_answer_relevant,notes
+DOC0001,DOC0001_S0001,sample_document.md,0,"For the purposes of this agreement, rent refers to the standard monthly obligation.",,,,,,
+DOC0001,DOC0001_S0002,sample_document.md,1,"A background note says previous drafts discussed rent, but those drafts are not in force.",,,,,,
+DOC0001,DOC0001_S0003,sample_document.md,2,"Later, rent is widened to cover administration costs when the tenant is commercial.",,,,,,
+DOC0001,DOC0001_S0004,sample_document.md,3,The comparison table adds rent for illustration only.,,,,,,
+DOC0001,DOC0001_S0005,sample_document.md,4,Legacy agreements are carved out of rent where the tenancy began before the policy date.,,,,,,
+DOC0001,DOC0001_S0006,sample_document.md,5,Sigma is defined as the normalized coordination measure.,,,,,,
+DOC0001,DOC0001_S0007,sample_document.md,6,The method computes sigma over rolling document windows.,,,,,,
+DOC0001,DOC0001_S0008,sample_document.md,7,The result shows that route retrieval reduces comparisons.,,,,,,
+DOC0001,DOC0001_S0009,sample_document.md,8,A limitation is that labels are silver labels rather than human-gold labels.,,,,,,
+DOC0001,DOC0001_S0010,sample_document.md,9,The next step is to test human annotations.,,,,,,
