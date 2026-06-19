@@ -42,7 +42,7 @@ def main():
     run([
         "src/run_llm_route_extractor.py",
         "--segments",
-        "data/gold/gold_segments_filled.csv",
+        "data/gold/annotation_batch_filled.csv",
         "--out",
         "data/outputs/llm_route_labels_offline_stub.csv",
     ])

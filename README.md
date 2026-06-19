@@ -331,10 +331,62 @@ comparison reduction %
 
 ### LLM route extraction
 
-The local demo runs `src/run_llm_route_extractor.py` in offline stub mode. To use a real LLM, edit `call_llm()` in that script and keep provider credentials outside the repository.
+The local demo runs `src/run_llm_route_extractor.py` in offline stub mode. Stub mode is deterministic and requires no API key.
 
 ```bash
-python src/run_llm_route_extractor.py --segments data/gold/gold_segments_filled.csv
+python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --out data/outputs/llm_route_labels.csv --provider stub
+```
+
+The runner accepts:
+
+```text
+--provider stub|openai|anthropic|ollama
+--model optional-model-name
+```
+
+Stub mode copies existing gold labels when present. If labels are missing, it falls back to:
+
+```text
+role = BACKGROUND
+operative_status = UNKNOWN
+relation = background_to
+entities = []
+```
+
+Provider outputs are parsed as strict JSON and validated against:
+
+```text
+configs/route_schema.json
+```
+
+Invalid provider outputs are written to:
+
+```text
+data/outputs/llm_route_errors.csv
+```
+
+The prompt template lives at:
+
+```text
+prompts/llm_route_extractor_prompt.md
+```
+
+To add a real provider call later, implement the selected branch in `call_provider()` inside `src/run_llm_route_extractor.py`:
+
+```text
+openai = call OpenAI Responses/Chat API and return JSON text
+anthropic = call Anthropic Messages API and return JSON text
+ollama = call local Ollama HTTP API and return JSON text
+```
+
+Keep API keys in environment variables or local secret stores, not in repository files.
+
+Examples:
+
+```bash
+python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --provider openai --model gpt-4.1-mini
+python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --provider anthropic --model claude-3-5-haiku-latest
+python src/run_llm_route_extractor.py --segments data/gold/annotation_batch_filled.csv --provider ollama --model llama3.1
 ```
 
 ### QA source evaluation

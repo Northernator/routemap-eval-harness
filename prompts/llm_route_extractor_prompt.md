@@ -2,8 +2,11 @@ You are a route extraction model.
 
 Given a document passage, extract a structured route label.
 
-Return strict JSON:
+Return strict JSON only. Do not wrap it in Markdown. Do not include prose before or after the JSON object.
 
+Required JSON shape:
+
+```json
 {
   "role": "DEFINE|CLAIM|METHOD|RESULT|LIMITATION|NEXT_STEP|EXAMPLE|BACKGROUND|MODIFY|EXCEPT|SUPPORTS|CONTRADICTS|DEPENDS_ON",
   "entities": ["..."],
@@ -12,6 +15,7 @@ Return strict JSON:
   "confidence": 0.0,
   "rationale": "one sentence"
 }
+```
 
 Passage:
 {{PASSAGE}}
