@@ -46,7 +46,7 @@ def rank_routemap(segments, query_row, topk):
     return [segment_id for segment_id, _ in sorted(scored, key=lambda item: item[1], reverse=True)[:topk]]
 
 
-def rank_neural(all_segments, doc_segments, query, topk, model_name):
+def load_neural_index(segments, model_name):
     try:
         from sentence_transformers import SentenceTransformer
     except ImportError as exc:
@@ -54,9 +54,12 @@ def rank_neural(all_segments, doc_segments, query, topk, model_name):
             "sentence-transformers is not installed. "
             "Install optional neural dependencies with: python -m pip install sentence-transformers"
         ) from exc
-
     model = SentenceTransformer(model_name)
-    embeddings = model.encode(all_segments.text.fillna("").tolist(), normalize_embeddings=True, show_progress_bar=False)
+    embeddings = model.encode(segments.text.fillna("").tolist(), normalize_embeddings=True, show_progress_bar=False)
+    return model, embeddings
+
+
+def rank_neural(all_segments, doc_segments, query, topk, model, embeddings):
     doc_idx = np.where((all_segments.doc_id == doc_segments.iloc[0].doc_id).values)[0] if not doc_segments.empty else np.array([])
     query_embedding = model.encode([query], normalize_embeddings=True)[0]
     scores = embeddings[doc_idx] @ query_embedding
@@ -88,6 +91,7 @@ def main():
     qa = pd.read_csv(args.gold_qa, keep_default_na=False)
     segments = pd.read_csv(args.gold_segments, keep_default_na=False)
     segments_by_id = dict(zip(segments.segment_id, segments.text))
+    neural_index = load_neural_index(segments, args.model) if args.method == "neural" else None
     rows = []
 
     for _, query_row in qa.iterrows():
@@ -97,7 +101,8 @@ def main():
         elif args.method == "routemap":
             ranked = rank_routemap(doc_segments, query_row, args.topk)
         else:
-            ranked = rank_neural(segments, doc_segments, query_row["query"], args.topk, args.model)
+            model, embeddings = neural_index
+            ranked = rank_neural(segments, doc_segments, query_row["query"], args.topk, model, embeddings)
 
         rows.append({
             "query_id": query_row.query_id,

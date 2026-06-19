@@ -36,6 +36,7 @@ The key claim to test:
 
 ```text
 src/run_local_demo.py
+src/run_batch_eval.py
 src/build_annotation_batch.py
 src/build_gold_sample.py
 src/validate_gold_labels.py
@@ -141,6 +142,62 @@ data/outputs/llm_route_labels_offline_stub.csv
 No external API is required for the demo path.
 
 The offline demo does not import or require `sentence-transformers`.
+
+---
+
+## Batch corpus evaluation
+
+Run the full workflow into a timestamped results folder:
+
+```bash
+python src/run_batch_eval.py --documents data/documents --gold-segments data/gold/annotation_batch_filled.csv --gold-qa data/gold/gold_qa_filled.csv --out data/runs
+```
+
+Run directory format:
+
+```text
+data/runs/YYYYMMDD_HHMMSS/
+```
+
+The batch runner executes, in order:
+
+1. keyword baseline
+2. RouteMap baseline
+3. neural embedding baseline when `sentence-transformers` is installed and neural is not disabled
+4. LLM route extraction, defaulting to offline `stub`
+5. route extraction scoring
+6. answer generation for keyword, RouteMap, and neural when available
+7. QA judging
+8. retrieval score summary
+
+Disable optional neural work:
+
+```bash
+python src/run_batch_eval.py --documents data/documents --gold-segments data/gold/annotation_batch_filled.csv --gold-qa data/gold/gold_qa_filled.csv --out data/runs --disable-neural
+```
+
+Batch outputs include:
+
+```text
+baseline_results.csv
+routemap_results.csv
+neural_embedding_results.csv
+llm_route_labels.csv
+route_extraction_scores.csv
+answers_keyword.csv
+answers_routemap.csv
+answers_neural.csv
+qa_judgement_scores.csv
+qa_judgement_summary.csv
+run_summary.md
+run_manifest.json
+```
+
+`neural_embedding_results.csv` and `answers_neural.csv` are present only when the optional neural baseline runs.
+
+`run_manifest.json` records timestamp, git commit, corpus counts, QA count, methods run, Python version, and optional dependency detection.
+
+`run_summary.md` includes retrieval comparison, route extraction summary, QA judgement summary, comparison reduction summary, and known limitations.
 
 ---
 
