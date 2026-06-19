@@ -329,6 +329,12 @@ The v1.0 benchmark plan lives at:
 docs/V1_BENCHMARK_PLAN.md
 ```
 
+The operational run checklist lives at:
+
+```text
+docs/V1_RUN_CHECKLIST.md
+```
+
 Build annotation targets from an annotation batch:
 
 ```bash
