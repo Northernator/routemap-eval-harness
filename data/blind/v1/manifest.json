@@ -1,0 +1,20 @@
+{
+  "counts": {
+    "arithmetic": 500,
+    "extraction": 100,
+    "retrieval_corpus": 200,
+    "retrieval_queries": 100,
+    "schema": 200
+  },
+  "discipline": "independent ground truth; run once; frozen; never tuned against",
+  "generator": "generate_blind_v1.py",
+  "name": "routemap_blind_v1",
+  "seed": 20260623,
+  "sha256": {
+    "arithmetic_blind_500.jsonl": "b7bd3fe0d2ef9746eaa30d276119c26625cdf7079dcc4a4cc6b3cdc0c2b9a63c",
+    "extraction_blind_100.csv": "61a4815d905964505382cca5743762af0a7e05384433dbffc10ba7d5b1dae727",
+    "retrieval_blind_100.jsonl": "82e596c2da90deea3130deb02a770156eb5136426b93dce393f264b77c8b3c47",
+    "retrieval_corpus.jsonl": "6366475af0a241ae13a95d435135e5d9d1bb15dbd76b7379d9c2d6883fe1d35a",
+    "schema_outputs_blind_200.jsonl": "f44248518f4a733daa1906944c16b6de526ad37893da1c62433a7474980f5590"
+  }
+}

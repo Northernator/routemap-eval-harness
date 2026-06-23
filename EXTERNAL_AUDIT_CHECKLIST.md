@@ -43,6 +43,7 @@ benchmarks/demos. The matrix self-check is skipped unless `torch` is installed.
 | Embedding | `python -m routemap_embedding run` | recall/speed frontier; minimum_bar FAIL / strong_bar FAIL (characterized negative) |
 | Controller | `python -m routemap_controller demo --out EVIDENCE/controller_demo` | 7 plans, 7 schema-valid audit rows, 1 escalation |
 | Matrix core | `rm_test_matrix.py` | 9/9 (route/validate core; numpy) |
+| **Blind (held-out)** | `python src/blind/score_blind_v1.py` | frozen-hash verified; arithmetic + structured-output catch 1.000 / FP 0.000 on fresh data; retrieval route recall@10 0.910; see `data/blind/v1/BLIND_RESULTS.md` |
 
 ## 5. Known environment-gated (not in the offline run)
 - **Matrix GPU result** (peak VRAM / long-context): needs an Ampere-class GPU. See `src/routemap_matrix/HANDOFF.md`.
@@ -56,6 +57,10 @@ benchmarks/demos. The matrix self-check is skipped unless `torch` is installed.
 - Frozen seed: `7` (deterministic — same seed gives byte-identical task files).
 - No-claim list: `EVIDENCE_PACK.md` section 8 and the report's "What is not claimed".
 
-## 7. Not yet present (honest gaps)
-- A frozen external blind benchmark (`data/blind/`) the system was never tuned against — the next credibility step.
+## 7. Frozen blind benchmark (never tuned against)
+A held-out suite is in `data/blind/v1/` (seed 20260623, independent ground truth, SHA-256 locked, scored once).
+`python src/blind/score_blind_v1.py` verifies the hashes then scores. Results: `data/blind/v1/BLIND_RESULTS.md`.
+
+## 8. Remaining honest gaps
 - Cross-model coverage: the validator numbers were developed against a single local model; multi-model runs are pending.
+- A human-annotated gold set for the semantic/extraction lane (the synthetic-gold leakage caveat from Phase 2 still applies; the blind extraction lane uses a deterministic baseline, LLM path ollama-gated).

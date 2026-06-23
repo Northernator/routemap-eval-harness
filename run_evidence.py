@@ -46,6 +46,7 @@ STEPS = [
     ("bench: TokenRouteQA", [sys.executable, "-m", "routemap_token", "run"], "real gold; reduction-vs-recall frontier"),
     ("bench: EmbeddingRouteIndex", [sys.executable, "-m", "routemap_embedding", "run", "--out", str(OUT / "bench_embed")], "recall/speed frontier (synthetic)"),
     ("demo: unified controller", [sys.executable, "-m", "routemap_controller", "demo", "--out", str(OUT / "controller_demo")], "7 plans; schema-valid audit; 1 escalation"),
+    ("blind: held-out suite (frozen)", [sys.executable, "src/blind/score_blind_v1.py"], "fresh data never tuned against; verifies SHA-256 then scores once"),
 ]
 GATED = [
     ("matrix self-check (CPU)", [sys.executable, "-m", "routemap_matrix", "selfcheck"], "torch+transformers"),

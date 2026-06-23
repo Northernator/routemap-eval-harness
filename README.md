@@ -61,8 +61,10 @@ negatives**: the token-routing ceiling, the embedding recall/speed split, and th
 
 ## Status
 Seven phases built; four verified positives plus three characterized negatives. Internal correctness is
-verified (every slice re-run and re-derived against source). Remaining for external presentation: a frozen
-blind benchmark and the hardware-gated GPU attention measurement.
+verified (every slice re-run and re-derived against source), and a **frozen held-out blind benchmark**
+(`data/blind/v1/`, scored once, never tuned against) shows the arithmetic and structured-output lanes holding
+catch 1.000 / false-positive 0.000 on fresh data. Remaining: cross-model coverage and the hardware-gated GPU
+attention measurement.
 
 ---
 

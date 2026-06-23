@@ -1,0 +1,30 @@
+{
+  "arithmetic": {
+    "catch_rate_residue_inconsistent": 1.0,
+    "false_positive_rate": 0.0,
+    "n": 500,
+    "n_correct": 253,
+    "n_off_by_M": 77,
+    "n_residue_inconsistent": 170,
+    "off_by_M_caught_rate": 0.0
+  },
+  "extraction": {
+    "entity_recall": 0.6667,
+    "n": 100,
+    "note": "deterministic capitalized-entity baseline (offline); the LLM extractor is ollama-gated"
+  },
+  "retrieval": {
+    "full_recall_at_10": 1.0,
+    "n": 100,
+    "route_recall_at_10": 0.91
+  },
+  "schema": {
+    "catch_rate": 1.0,
+    "false_positive_rate": 0.0,
+    "n": 200,
+    "n_valid": 82,
+    "n_violation": 118,
+    "uncheckable_rate": 0.0
+  },
+  "seed": 20260623
+}

@@ -43,6 +43,7 @@ and GPU numbers are environment-gated (noted in the output).
 | Embedding fingerprints | Recall/speed frontier on a 20k-vector synthetic index; no naive fingerprint clears recall@10>0.95 at >=2x (characterized negative, full curve checked) | `re_test_embedding.py`; `python -m routemap_embedding run` |
 | Unified controller | 9/9 tests; route_decide dispatch correct per task type; no-silent-prune invariant holds; every decision a schema-valid `route_decision_v1` record; demo = 7 plans, 1 escalation | `rc_test_controller.py`; `python -m routemap_controller demo` |
 | Matrix / KV routing | route/validate core 9/9 (CPU); GPU peak-VRAM/quality is hardware-gated (research-only) | `rm_test_matrix.py`; `python -m routemap_matrix selfcheck`; GPU run per `src/routemap_matrix/HANDOFF.md` |
+| Blind held-out suite | on fresh data never tuned against: arithmetic + structured-output catch 1.000 / FP 0.000; retrieval route recall@10 0.910; extraction 0.667 (baseline) | `python src/blind/score_blind_v1.py` (verifies SHA-256, scores once); `data/blind/v1/BLIND_RESULTS.md` |
 
 ## 6. Datasets and frozen seeds
 - Benchmark seed: **7** (all generators; deterministic — same seed gives byte-identical task files).
