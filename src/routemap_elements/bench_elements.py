@@ -71,7 +71,9 @@ def _score_sample(sample, idf_map: dict[str, float], threshold: float, mode: str
         action = _action(el, score, threshold, qov, cv, mode)
         rows.append({
             "sample_id": sample.sample_id, "token": token, "static_class": el,
-            "idf": idf, "route_action": action, "later_needed": i in needed_indices,
+            "idf": idf, "route_score": score,
+            "context_features": {"element": el, "query_overlap": qov, "codon_value": round(cv, 3), "mode": mode},
+            "route_action": action, "later_needed": i in needed_indices,
         })
     return rows
 
@@ -110,7 +112,7 @@ def run_comparison(root: str = ".", seed: int = 7) -> dict:
     corpus_docs, _idf_src = discover_corpus_docs(root)
     idf_map = build_idf(corpus_docs + [s.context for s in samples])
 
-    baseline = run_benchmark(root=root, seed=seed)
+    baseline = run_benchmark(root=root, seed=seed, router="token")
     out = {"dataset": source, "n": len(samples),
            "needed_coverage": needed_span_coverage(samples)["coverage"],
            "modes": {"token": {k: baseline["frontier"][k] for k in ("lt_0_01", "lt_0_02", "lt_0_05")}}}

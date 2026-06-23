@@ -85,3 +85,46 @@ query-overlap. Same "the answers are content/entity words" tension as the rest o
 Scope correction: the codon-negative is scoped to THIS 99-row in-domain governance benchmark — not a
 universal claim. Codons may still matter on longer / nested-clause / order-sensitive / contradiction-
 heavy text. Not pursued now; not declared universally dead.
+
+## Router flag (A) + frozen-weight blind gate (B)
+**A — `--router` in routemap_token (default unchanged).** `run_benchmark` gained a `router` param
+(default `"token"` = byte-identical baseline; 15/15 tests pass, default reduction still 0.343). CLI:
+`python -m routemap_token run --router token|element|codon-gate|all`. element/codon-gate are
+lazy-imported, so token mode keeps zero dependency on the experimental package. **The default was NOT
+changed.** `--router all` on the dev gold: token 0.343 | element 0.437 | codon-gate 0.437.
+
+**B — blind validation gate (frozen weights).** Element config frozen at
+`sha256 c7f0cf9e68d763dc` (33 elements + score coeffs 0.55/0.25/0.30 + codon floor 0.60). Ran token vs
+element vs codon-gate on the frozen external **out-of-domain** blind set
+(`data/blind/v1/extraction_blind_100.csv`, N=100, coverage 1.000, seed 20260623, never tuned):
+
+| router | reduction @<1% loss | recall loss |
+| --- | ---: | ---: |
+| token | 0.571 | 0.000 |
+| **element** | **0.640** | 0.000 |
+| codon_gate | 0.633 | 0.000 |
+
+**GATE PASS:** element beats token by **+0.069 at zero recall loss on fresh out-of-domain data with
+frozen weights** — the advantage replicates (in-domain +0.094, split-half +0.069/+0.096, OOD +0.069).
+Element is **promote-eligible**. Reproduce: `python -m routemap_elements.blind_validate`. Caveat: the
+blind set is synthetic (one fresh distribution); recommend keeping `token` the default until one
+human/real-doc confirmation before flipping the shipped default.
+
+## Real-document gate + promotion
+Per Chris's criterion ("promote only if element still beats token at zero recall loss on a real/human-reviewed
+set"), ran the frozen element (same hash c7f0cf9e68d763dc) on two **real** held-out sets:
+
+| real set | token red | element red | recall loss | gate |
+| --- | ---: | ---: | ---: | --- |
+| natural_language_blind (99 real held-out docs) | 0.290 | 0.386 (+0.096) | 0.005 = 0.005 | PASS |
+| heldout adjudicated (80, **human-reviewed**) | 0.251 | 0.296 (+0.045) | 0.000 = 0.000 | PASS |
+
+The element advantage now replicates **five** ways at ≤ token recall loss: in-domain +0.094, split-half
++0.069/+0.096, synthetic-blind +0.069, real natural held-out +0.096, human-adjudicated +0.045.
+
+**PROMOTED: `element` is now the default router.** `run_benchmark` and the CLI default to `element`; the
+`token` baseline is preserved and selectable via `--router token` (still 0.343, still tested). Card header
+labels the active router; element rows now carry `route_score`+`context_features` so traces work; added
+`test_default_router_is_element_and_token_preserved`; fixed `run_comparison` to request `router="token"`
+for its baseline. 16/16 token+element tests pass. (Architecture report §4.4 prose still cites the token-lane
+34% headline — refresh to "default element ~44%, token baseline 34%".)

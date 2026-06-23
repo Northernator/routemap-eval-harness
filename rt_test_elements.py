@@ -66,3 +66,13 @@ def test_element_beats_token_baseline_on_real_gold() -> None:
     # codon adds nothing on top of element
     cg = res["modes"]["codon_gate"]["lt_0_01"]["token_reduction"]
     assert cg <= el["token_reduction"] + 1e-9
+
+
+def test_default_router_is_element_and_token_preserved() -> None:
+    from routemap_token.bench import run_benchmark
+    default = run_benchmark(root=ROOT, seed=7)
+    assert default["router"] == "element"  # promoted after passing the blind + real-doc gates
+    token = run_benchmark(root=ROOT, seed=7, router="token")
+    assert token["router"] == "token"  # baseline preserved, still selectable
+    if default.get("dataset_source") == "v1_full_extraction_gold":
+        assert default["frontier"]["lt_0_01"]["token_reduction"] >= token["frontier"]["lt_0_01"]["token_reduction"]
