@@ -18,10 +18,10 @@ Everything needed for a third party to reproduce the headline numbers cold. The 
 
 ## 3. Install
 ```
-# core (validators, digital, bench, token, embedding, controller): python + numpy
-pip install numpy
-# matrix layer only:
-pip install "transformers>=4.44" accelerate   # + a torch build for your GPU (Maxwell: torch 2.5.1+cu124)
+# core (validators, digital, bench, token, embedding, controller) + offline benchmarks:
+pip install -r requirements-dev.txt
+# matrix layer only (optional):
+pip install -r requirements-matrix.txt   # + a torch build for your GPU (Maxwell: torch 2.5.1+cu124)
 ```
 
 ## 4. One command to reproduce
