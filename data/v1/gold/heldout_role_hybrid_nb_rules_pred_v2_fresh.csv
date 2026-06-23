@@ -1,0 +1,81 @@
+segment_id,title,text,gold_role,pred_role_rule,pred_role_nb,nb_margin,pred_role_hybrid,notes
+HELDOUT2_S0001,fresh_policy_context_notes.md,A policy overview frames AI safety evaluation as part of institutional risk governance rather than a standalone metric exercise.,BACKGROUND,CLAIM,CLAIM,0.408627,CLAIM,Policy context
+HELDOUT2_S0002,fresh_release_archive_notes.md,"The release archive describes why model approval packets include evidence logs, reviewer notes, and unresolved caveats.",BACKGROUND,CLAIM,EXAMPLE,1.273482,CLAIM,Archive context
+HELDOUT2_S0003,fresh_privacy_handbook_notes.md,The privacy handbook gives consent examples before turning to any RouteMap annotation task.,BACKGROUND,CLAIM,NEXT_STEP,1.201313,CLAIM,Guidance context
+HELDOUT2_S0004,fresh_trace_manual_notes.md,A documentation page introduces retrieval trace diagrams for teams that have never used route labels.,BACKGROUND,BACKGROUND,RESULT,0.612267,BACKGROUND,Document context
+HELDOUT2_S0005,fresh_memory_brief_notes.md,"An agent memory briefing mentions risk, benchmark drift, and long-context failures while setting document scope.",BACKGROUND,CLAIM,BACKGROUND,5.054322,BACKGROUND,Briefing context
+HELDOUT2_S0006,fresh_tool_security_notes.md,The tool-use security note records common permission-check vocabulary used by incident responders.,BACKGROUND,CLAIM,EXAMPLE,0.981483,CLAIM,Vocabulary context
+HELDOUT2_S0007,fresh_benchmark_package_notes.md,"A benchmark design appendix lists source context, gold labels, and mismatch review artifacts for auditors.",BACKGROUND,CLAIM,BACKGROUND,3.079755,BACKGROUND,Dataset context
+HELDOUT2_S0008,fresh_evidence_selection_notes.md,The evidence selection primer explains how policy context can affect which passages are useful to reviewers.,BACKGROUND,CLAIM,LIMITATION,0.050542,CLAIM,Primer context
+HELDOUT2_S0009,fresh_governance_catalog_notes.md,"A model release governance catalog summarizes approval roles, audit trails, and release-board terminology.",BACKGROUND,CLAIM,CLAIM,0.406193,CLAIM,Catalog context
+HELDOUT2_S0010,fresh_incident_response_notes.md,An incident response playbook provides background on escalation records without recommending a new classifier.,BACKGROUND,BACKGROUND,LIMITATION,0.809741,BACKGROUND,Playbook context
+HELDOUT2_S0011,fresh_eval_claims.md,AI safety evaluation becomes more credible when disagreement remains traceable instead of hidden behind an average.,CLAIM,CLAIM,CLAIM,4.011411,CLAIM,Thesis
+HELDOUT2_S0012,fresh_release_claims.md,"Model release governance should treat missing evidence as a decision risk, not as harmless paperwork.",CLAIM,CLAIM,CLAIM,1.191449,CLAIM,Thesis
+HELDOUT2_S0013,fresh_consent_claims.md,Consent boundaries lose force when downstream permission checks are invisible to the answer composer.,CLAIM,METHOD,LIMITATION,1.340770,METHOD,Thesis
+HELDOUT2_S0014,fresh_trace_claims.md,"A retrieval trace matters because answer support depends on the path, not merely on a cited passage.",CLAIM,CLAIM,DEFINE,1.310742,CLAIM,Thesis
+HELDOUT2_S0015,fresh_memory_claims.md,Agent memory can amplify stale assumptions when route provenance is absent from recall.,CLAIM,CLAIM,DEFINE,0.820299,CLAIM,Thesis
+HELDOUT2_S0016,fresh_controls_claims.md,Controls that never travel with retrieved evidence rarely change practical review behaviour.,CLAIM,CLAIM,METHOD,0.377219,CLAIM,Thesis
+HELDOUT2_S0017,fresh_benchmark_claims.md,Benchmark design is weaker when easy source context outnumbers adversarial route segments.,CLAIM,LIMITATION,BACKGROUND,3.785782,LIMITATION,Thesis
+HELDOUT2_S0018,fresh_human_review_claims.md,Human review adds value only if reviewers can inspect the evidence selection path.,CLAIM,CLAIM,METHOD,3.099266,METHOD,Thesis
+HELDOUT2_S0019,fresh_tool_claims.md,Tool-use security depends on permission boundaries being checked at the moment of action.,CLAIM,CLAIM,CLAIM,1.027331,CLAIM,Thesis
+HELDOUT2_S0020,fresh_audit_claims.md,An audit trail without answer support is evidence of activity rather than evidence of reliability.,CLAIM,LIMITATION,DEFINE,1.116310,LIMITATION,Thesis
+HELDOUT2_S0021,fresh_route_terms.md,"Route provenance: the documented lineage connecting source context, selected evidence, and answer support.",DEFINE,CLAIM,DEFINE,1.417935,CLAIM,Definition
+HELDOUT2_S0022,fresh_trace_terms.md,Retrieval trace names the visible sequence from question intent through evidence selection to final response.,DEFINE,CLAIM,DEFINE,1.463357,CLAIM,Definition
+HELDOUT2_S0023,fresh_consent_terms.md,Consent boundary covers the point at which a permission grant stops applying to a new use.,DEFINE,CLAIM,DEFINE,0.936049,CLAIM,Definition
+HELDOUT2_S0024,fresh_release_terms.md,Model release governance denotes the approval practice linking evaluation findings to launch decisions.,DEFINE,CLAIM,CLAIM,1.314049,CLAIM,Definition
+HELDOUT2_S0025,fresh_memory_terms.md,Agent memory routing describes choosing stored context by dependency rather than by freshness alone.,DEFINE,CLAIM,DEFINE,0.750944,CLAIM,Definition
+HELDOUT2_S0026,fresh_segment_terms.md,A route segment label marks the job a passage performs inside a larger retrieval chain.,DEFINE,DEFINE,DEFINE,0.716834,DEFINE,Definition
+HELDOUT2_S0027,fresh_support_terms.md,Answer support refers to evidence that directly justifies a response rather than merely sharing keywords.,DEFINE,DEFINE,DEFINE,1.349226,DEFINE,Definition
+HELDOUT2_S0028,fresh_audit_terms.md,"Audit trail, in this setting, names records that let reviewers reconstruct a release or retrieval decision.",DEFINE,CLAIM,CLAIM,0.188006,CLAIM,Definition
+HELDOUT2_S0029,fresh_control_terms.md,"Control surface labels the places where safeguards can change model, tool, or data behaviour.",DEFINE,CLAIM,CLAIM,1.414540,CLAIM,Definition
+HELDOUT2_S0030,fresh_review_terms.md,Human-review checkpoint names a decision point where automated evidence must be inspected before action.,DEFINE,CLAIM,METHOD,0.570089,CLAIM,Definition
+HELDOUT2_S0031,fresh_eval_methods.md,"Compare each generated answer against its retrieval trace, then flag unsupported assertions for review.",METHOD,CLAIM,METHOD,6.519211,METHOD,Procedure
+HELDOUT2_S0032,fresh_release_methods.md,"Before launch, collect release evidence, unresolved limitations, and reviewer sign-off in one packet.",METHOD,CLAIM,EXAMPLE,0.951386,CLAIM,Procedure
+HELDOUT2_S0033,fresh_privacy_methods.md,Map consent records to permission checks before selecting evidence for a privacy-sensitive answer.,METHOD,METHOD,DEFINE,0.387527,METHOD,Procedure
+HELDOUT2_S0034,fresh_memory_methods.md,"Rank memory candidates by route dependency, source age, and whether the task needs hidden state.",METHOD,CLAIM,CLAIM,1.933024,CLAIM,Procedure
+HELDOUT2_S0035,fresh_tool_methods.md,"Log tool calls with permission scope, selected route segment, and the reason the action was allowed.",METHOD,CLAIM,EXAMPLE,0.468268,CLAIM,Procedure
+HELDOUT2_S0036,fresh_incident_methods.md,"During an incident review, connect symptoms to retrieval traces and then to the control that failed.",METHOD,CLAIM,EXAMPLE,0.204925,CLAIM,Procedure
+HELDOUT2_S0037,fresh_benchmark_methods.md,"Sample benchmark rows from policy context, operational procedures, examples, and caveats in equal measure.",METHOD,METHOD,RESULT,1.377405,METHOD,Procedure
+HELDOUT2_S0038,fresh_human_review_methods.md,Route uncertain answers to human review when evidence selection conflicts with the final answer.,METHOD,CLAIM,METHOD,0.956680,CLAIM,Procedure
+HELDOUT2_S0039,fresh_audit_methods.md,Store audit trail entries beside answer support so later reviewers can reproduce the decision.,METHOD,CLAIM,DEFINE,0.332762,CLAIM,Procedure
+HELDOUT2_S0040,fresh_annotation_methods.md,"Label the passage role first, record relation evidence second, and adjudicate entity boundaries last.",METHOD,CLAIM,METHOD,4.831007,METHOD,Procedure
+HELDOUT2_S0041,fresh_trace_results.md,The evaluation run recovered more answer-support passages after route provenance was kept with the snippets.,RESULT,METHOD,RESULT,0.143728,METHOD,Observed outcome
+HELDOUT2_S0042,fresh_release_results.md,Release reviewers resolved blocked decisions faster when caveats appeared beside the evidence packet.,RESULT,CLAIM,CLAIM,0.580937,CLAIM,Observed outcome
+HELDOUT2_S0043,fresh_privacy_results.md,The consent-boundary cases produced fewer false positives once permission checks were separated from general privacy text.,RESULT,METHOD,NEXT_STEP,0.049590,METHOD,Observed outcome
+HELDOUT2_S0044,fresh_memory_results.md,Memory routing returned older but more relevant context for tasks with hidden state dependencies.,RESULT,CLAIM,CLAIM,2.139428,CLAIM,Observed outcome
+HELDOUT2_S0045,fresh_tool_results.md,Tool-use security review found that missing permission logs explained most rejected actions.,RESULT,RESULT,METHOD,1.184989,RESULT,Observed outcome
+HELDOUT2_S0046,fresh_benchmark_results.md,A mixed benchmark split exposed brittle behaviour on examples that looked like procedures.,RESULT,METHOD,RESULT,1.158276,METHOD,Observed outcome
+HELDOUT2_S0047,fresh_human_review_results.md,Human reviewers agreed more often when the retrieval trace displayed rejected evidence as well as accepted evidence.,RESULT,CLAIM,METHOD,2.827682,METHOD,Observed outcome
+HELDOUT2_S0048,fresh_audit_results.md,Audit trail inspection showed that answer support was present in seven of nine release decisions.,RESULT,RESULT,CLAIM,0.898951,RESULT,Observed outcome
+HELDOUT2_S0049,fresh_selection_results.md,Evidence selection improved after source context was grouped by route segment instead of document order.,RESULT,CLAIM,BACKGROUND,0.416845,CLAIM,Observed outcome
+HELDOUT2_S0050,fresh_error_results.md,The mismatch review revealed that policy-context rows were often confused with broad claims.,RESULT,CLAIM,RESULT,2.430493,RESULT,Observed outcome
+HELDOUT2_S0051,fresh_eval_limits.md,Future benchmark rounds may still overstate generalisation if they reuse the same policy vocabulary.,LIMITATION,NEXT_STEP,LIMITATION,0.522375,NEXT_STEP,Caveat
+HELDOUT2_S0052,fresh_release_limits.md,A complete release packet does not prove that the deployed model will behave safely after integration.,LIMITATION,LIMITATION,LIMITATION,4.534968,LIMITATION,Caveat
+HELDOUT2_S0053,fresh_consent_limits.md,Consent records can be too stale to justify a fresh tool action even when the interface looks authorized.,LIMITATION,CLAIM,LIMITATION,1.222987,CLAIM,Caveat
+HELDOUT2_S0054,fresh_trace_limits.md,Retrieval traces may miss reasoning steps that occur after evidence enters the prompt.,LIMITATION,LIMITATION,EXAMPLE,0.935674,LIMITATION,Caveat
+HELDOUT2_S0055,fresh_memory_limits.md,Agent memory can preserve obsolete source context unless review processes remove or downgrade it.,LIMITATION,LIMITATION,CLAIM,1.360353,LIMITATION,Caveat
+HELDOUT2_S0056,fresh_tool_limits.md,Permission checks are not enough when the tool output can leak private data through a later route.,LIMITATION,METHOD,METHOD,1.453265,METHOD,Caveat
+HELDOUT2_S0057,fresh_review_limits.md,Human review is constrained when audit trails omit rejected evidence and reviewer rationale.,LIMITATION,CLAIM,METHOD,4.979192,METHOD,Caveat
+HELDOUT2_S0058,fresh_benchmark_limits.md,"A route benchmark remains incomplete without operational incidents, adversarial examples, and noisy documentation.",LIMITATION,LIMITATION,LIMITATION,1.476627,LIMITATION,Caveat
+HELDOUT2_S0059,fresh_policy_limits.md,Policy context can warn about risk without specifying the control step needed for a particular system.,LIMITATION,LIMITATION,LIMITATION,1.105599,LIMITATION,Caveat
+HELDOUT2_S0060,fresh_support_limits.md,Answer support is fragile if relation labels are right but entity boundaries drift across passages.,LIMITATION,CLAIM,LIMITATION,1.200013,CLAIM,Caveat
+HELDOUT2_S0061,fresh_eval_steps.md,"Next, assemble a second fresh split from incident reports and release-board minutes.",NEXT_STEP,CLAIM,NEXT_STEP,3.677330,NEXT_STEP,Future work
+HELDOUT2_S0062,fresh_release_steps.md,Future evaluation should compare model release governance rows with ordinary project-management notes.,NEXT_STEP,NEXT_STEP,BACKGROUND,0.567558,NEXT_STEP,Future work
+HELDOUT2_S0063,fresh_privacy_steps.md,Add consent-boundary examples that mix permission checks with unrelated privacy background.,NEXT_STEP,METHOD,NEXT_STEP,1.671730,METHOD,Future work
+HELDOUT2_S0064,fresh_trace_steps.md,The next retrieval test should hide titles and require the extractor to infer route provenance from text alone.,NEXT_STEP,NEXT_STEP,NEXT_STEP,1.576551,NEXT_STEP,Future work
+HELDOUT2_S0065,fresh_memory_steps.md,Run an agent-memory benchmark where old context competes with newer but less relevant evidence.,NEXT_STEP,CLAIM,CLAIM,0.561845,CLAIM,Future work
+HELDOUT2_S0066,fresh_tool_steps.md,"A follow-up tool-use security set should include plugins, command execution, and delegated agents.",NEXT_STEP,NEXT_STEP,METHOD,0.559541,NEXT_STEP,Future work
+HELDOUT2_S0067,fresh_review_steps.md,Evaluate whether human review changes final answers when rejected evidence is shown.,NEXT_STEP,CLAIM,METHOD,3.690780,METHOD,Future work
+HELDOUT2_S0068,fresh_benchmark_steps.md,"Build noisy benchmark rows that contain definitions, caveats, and examples in a single paragraph.",NEXT_STEP,CLAIM,NEXT_STEP,0.856627,CLAIM,Future work
+HELDOUT2_S0069,fresh_audit_steps.md,The next audit-trail test should measure whether reviewers can reconstruct the release decision.,NEXT_STEP,NEXT_STEP,NEXT_STEP,4.357926,NEXT_STEP,Future work
+HELDOUT2_S0070,fresh_support_steps.md,Create answer-support cases where the cited passage is relevant but the relation path is wrong.,NEXT_STEP,LIMITATION,DEFINE,0.350295,LIMITATION,Future work
+HELDOUT2_S0071,fresh_hospital_examples.md,"In a hospital triage review, consent evidence and safety evaluation notes can point to different routes.",EXAMPLE,CLAIM,EXAMPLE,1.674631,EXAMPLE,Concrete scenario
+HELDOUT2_S0072,fresh_release_examples.md,Suppose a release board blocks launch because the audit trail lacks reviewer rationale.,EXAMPLE,CLAIM,METHOD,1.245839,CLAIM,Concrete scenario
+HELDOUT2_S0073,fresh_chatbot_examples.md,"When a support chatbot requests a refund-tool call, the permission boundary may depend on account history.",EXAMPLE,CLAIM,EXAMPLE,1.413725,CLAIM,Concrete scenario
+HELDOUT2_S0074,fresh_memory_examples.md,One coding task may need last week's migration note rather than the newest design comment.,EXAMPLE,CLAIM,EXAMPLE,0.682117,CLAIM,Concrete scenario
+HELDOUT2_S0075,fresh_trace_examples.md,"For instance, a cited paragraph can mention privacy while failing to support the answer's consent claim.",EXAMPLE,EXAMPLE,NEXT_STEP,0.125248,EXAMPLE,Concrete scenario
+HELDOUT2_S0076,fresh_tool_examples.md,A plugin that reads calendars and sends email illustrates why tool-use security needs separate route checks.,EXAMPLE,CLAIM,METHOD,0.063811,CLAIM,Concrete scenario
+HELDOUT2_S0077,fresh_incident_examples.md,"During an incident, an operator might trace a harmful answer through retrieval logs and a stale memory entry.",EXAMPLE,CLAIM,EXAMPLE,0.404871,CLAIM,Concrete scenario
+HELDOUT2_S0078,fresh_benchmark_examples.md,A synthetic benchmark row could look procedural while actually describing a concrete reviewer scenario.,EXAMPLE,CLAIM,EXAMPLE,2.178920,EXAMPLE,Concrete scenario
+HELDOUT2_S0079,fresh_audit_examples.md,An auditor comparing two release packets may follow evidence selection differences before reading conclusions.,EXAMPLE,EXAMPLE,EXAMPLE,0.555953,EXAMPLE,Concrete scenario
+HELDOUT2_S0080,fresh_answer_examples.md,A final answer that cites policy context but omits the controlling route segment shows a support failure.,EXAMPLE,CLAIM,DEFINE,0.679699,CLAIM,Concrete scenario

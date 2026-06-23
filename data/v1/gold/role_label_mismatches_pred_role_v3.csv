@@ -1,0 +1,45 @@
+segment_id,title,segment_index,gold_role,pred_role_v3,notes,text
+HELDOUT_S0001,heldout_ai_risk_sources.md,,BACKGROUND,CLAIM,Source context,The OECD AI principles page gives policy context for trustworthy AI and names common public-interest concerns.
+HELDOUT_S0002,heldout_secure_ai_release_notes.md,,BACKGROUND,CLAIM,Source context,A vendor white paper describes the setting for secure model release reviews and explains why release evidence is collected.
+HELDOUT_S0004,heldout_nist_profile_notes.md,,BACKGROUND,METHOD,Framework context,NIST's profile document provides background for connecting AI risk management language to procurement and assurance workflows.
+HELDOUT_S0008,heldout_route_benchmark_notes.md,,BACKGROUND,CLAIM,Dataset context,"A route-extraction benchmark package contains source notes, gold labels, evaluation scripts, and mismatch review files."
+HELDOUT_S0009,heldout_agent_memory_notes.md,,BACKGROUND,CLAIM,Document context,The project README records why long-context memory needs both raw source access and compact route pointers.
+HELDOUT_S0010,heldout_cisa_roadmap_notes.md,,BACKGROUND,CLAIM,Source context,A CISA briefing introduces AI roadmap language for critical infrastructure and cyber defence audiences.
+HELDOUT_S0021,heldout_route_definitions.md,,DEFINE,CLAIM,Defines a term,"Route provenance names the chain of sources, roles, and relations that support an answer."
+HELDOUT_S0022,heldout_trace_definitions.md,,DEFINE,CLAIM,Defines a term,A retrieval trace is the ordered path from query intent to selected evidence and final answer support.
+HELDOUT_S0023,heldout_posture_definitions.md,,DEFINE,CLAIM,Defines a term,"AI risk posture denotes the current exposure created by model capability, deployment context, controls, and oversight."
+HELDOUT_S0024,heldout_privacy_definitions.md,,DEFINE,CLAIM,Defines a term,"A consent boundary describes where a user permission applies, expires, or must be renewed."
+HELDOUT_S0025,heldout_safety_case_definitions.md,,DEFINE,CLAIM,Defines a term,"A safety case is an argument that links system hazards, mitigations, evidence, and residual uncertainty."
+HELDOUT_S0026,heldout_graph_definitions.md,,DEFINE,CLAIM,Defines a term,A dependency edge names a relationship where one passage changes the interpretation or reliability of another passage.
+HELDOUT_S0029,heldout_redteam_definitions.md,,DEFINE,CLAIM,Defines a term,"A red-team finding records a tested weakness, the attempted exploit route, and the observed system response."
+HELDOUT_S0030,heldout_context_definitions.md,,DEFINE,CLAIM,Defines a term,Context collapse describes the loss of task-relevant structure when many passages are merged into one prompt.
+HELDOUT_S0031,heldout_annotation_methods.md,,METHOD,CLAIM,Procedure,"Start by mapping the user question to candidate roles, then retrieve passages that fill each role before composing the answer."
+HELDOUT_S0033,heldout_testing_methods.md,,METHOD,CLAIM,Procedure,"Run canary prompts against the retrieval stack, inspect the selected segments, and record any unsupported answer claims."
+HELDOUT_S0034,heldout_eval_methods.md,,METHOD,CLAIM,Procedure,"For each query, retrieve candidates with both route labels and keyword fallback, then compare the ranked evidence sets."
+HELDOUT_S0036,heldout_review_methods.md,,METHOD,CLAIM,Procedure,Operators compare the generated answer with source segments and flag any claim that lacks a supporting route.
+HELDOUT_S0037,heldout_two_pass_methods.md,,METHOD,CLAIM,Procedure,"Use a two-pass review: first assign passage roles, then verify whether the answer used the right role sequence."
+HELDOUT_S0039,heldout_annotation_methods.md,,METHOD,CLAIM,Procedure,"During annotation, a reviewer marks the main role first and adds relation notes only after the role label is stable."
+HELDOUT_S0040,heldout_monitoring_methods.md,,METHOD,CLAIM,Procedure,"A monitoring routine samples live answers, checks source drift, and opens review tickets for unsupported routes."
+HELDOUT_S0041,heldout_pilot_results.md,,RESULT,CLAIM,Reported finding,The pilot run found that route labels recovered five answer-relevant passages missed by keyword search.
+HELDOUT_S0042,heldout_split_results.md,,RESULT,CLAIM,Reported finding,The held-out split produced a balanced confusion table with most errors concentrated in claim versus method.
+HELDOUT_S0043,heldout_annotation_results.md,,RESULT,CLAIM,Reported finding,The annotation pass yielded ten examples per role and exposed disagreement around benchmark setup rows.
+HELDOUT_S0044,heldout_index_results.md,,RESULT,CLAIM,Reported finding,A route index reduced review time in the sandbox because assessors could jump directly to supporting passages.
+HELDOUT_S0045,heldout_classifier_results.md,,RESULT,CLAIM,Reported finding,The classifier matched all title rows but missed several definition rows that lacked obvious trigger words.
+HELDOUT_S0046,heldout_review_results.md,,RESULT,CLAIM,Reported finding,Human review showed that privacy examples were easier to identify than abstract governance claims.
+HELDOUT_S0048,heldout_error_results.md,,RESULT,CLAIM,Reported finding,The held-out sample exposed overreliance on the word process as a method cue.
+HELDOUT_S0049,heldout_log_results.md,,RESULT,CLAIM,Reported finding,Evaluation logs showed higher recall when route edges were kept with the selected text.
+HELDOUT_S0050,heldout_report_results.md,,RESULT,CLAIM,Reported finding,The retrieval report marked the no-leak condition as a harder test than the heading-aware condition.
+HELDOUT_S0052,heldout_domain_limitations.md,,LIMITATION,CLAIM,Caveat/constraint,A benchmark built from one policy domain can overstate performance on operational incident reports.
+HELDOUT_S0053,heldout_privacy_limitations.md,,LIMITATION,CLAIM,Caveat/constraint,"Consent signals may be absent, stale, or too broad to justify a specific downstream model use."
+HELDOUT_S0054,heldout_measurement_limitations.md,,LIMITATION,CLAIM,Caveat/constraint,"Risk labels remain difficult when harms are delayed, distributed across actors, or visible only after deployment."
+HELDOUT_S0055,heldout_synthetic_limitations.md,,LIMITATION,CLAIM,Caveat/constraint,Synthetic passages can hide retrieval weaknesses because their structure is cleaner than production documentation.
+HELDOUT_S0058,heldout_sample_limitations.md,,LIMITATION,CLAIM,Caveat/constraint,Small gold sets leave uncertainty about whether the classifier learned roles or memorized document style.
+HELDOUT_S0060,heldout_judging_limitations.md,,LIMITATION,CLAIM,Caveat/constraint,The evaluator cannot judge whether an answer is socially acceptable when the gold file only records retrieval relevance.
+HELDOUT_S0064,heldout_review_steps.md,,NEXT_STEP,CLAIM,Recommended follow-up,Reviewers should next compare v3 errors with human disagreement rather than only counting exact matches.
+HELDOUT_S0066,heldout_adversarial_steps.md,,NEXT_STEP,CLAIM,Future evaluation action,Add adversarial passages that mention risk and process while serving as claims or background context.
+HELDOUT_S0067,heldout_metric_steps.md,,NEXT_STEP,CLAIM,Future evaluation action,The next evaluation should measure whether role errors change final answer correctness.
+HELDOUT_S0069,heldout_split_steps.md,,NEXT_STEP,CLAIM,Future evaluation action,Build a second held-out split with documents from domains that were not used during rule design.
+HELDOUT_S0070,heldout_adjudication_steps.md,,NEXT_STEP,CLAIM,Recommended follow-up,Re-run the classifier after labels are adjudicated and archive both the old and new mismatch files.
+HELDOUT_S0071,heldout_healthcare_examples.md,,EXAMPLE,CLAIM,Concrete scenario,"A hospital model that ranks patients for follow-up illustrates how privacy, safety, and triage evidence can overlap."
+HELDOUT_S0076,heldout_reviewer_examples.md,,EXAMPLE,CLAIM,Concrete scenario,A reviewer asking which controls failed can require one limitation passage and one incident timeline passage.
+HELDOUT_S0079,heldout_privacy_examples.md,,EXAMPLE,CLAIM,Concrete scenario,"A privacy officer checking a chatbot transcript might trace user consent, retained context, and deletion obligations."

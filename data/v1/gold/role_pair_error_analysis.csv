@@ -1,0 +1,44 @@
+gold_role,pred_role,count,likely_rubric_boundary,segment_id,text
+CLAIM,DEFINE,3,CLAIM_DEFINE_BOUNDARY,HELDOUT2_S0014,"A retrieval trace matters because answer support depends on the path, not merely on a cited passage."
+CLAIM,DEFINE,3,CLAIM_DEFINE_BOUNDARY,HELDOUT2_S0015,Agent memory can amplify stale assumptions when route provenance is absent from recall.
+CLAIM,DEFINE,3,CLAIM_DEFINE_BOUNDARY,HELDOUT2_S0020,An audit trail without answer support is evidence of activity rather than evidence of reliability.
+RESULT,CLAIM,3,RESULT_CLAIM_BOUNDARY,HELDOUT2_S0042,Release reviewers resolved blocked decisions faster when caveats appeared beside the evidence packet.
+RESULT,CLAIM,3,RESULT_CLAIM_BOUNDARY,HELDOUT2_S0044,Memory routing returned older but more relevant context for tasks with hidden state dependencies.
+RESULT,CLAIM,3,RESULT_CLAIM_BOUNDARY,HELDOUT2_S0048,Audit trail inspection showed that answer support was present in seven of nine release decisions.
+BACKGROUND,CLAIM,2,BACKGROUND_CLAIM_BOUNDARY,HELDOUT2_S0001,A policy overview frames AI safety evaluation as part of institutional risk governance rather than a standalone metric exercise.
+BACKGROUND,CLAIM,2,BACKGROUND_CLAIM_BOUNDARY,HELDOUT2_S0009,"A model release governance catalog summarizes approval roles, audit trails, and release-board terminology."
+BACKGROUND,EXAMPLE,2,MULTIWAY_AMBIGUOUS,HELDOUT2_S0002,"The release archive describes why model approval packets include evidence logs, reviewer notes, and unresolved caveats."
+BACKGROUND,EXAMPLE,2,MULTIWAY_AMBIGUOUS,HELDOUT2_S0006,The tool-use security note records common permission-check vocabulary used by incident responders.
+BACKGROUND,RESULT,2,MULTIWAY_AMBIGUOUS,HELDOUT2_S0004,A documentation page introduces retrieval trace diagrams for teams that have never used route labels.
+BACKGROUND,RESULT,2,MULTIWAY_AMBIGUOUS,HELDOUT2_S0008,The evidence selection primer explains how policy context can affect which passages are useful to reviewers.
+DEFINE,CLAIM,2,CLAIM_DEFINE_BOUNDARY,HELDOUT2_S0024,Model release governance denotes the approval practice linking evaluation findings to launch decisions.
+DEFINE,CLAIM,2,CLAIM_DEFINE_BOUNDARY,HELDOUT2_S0029,"Control surface labels the places where safeguards can change model, tool, or data behaviour."
+METHOD,DEFINE,2,MULTIWAY_AMBIGUOUS,HELDOUT2_S0033,Map consent records to permission checks before selecting evidence for a privacy-sensitive answer.
+METHOD,DEFINE,2,MULTIWAY_AMBIGUOUS,HELDOUT2_S0039,Store audit trail entries beside answer support so later reviewers can reproduce the decision.
+METHOD,CLAIM,2,MULTIWAY_AMBIGUOUS,HELDOUT2_S0034,"Rank memory candidates by route dependency, source age, and whether the task needs hidden state."
+METHOD,CLAIM,2,MULTIWAY_AMBIGUOUS,HELDOUT2_S0036,"During an incident review, connect symptoms to retrieval traces and then to the control that failed."
+RESULT,METHOD,2,RESULT_METHOD_BOUNDARY,HELDOUT2_S0045,Tool-use security review found that missing permission logs explained most rejected actions.
+RESULT,METHOD,2,RESULT_METHOD_BOUNDARY,HELDOUT2_S0047,Human reviewers agreed more often when the retrieval trace displayed rejected evidence as well as accepted evidence.
+LIMITATION,METHOD,2,MULTIWAY_AMBIGUOUS,HELDOUT2_S0056,Permission checks are not enough when the tool output can leak private data through a later route.
+LIMITATION,METHOD,2,MULTIWAY_AMBIGUOUS,HELDOUT2_S0057,Human review is constrained when audit trails omit rejected evidence and reviewer rationale.
+EXAMPLE,METHOD,2,METHOD_EXAMPLE_BOUNDARY,HELDOUT2_S0072,Suppose a release board blocks launch because the audit trail lacks reviewer rationale.
+EXAMPLE,METHOD,2,METHOD_EXAMPLE_BOUNDARY,HELDOUT2_S0076,A plugin that reads calendars and sends email illustrates why tool-use security needs separate route checks.
+BACKGROUND,NEXT_STEP,1,MULTIWAY_AMBIGUOUS,HELDOUT2_S0003,The privacy handbook gives consent examples before turning to any RouteMap annotation task.
+BACKGROUND,LIMITATION,1,MULTIWAY_AMBIGUOUS,HELDOUT2_S0010,An incident response playbook provides background on escalation records without recommending a new classifier.
+CLAIM,LIMITATION,1,LIMITATION_CLAIM_BOUNDARY,HELDOUT2_S0013,Consent boundaries lose force when downstream permission checks are invisible to the answer composer.
+CLAIM,BACKGROUND,1,BACKGROUND_CLAIM_BOUNDARY,HELDOUT2_S0017,Benchmark design is weaker when easy source context outnumbers adversarial route segments.
+CLAIM,METHOD,1,MULTIWAY_AMBIGUOUS,HELDOUT2_S0018,Human review adds value only if reviewers can inspect the evidence selection path.
+DEFINE,METHOD,1,MULTIWAY_AMBIGUOUS,HELDOUT2_S0030,Human-review checkpoint names a decision point where automated evidence must be inspected before action.
+METHOD,EXAMPLE,1,METHOD_EXAMPLE_BOUNDARY,HELDOUT2_S0035,"Log tool calls with permission scope, selected route segment, and the reason the action was allowed."
+METHOD,RESULT,1,RESULT_METHOD_BOUNDARY,HELDOUT2_S0037,"Sample benchmark rows from policy context, operational procedures, examples, and caveats in equal measure."
+RESULT,DEFINE,1,MULTIWAY_AMBIGUOUS,HELDOUT2_S0041,The evaluation run recovered more answer-support passages after route provenance was kept with the snippets.
+RESULT,EXAMPLE,1,MULTIWAY_AMBIGUOUS,HELDOUT2_S0043,The consent-boundary cases produced fewer false positives once permission checks were separated from general privacy text.
+RESULT,BACKGROUND,1,MULTIWAY_AMBIGUOUS,HELDOUT2_S0049,Evidence selection improved after source context was grouped by route segment instead of document order.
+LIMITATION,EXAMPLE,1,MULTIWAY_AMBIGUOUS,HELDOUT2_S0054,Retrieval traces may miss reasoning steps that occur after evidence enters the prompt.
+LIMITATION,CLAIM,1,LIMITATION_CLAIM_BOUNDARY,HELDOUT2_S0055,Agent memory can preserve obsolete source context unless review processes remove or downgrade it.
+NEXT_STEP,BACKGROUND,1,MULTIWAY_AMBIGUOUS,HELDOUT2_S0062,Future evaluation should compare model release governance rows with ordinary project-management notes.
+NEXT_STEP,CLAIM,1,MULTIWAY_AMBIGUOUS,HELDOUT2_S0065,Run an agent-memory benchmark where old context competes with newer but less relevant evidence.
+NEXT_STEP,METHOD,1,NEXT_STEP_METHOD_BOUNDARY,HELDOUT2_S0066,"A follow-up tool-use security set should include plugins, command execution, and delegated agents."
+NEXT_STEP,RESULT,1,MULTIWAY_AMBIGUOUS,HELDOUT2_S0068,"Build noisy benchmark rows that contain definitions, caveats, and examples in a single paragraph."
+NEXT_STEP,DEFINE,1,MULTIWAY_AMBIGUOUS,HELDOUT2_S0070,Create answer-support cases where the cited passage is relevant but the relation path is wrong.
+EXAMPLE,DEFINE,1,MULTIWAY_AMBIGUOUS,HELDOUT2_S0080,A final answer that cites policy context but omits the controlling route segment shows a support failure.

@@ -1,0 +1,5 @@
+taxonomy,rows,role_accuracy,relation_accuracy,entity_exact_match,entity_average_jaccard,strict_row_accuracy,relaxed_strict_accuracy
+fine_8,79,0.329114,0.316456,0.012658,0.283333,0.000000,0.025316
+coarse_5,79,0.506329,0.316456,0.012658,0.283333,0.000000,0.075949
+coarse_4,79,0.506329,0.316456,0.012658,0.283333,0.000000,0.075949
+coarse_3,79,0.797468,0.316456,0.012658,0.283333,0.000000,0.126582
