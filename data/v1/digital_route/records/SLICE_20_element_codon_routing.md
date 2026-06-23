@@ -56,3 +56,32 @@ frontier 0.343 → ~0.44; drop the codon layer.
 
 Reproduce: `PYTHONPATH=src python -m routemap_elements.run_compare .` and
 `PYTHONPATH=src pytest rt_test_elements.py`.
+
+## Ablation & robustness (added after review)
+Falsification — does the element table beat a *simple* heuristic, not just the old prior?
+| router | reduction @<1% loss |
+| --- | ---: |
+| token baseline | 0.343 |
+| token + cheap 4 discourse classes (connector/example/sequence/exception) | 0.363 |
+| **full element table (33)** | **0.437** |
+
+The simple 4-class heuristic captures only +0.020; the full table earns +0.094 → the
+richness is doing real work, not a couple of cheap tricks.
+
+Leave-one-family-out (force-keep a family back; drop = its contribution to the element total):
+BOUNDARY −0.250, FUNCTION −0.111, CONNECTOR −0.037, EXAMPLE/SEQ/EXC −0.019, ACTION −0.009,
+CONCEPT −0.000. Honest caveat: punctuation/function dominate the *absolute* reduction but are
+shared with the baseline; the element table's *advantage over token* is concentrated in
+connectors + discourse markers + actions + reorganised scoring.
+
+Split-half (weights are a-priori, not fit): element beats token on BOTH halves —
+A: 0.343→0.413 (+0.069), B: 0.342→0.438 (+0.096). Advantage replicates; still in-domain, so a
+true out-of-domain/blind segment run is the remaining gate before shipping element as default.
+
+The one dropped needed token: `routemap` (CONCEPT, idf 2.52) — a *rare lowercase domain term* that
+is answer-bearing. Systematic risk: the element router can drop a rare content word that isn't
+query-overlap. Same "the answers are content/entity words" tension as the rest of the token lane.
+
+Scope correction: the codon-negative is scoped to THIS 99-row in-domain governance benchmark — not a
+universal claim. Codons may still matter on longer / nested-clause / order-sensitive / contradiction-
+heavy text. Not pursued now; not declared universally dead.
