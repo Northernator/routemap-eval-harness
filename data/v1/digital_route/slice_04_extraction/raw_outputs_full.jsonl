@@ -1,0 +1,57 @@
+{"task_id": "arith_000", "domain": "arithmetic", "prompt": "Compute 37^12 exactly.", "raw_response": "37"}
+{"task_id": "arith_001", "domain": "arithmetic", "prompt": "Compute 26! exactly.", "raw_response": "3628800"}
+{"task_id": "arith_002", "domain": "arithmetic", "prompt": "Compute Fibonacci F(72) exactly, where F(0)=0 and F(1)=1.", "raw_response": "12386366870"}
+{"task_id": "arith_003", "domain": "arithmetic", "prompt": "Compute exactly: 918576 + 837774 + 746703 + 665871.", "raw_response": "1249495149"}
+{"task_id": "arith_004", "domain": "arithmetic", "prompt": "Compute exactly: 127 x 261 x 393 x 525.", "raw_response": "33278446875"}
+{"task_id": "arith_005", "domain": "arithmetic", "prompt": "Compute 42^17 exactly.", "raw_response": "42^17"}
+{"task_id": "arith_006", "domain": "arithmetic", "prompt": "Compute 31! exactly.", "raw_response": "39916800"}
+{"task_id": "arith_007", "domain": "arithmetic", "prompt": "Compute Fibonacci F(77) exactly, where F(0)=0 and F(1)=1.", "raw_response": "373549910220848787696729000"}
+{"task_id": "arith_008", "domain": "arithmetic", "prompt": "Compute exactly: 919081 + 838289 + 747238 + 666416.", "raw_response": "12352380"}
+{"task_id": "arith_009", "domain": "arithmetic", "prompt": "Compute exactly: 132 x 266 x 398 x 530.", "raw_response": "150111980"}
+{"task_id": "arith_010", "domain": "arithmetic", "prompt": "Compute 47^13 exactly.", "raw_response": "47"}
+{"task_id": "arith_011", "domain": "arithmetic", "prompt": "Compute 36! exactly.", "raw_response": "3628800"}
+{"task_id": "arith_012", "domain": "arithmetic", "prompt": "Compute Fibonacci F(82) exactly, where F(0)=0 and F(1)=1.", "raw_response": "267914296"}
+{"task_id": "arith_013", "domain": "arithmetic", "prompt": "Compute exactly: 919586 + 838804 + 747773 + 666961.", "raw_response": "1829185239"}
+{"task_id": "arith_014", "domain": "arithmetic", "prompt": "Compute exactly: 137 x 271 x 403 x 535.", "raw_response": "1853515177755"}
+{"task_id": "arith_015", "domain": "arithmetic", "prompt": "Compute 52^18 exactly.", "raw_response": "799869604011181440715905406797409625"}
+{"task_id": "arith_016", "domain": "arithmetic", "prompt": "Compute 41! exactly.", "raw_response": "36288024161181174400000000000000"}
+{"task_id": "arith_017", "domain": "arithmetic", "prompt": "Compute Fibonacci F(87) exactly, where F(0)=0 and F(1)=1.", "raw_response": "1593658133022198954859083911250"}
+{"task_id": "arith_018", "domain": "arithmetic", "prompt": "Compute exactly: 920091 + 839319 + 748308 + 667506.", "raw_response": "920091 + 839319 + 748308 + 667506 = 3375224"}
+{"task_id": "arith_019", "domain": "arithmetic", "prompt": "Compute exactly: 142 x 276 x 408 x 540.", "raw_response": "142 x 276 x 408 x 540 = 2431105920"}
+{"task_id": "arith_020", "domain": "arithmetic", "prompt": "Compute 57^14 exactly.", "raw_response": "57"}
+{"task_id": "arith_021", "domain": "arithmetic", "prompt": "Compute 46! exactly.", "raw_response": "46!"}
+{"task_id": "arith_022", "domain": "arithmetic", "prompt": "Compute Fibonacci F(92) exactly, where F(0)=0 and F(1)=1.", "raw_response": "34"}
+{"task_id": "arith_023", "domain": "arithmetic", "prompt": "Compute exactly: 920596 + 839834 + 748843 + 668051.", "raw_response": "920596+839834+748843+668051"}
+{"task_id": "arith_024", "domain": "arithmetic", "prompt": "Compute exactly: 147 x 281 x 413 x 545.", "raw_response": "147*281*413*545"}
+{"task_id": "arith_025", "domain": "arithmetic", "prompt": "Compute 62^19 exactly.", "raw_response": "62"}
+{"task_id": "arith_026", "domain": "arithmetic", "prompt": "Compute 26! exactly.", "raw_response": "3628800"}
+{"task_id": "arith_027", "domain": "arithmetic", "prompt": "Compute Fibonacci F(97) exactly, where F(0)=0 and F(1)=1.", "raw_response": "2139301036473"}
+{"task_id": "arith_028", "domain": "arithmetic", "prompt": "Compute exactly: 921101 + 840349 + 749378 + 668596.", "raw_response": "216511942"}
+{"task_id": "arith_029", "domain": "arithmetic", "prompt": "Compute exactly: 152 x 286 x 418 x 550.", "raw_response": "41985430000"}
+{"task_id": "arith_030", "domain": "arithmetic", "prompt": "Compute 67^15 exactly.", "raw_response": "67"}
+{"task_id": "arith_031", "domain": "arithmetic", "prompt": "Compute 31! exactly.", "raw_response": "3628800"}
+{"task_id": "arith_032", "domain": "arithmetic", "prompt": "Compute Fibonacci F(102) exactly, where F(0)=0 and F(1)=1.", "raw_response": "354224848179261915075"}
+{"task_id": "arith_033", "domain": "arithmetic", "prompt": "Compute exactly: 921606 + 840864 + 749913 + 669141.", "raw_response": "921606+840864+749913+669141"}
+{"task_id": "arith_034", "domain": "arithmetic", "prompt": "Compute exactly: 157 x 291 x 423 x 555.", "raw_response": "4577835"}
+{"task_id": "arith_035", "domain": "arithmetic", "prompt": "Compute 72^20 exactly.", "raw_response": "72"}
+{"task_id": "arith_036", "domain": "arithmetic", "prompt": "Compute 36! exactly.", "raw_response": "40"}
+{"task_id": "arith_037", "domain": "arithmetic", "prompt": "Compute Fibonacci F(107) exactly, where F(0)=0 and F(1)=1.", "raw_response": "70461047532125920"}
+{"task_id": "arith_038", "domain": "arithmetic", "prompt": "Compute exactly: 922111 + 841379 + 750448 + 669686.", "raw_response": "922111 + 841379 + 750448 + 669686 = 3183524"}
+{"task_id": "arith_039", "domain": "arithmetic", "prompt": "Compute exactly: 162 x 296 x 428 x 560.", "raw_response": "162 * 296 * 428 * 560 = 237363942400"}
+{"task_id": "arith_040", "domain": "arithmetic", "prompt": "Compute 77^16 exactly.", "raw_response": "77"}
+{"task_id": "arith_041", "domain": "arithmetic", "prompt": "Compute 41! exactly.", "raw_response": "3628800"}
+{"task_id": "arith_042", "domain": "arithmetic", "prompt": "Compute Fibonacci F(112) exactly, where F(0)=0 and F(1)=1.", "raw_response": "1389534227873"}
+{"task_id": "arith_043", "domain": "arithmetic", "prompt": "Compute exactly: 922616 + 841894 + 750983 + 670231.", "raw_response": "1241267315275325"}
+{"task_id": "arith_044", "domain": "arithmetic", "prompt": "Compute exactly: 167 x 301 x 433 x 565.", "raw_response": "475444775637675"}
+{"task_id": "arith_045", "domain": "arithmetic", "prompt": "Compute 82^12 exactly.", "raw_response": ""}
+{"task_id": "arith_046", "domain": "arithmetic", "prompt": "Compute 46! exactly.", "raw_response": ""}
+{"task_id": "arith_047", "domain": "arithmetic", "prompt": "Compute Fibonacci F(117) exactly, where F(0)=0 and F(1)=1.", "raw_response": ""}
+{"task_id": "arith_048", "domain": "arithmetic", "prompt": "Compute exactly: 923121 + 842409 + 751518 + 670776.", "raw_response": ""}
+{"task_id": "arith_049", "domain": "arithmetic", "prompt": "Compute exactly: 172 x 306 x 438 x 570.", "raw_response": ""}
+{"task_id": "code_000", "domain": "python_code", "prompt": "Return only Python code for function f_0(a, b) that returns a + b + 0.", "raw_response": "def f_0(a,b): return a+b+0"}
+{"task_id": "code_001", "domain": "python_code", "prompt": "Return Python code in a markdown code fence for function f_1(items) that returns list(reversed(items)).", "raw_response": "def f_1(items): return list(reversed(items))"}
+{"task_id": "code_002", "domain": "python_code", "prompt": "Return only Python code for class Box2 with __init__(self, value) and get(self).", "raw_response": "class Box2: def __init__(self): pass; def get(self): pass"}
+{"task_id": "code_003", "domain": "python_code", "prompt": "Return only Python code for function f_3(text) that returns text.split('->').", "raw_response": "def f_3(text): return text.split('->')"}
+{"task_id": "code_004", "domain": "python_code", "prompt": "Return only Python code for function f_4(a, b) that returns a + b + 4.", "raw_response": "def f_4(a,b): return a+b+4"}
+{"task_id": "code_005", "domain": "python_code", "prompt": "Return Python code in a markdown code fence for function f_5(items) that returns list(reversed(items)).", "raw_response": ""}
+{"task_id": "code_006", "domain": "python_code", "prompt": "Return only Python code for class Box6 with __init__(self, value) and get(self).", "raw_response": ""}

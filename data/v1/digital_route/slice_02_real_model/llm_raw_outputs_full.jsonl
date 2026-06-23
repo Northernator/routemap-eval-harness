@@ -1,0 +1,32 @@
+{"problem_id": "pow_17_19", "prompt": "Compute 17^19 exactly.", "response": "295,238,911,953"}
+{"problem_id": "pow_97_13", "prompt": "Compute 97^13 exactly.", "response": "1,345,839,953,939,907"}
+{"problem_id": "pow_12345_9", "prompt": "Compute 12345^9 exactly.", "response": "108888694504183521607680"}
+{"problem_id": "pow_99991_7", "prompt": "Compute 99991^7 exactly.", "response": "-1"}
+{"problem_id": "pow_2_256", "prompt": "Compute 2^256 exactly.", "response": "18,446,744,073,709,551,616"}
+{"problem_id": "pow_37_31", "prompt": "Compute 37^31 exactly.", "response": "2147483647"}
+{"problem_id": "fact_18", "prompt": "Compute 18! exactly.", "response": "1,814,400,000,000"}
+{"problem_id": "fact_25", "prompt": "Compute 25! exactly.", "response": "0"}
+{"problem_id": "fact_30", "prompt": "Compute 30! exactly.", "response": "0"}
+{"problem_id": "fact_40", "prompt": "Compute 40! exactly.", "response": "24,000,000"}
+{"problem_id": "fact_50", "prompt": "Compute 50! exactly.", "response": "79,282,498,952,000,00"}
+{"problem_id": "fact_75", "prompt": "Compute 75! exactly.", "response": "0"}
+{"problem_id": "sum_big_1", "prompt": "Compute this integer sum exactly: 918273645546 + 837465129102 + 746382915011 + 665544332211 + 554433221100.", "response": "1234567890123"}
+{"problem_id": "sum_big_2", "prompt": "Compute this integer sum exactly: 10000000019 + 20000000033 + 30000000057 + 40000000091 + 50000000123 + 60000000177.", "response": "150000002999"}
+{"problem_id": "sum_big_3", "prompt": "Compute this integer sum exactly: 987654321987 + -123456789123 + 456789123456 + -222222222222 + 333333333333.", "response": "-1"}
+{"problem_id": "sum_big_4", "prompt": "Compute this integer sum exactly: 7654321001 + 8765432011 + 9876543021 + 1234567891 + 2345678902 + 3456789013.", "response": "7654321001 + 8765432011 = 16419760112\n16419760112 + 9876543021 = 26306230133\n26306230133 + 1234567891 = 27540788024\n27540788024 + 2345678902 = 29866366926\n29866366926 + 3456789013 = 33232135939"}
+{"problem_id": "prod_big_1", "prompt": "Compute this integer product exactly: 123457 x 234569 x 345679 x 456791.", "response": "123457 * 234569 = 28951166833\n28951166833 * 345679 = 10011101119139167\n10011101119139167 * 456791 = 45581391141112131187"}
+{"problem_id": "prod_big_2", "prompt": "Compute this integer product exactly: 1003 x 10007 x 100003 x 1000003.", "response": "5030043009"}
+{"problem_id": "prod_big_3", "prompt": "Compute this integer product exactly: 37037 x 74081 x 111121 x 148149 x 185183.", "response": "1237639649421"}
+{"problem_id": "prod_big_4", "prompt": "Compute this integer product exactly: 999983 x 999979 x 999961.", "response": "998997637"}
+{"problem_id": "fib_80", "prompt": "Compute Fibonacci F(80) exactly, where F(0)=0 and F(1)=1.", "response": "906153989504835884785838412694379594914405\n\nNote: This is a very large number, but it's the exact result of computing Fibonacci F(80)."}
+{"problem_id": "fib_120", "prompt": "Compute Fibonacci F(120) exactly, where F(0)=0 and F(1)=1.", "response": "34"}
+{"problem_id": "fib_200", "prompt": "Compute Fibonacci F(200) exactly, where F(0)=0 and F(1)=1.", "response": "6765"}
+{"problem_id": "mod_route_1", "prompt": "A route checksum adds residues (97^13 mod 101), (41^9 mod 101), and 58. Compute that exact checksum.", "response": "98"}
+{"problem_id": "mod_route_2", "prompt": "A cyclic route adds residues (12345^7 mod 37), (24691^5 mod 37), and 19. Compute that exact checksum.", "response": "23"}
+{"problem_id": "mod_route_3", "prompt": "A modular word problem asks for the sum of residues (88^17 mod 89), (144^11 mod 89), and (233^7 mod 89). Give the exact sum.", "response": "87"}
+{"problem_id": "easy_sum_1", "prompt": "Compute 2 + 3 exactly.", "response": "5"}
+{"problem_id": "easy_sum_2", "prompt": "Compute 123 + 456 + 789 exactly.", "response": "1288"}
+{"problem_id": "easy_prod_1", "prompt": "Compute 12 x 13 exactly.", "response": "156"}
+{"problem_id": "easy_fact_1", "prompt": "Compute 8! exactly.", "response": "40320"}
+{"problem_id": "easy_power_1", "prompt": "Compute 9^5 exactly.", "response": "59049"}
+{"problem_id": "easy_fib_1", "prompt": "Compute Fibonacci F(12) exactly, where F(0)=0 and F(1)=1.", "response": "144"}

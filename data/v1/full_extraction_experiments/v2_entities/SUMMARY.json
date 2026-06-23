@@ -1,0 +1,839 @@
+{
+  "build_results": [
+    {
+      "name": "in_domain_dev",
+      "out": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\predictions\\in_domain_dev__with_v2_entities.csv",
+      "rows": 80,
+      "source": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\gold\\heldout_full_extraction_pred_v2.csv"
+    },
+    {
+      "name": "true_blind_combined_v3",
+      "out": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\predictions\\true_blind_combined_v3__with_v2_entities.csv",
+      "rows": 72,
+      "source": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\true_blind_natural_language\\predictions\\combined_v3_true_blind_predictions.csv"
+    },
+    {
+      "name": "true_blind_R6",
+      "out": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\predictions\\true_blind_R6__with_v2_entities.csv",
+      "rows": 72,
+      "source": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\true_blind_natural_language\\predictions\\R6_true_blind_predictions.csv"
+    }
+  ],
+  "embeddings": {
+    "available": true,
+    "reason": "available"
+  },
+  "experiment": "full_extraction_with_v2_entities",
+  "outputs": {
+    "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\FULL_EXTRACTION_V2_ENTITIES_REPORT.md",
+    "summary": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\SUMMARY.json"
+  },
+  "recommendation": "V2 entity swap does not unlock full-row relaxed scores enough; keep entity metric/extractor development ahead of route-field work.",
+  "role_accuracy_constant": {
+    "in_domain_dev": true,
+    "true_blind_R6": true,
+    "true_blind_combined_v3": true
+  },
+  "run_outputs": [
+    {
+      "dataset": "in_domain_dev",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\in_domain_dev__V0_pred_entities__exact_mismatches.csv",
+      "mode": "exact",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\in_domain_dev__V0_pred_entities__exact.md",
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\in_domain_dev__V0_pred_entities__soft_difflib_mismatches.csv",
+      "mode": "soft-difflib",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\in_domain_dev__V0_pred_entities__soft_difflib.md",
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\in_domain_dev__V0_pred_entities__soft_embedding_mismatches.csv",
+      "mode": "soft-embedding",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\in_domain_dev__V0_pred_entities__soft_embedding.md",
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\in_domain_dev__V_ontology__exact_mismatches.csv",
+      "mode": "exact",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\in_domain_dev__V_ontology__exact.md",
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\in_domain_dev__V_ontology__soft_difflib_mismatches.csv",
+      "mode": "soft-difflib",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\in_domain_dev__V_ontology__soft_difflib.md",
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\in_domain_dev__V_ontology__soft_embedding_mismatches.csv",
+      "mode": "soft-embedding",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\in_domain_dev__V_ontology__soft_embedding.md",
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\in_domain_dev__V2__exact_mismatches.csv",
+      "mode": "exact",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\in_domain_dev__V2__exact.md",
+      "variant": "V2"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\in_domain_dev__V2__soft_difflib_mismatches.csv",
+      "mode": "soft-difflib",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\in_domain_dev__V2__soft_difflib.md",
+      "variant": "V2"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\in_domain_dev__V2__soft_embedding_mismatches.csv",
+      "mode": "soft-embedding",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\in_domain_dev__V2__soft_embedding.md",
+      "variant": "V2"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\in_domain_dev__DIAGNOSTIC_gold_other_V2__exact_mismatches.csv",
+      "mode": "exact",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\in_domain_dev__DIAGNOSTIC_gold_other_V2__exact.md",
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\in_domain_dev__DIAGNOSTIC_gold_other_V2__soft_difflib_mismatches.csv",
+      "mode": "soft-difflib",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\in_domain_dev__DIAGNOSTIC_gold_other_V2__soft_difflib.md",
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\in_domain_dev__DIAGNOSTIC_gold_other_V2__soft_embedding_mismatches.csv",
+      "mode": "soft-embedding",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\in_domain_dev__DIAGNOSTIC_gold_other_V2__soft_embedding.md",
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_combined_v3__V0_pred_entities__exact_mismatches.csv",
+      "mode": "exact",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_combined_v3__V0_pred_entities__exact.md",
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_combined_v3__V0_pred_entities__soft_difflib_mismatches.csv",
+      "mode": "soft-difflib",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_combined_v3__V0_pred_entities__soft_difflib.md",
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_combined_v3__V0_pred_entities__soft_embedding_mismatches.csv",
+      "mode": "soft-embedding",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_combined_v3__V0_pred_entities__soft_embedding.md",
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_combined_v3__V_ontology__exact_mismatches.csv",
+      "mode": "exact",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_combined_v3__V_ontology__exact.md",
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_combined_v3__V_ontology__soft_difflib_mismatches.csv",
+      "mode": "soft-difflib",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_combined_v3__V_ontology__soft_difflib.md",
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_combined_v3__V_ontology__soft_embedding_mismatches.csv",
+      "mode": "soft-embedding",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_combined_v3__V_ontology__soft_embedding.md",
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_combined_v3__V2__exact_mismatches.csv",
+      "mode": "exact",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_combined_v3__V2__exact.md",
+      "variant": "V2"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_combined_v3__V2__soft_difflib_mismatches.csv",
+      "mode": "soft-difflib",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_combined_v3__V2__soft_difflib.md",
+      "variant": "V2"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_combined_v3__V2__soft_embedding_mismatches.csv",
+      "mode": "soft-embedding",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_combined_v3__V2__soft_embedding.md",
+      "variant": "V2"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_combined_v3__DIAGNOSTIC_gold_other_V2__exact_mismatches.csv",
+      "mode": "exact",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_combined_v3__DIAGNOSTIC_gold_other_V2__exact.md",
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_combined_v3__DIAGNOSTIC_gold_other_V2__soft_difflib_mismatches.csv",
+      "mode": "soft-difflib",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_combined_v3__DIAGNOSTIC_gold_other_V2__soft_difflib.md",
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_combined_v3__DIAGNOSTIC_gold_other_V2__soft_embedding_mismatches.csv",
+      "mode": "soft-embedding",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_combined_v3__DIAGNOSTIC_gold_other_V2__soft_embedding.md",
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_R6__V0_pred_entities__exact_mismatches.csv",
+      "mode": "exact",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_R6__V0_pred_entities__exact.md",
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_R6__V0_pred_entities__soft_difflib_mismatches.csv",
+      "mode": "soft-difflib",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_R6__V0_pred_entities__soft_difflib.md",
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_R6__V0_pred_entities__soft_embedding_mismatches.csv",
+      "mode": "soft-embedding",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_R6__V0_pred_entities__soft_embedding.md",
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_R6__V_ontology__exact_mismatches.csv",
+      "mode": "exact",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_R6__V_ontology__exact.md",
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_R6__V_ontology__soft_difflib_mismatches.csv",
+      "mode": "soft-difflib",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_R6__V_ontology__soft_difflib.md",
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_R6__V_ontology__soft_embedding_mismatches.csv",
+      "mode": "soft-embedding",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_R6__V_ontology__soft_embedding.md",
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_R6__V2__exact_mismatches.csv",
+      "mode": "exact",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_R6__V2__exact.md",
+      "variant": "V2"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_R6__V2__soft_difflib_mismatches.csv",
+      "mode": "soft-difflib",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_R6__V2__soft_difflib.md",
+      "variant": "V2"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_R6__V2__soft_embedding_mismatches.csv",
+      "mode": "soft-embedding",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_R6__V2__soft_embedding.md",
+      "variant": "V2"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_R6__DIAGNOSTIC_gold_other_V2__exact_mismatches.csv",
+      "mode": "exact",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_R6__DIAGNOSTIC_gold_other_V2__exact.md",
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_R6__DIAGNOSTIC_gold_other_V2__soft_difflib_mismatches.csv",
+      "mode": "soft-difflib",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_R6__DIAGNOSTIC_gold_other_V2__soft_difflib.md",
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\mismatches\\true_blind_R6__DIAGNOSTIC_gold_other_V2__soft_embedding_mismatches.csv",
+      "mode": "soft-embedding",
+      "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\v2_entities\\reports\\true_blind_R6__DIAGNOSTIC_gold_other_V2__soft_embedding.md",
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    }
+  ],
+  "table_rows": [
+    {
+      "dataset": "in_domain_dev",
+      "entity_avg_f1": 0.78172619047619,
+      "entity_avg_jaccard": 0.7197916666666666,
+      "entity_avg_precision": 0.7779761904761904,
+      "entity_avg_recall": 0.8297916666666666,
+      "evaluated_rows": 80,
+      "metric_mode": "exact",
+      "relaxed_1": 0.8375,
+      "relaxed_2": 0.8375,
+      "relaxed_3": 0.8375,
+      "role_accuracy": 0.9875,
+      "strict": 0.4875,
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "entity_avg_f1": 0.7762202380952377,
+      "entity_avg_jaccard": 0.7116666666666667,
+      "entity_avg_precision": 0.7698511904761903,
+      "entity_avg_recall": 0.8297916666666666,
+      "evaluated_rows": 80,
+      "metric_mode": "soft-difflib",
+      "relaxed_1": 0.8375,
+      "relaxed_2": 0.8375,
+      "relaxed_3": 0.8375,
+      "role_accuracy": 0.9875,
+      "strict": 0.475,
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "entity_avg_f1": 0.7783035714285709,
+      "entity_avg_jaccard": 0.714345238095238,
+      "entity_avg_precision": 0.7716369047619046,
+      "entity_avg_recall": 0.8322916666666667,
+      "evaluated_rows": 80,
+      "metric_mode": "soft-embedding",
+      "relaxed_1": 0.8375,
+      "relaxed_2": 0.8375,
+      "relaxed_3": 0.8375,
+      "role_accuracy": 0.9875,
+      "strict": 0.475,
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "entity_avg_f1": 0.5231249999999998,
+      "entity_avg_jaccard": 0.4520833333333332,
+      "entity_avg_precision": 0.5217261904761904,
+      "entity_avg_recall": 0.5902083333333333,
+      "evaluated_rows": 80,
+      "metric_mode": "exact",
+      "relaxed_1": 0.525,
+      "relaxed_2": 0.525,
+      "relaxed_3": 0.525,
+      "role_accuracy": 0.9875,
+      "strict": 0.225,
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "entity_avg_f1": 0.5356249999999999,
+      "entity_avg_jaccard": 0.46934523809523804,
+      "entity_avg_precision": 0.5422619047619046,
+      "entity_avg_recall": 0.6010416666666668,
+      "evaluated_rows": 80,
+      "metric_mode": "soft-difflib",
+      "relaxed_1": 0.5375,
+      "relaxed_2": 0.5375,
+      "relaxed_3": 0.5375,
+      "role_accuracy": 0.9875,
+      "strict": 0.25,
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "entity_avg_f1": 0.5293749999999998,
+      "entity_avg_jaccard": 0.46517857142857133,
+      "entity_avg_precision": 0.5297619047619047,
+      "entity_avg_recall": 0.596875,
+      "evaluated_rows": 80,
+      "metric_mode": "soft-embedding",
+      "relaxed_1": 0.5375,
+      "relaxed_2": 0.5375,
+      "relaxed_3": 0.5375,
+      "role_accuracy": 0.9875,
+      "strict": 0.25,
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "entity_avg_f1": 0.5231249999999998,
+      "entity_avg_jaccard": 0.4520833333333332,
+      "entity_avg_precision": 0.5217261904761904,
+      "entity_avg_recall": 0.5902083333333333,
+      "evaluated_rows": 80,
+      "metric_mode": "exact",
+      "relaxed_1": 0.525,
+      "relaxed_2": 0.525,
+      "relaxed_3": 0.525,
+      "role_accuracy": 0.9875,
+      "strict": 0.225,
+      "variant": "V2"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "entity_avg_f1": 0.5419742063492062,
+      "entity_avg_jaccard": 0.47299107142857144,
+      "entity_avg_precision": 0.5464285714285714,
+      "entity_avg_recall": 0.6177083333333334,
+      "evaluated_rows": 80,
+      "metric_mode": "soft-difflib",
+      "relaxed_1": 0.5375,
+      "relaxed_2": 0.5375,
+      "relaxed_3": 0.5375,
+      "role_accuracy": 0.9875,
+      "strict": 0.25,
+      "variant": "V2"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "entity_avg_f1": 0.5451984126984126,
+      "entity_avg_jaccard": 0.47470238095238093,
+      "entity_avg_precision": 0.5401785714285714,
+      "entity_avg_recall": 0.6364583333333333,
+      "evaluated_rows": 80,
+      "metric_mode": "soft-embedding",
+      "relaxed_1": 0.5375,
+      "relaxed_2": 0.5375,
+      "relaxed_3": 0.5375,
+      "role_accuracy": 0.9875,
+      "strict": 0.25,
+      "variant": "V2"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "entity_avg_f1": 0.5231249999999998,
+      "entity_avg_jaccard": 0.4520833333333332,
+      "entity_avg_precision": 0.5217261904761904,
+      "entity_avg_recall": 0.5902083333333333,
+      "evaluated_rows": 80,
+      "metric_mode": "exact",
+      "relaxed_1": 0.5375,
+      "relaxed_2": 0.5375,
+      "relaxed_3": 0.5375,
+      "role_accuracy": 1.0,
+      "strict": 0.25,
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "entity_avg_f1": 0.5419742063492062,
+      "entity_avg_jaccard": 0.47299107142857144,
+      "entity_avg_precision": 0.5464285714285714,
+      "entity_avg_recall": 0.6177083333333334,
+      "evaluated_rows": 80,
+      "metric_mode": "soft-difflib",
+      "relaxed_1": 0.55,
+      "relaxed_2": 0.55,
+      "relaxed_3": 0.55,
+      "role_accuracy": 1.0,
+      "strict": 0.275,
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "in_domain_dev",
+      "entity_avg_f1": 0.5451984126984126,
+      "entity_avg_jaccard": 0.47470238095238093,
+      "entity_avg_precision": 0.5401785714285714,
+      "entity_avg_recall": 0.6364583333333333,
+      "evaluated_rows": 80,
+      "metric_mode": "soft-embedding",
+      "relaxed_1": 0.55,
+      "relaxed_2": 0.55,
+      "relaxed_3": 0.55,
+      "role_accuracy": 1.0,
+      "strict": 0.275,
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "entity_avg_f1": 0.0,
+      "entity_avg_jaccard": 0.0,
+      "entity_avg_precision": 0.0,
+      "entity_avg_recall": 0.0,
+      "evaluated_rows": 72,
+      "metric_mode": "exact",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "entity_avg_f1": 0.03250661375661376,
+      "entity_avg_jaccard": 0.020734126984126983,
+      "entity_avg_precision": 0.0763888888888889,
+      "entity_avg_recall": 0.021197089947089947,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-difflib",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "entity_avg_f1": 0.03366402116402117,
+      "entity_avg_jaccard": 0.021527777777777774,
+      "entity_avg_precision": 0.0763888888888889,
+      "entity_avg_recall": 0.02199074074074074,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-embedding",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "entity_avg_f1": 0.0,
+      "entity_avg_jaccard": 0.0,
+      "entity_avg_precision": 0.0,
+      "entity_avg_recall": 0.0,
+      "evaluated_rows": 72,
+      "metric_mode": "exact",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "entity_avg_f1": 0.03250661375661376,
+      "entity_avg_jaccard": 0.020734126984126983,
+      "entity_avg_precision": 0.0763888888888889,
+      "entity_avg_recall": 0.021197089947089947,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-difflib",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "entity_avg_f1": 0.03366402116402117,
+      "entity_avg_jaccard": 0.021527777777777774,
+      "entity_avg_precision": 0.0763888888888889,
+      "entity_avg_recall": 0.02199074074074074,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-embedding",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "entity_avg_f1": 0.0,
+      "entity_avg_jaccard": 0.0,
+      "entity_avg_precision": 0.0,
+      "entity_avg_recall": 0.0,
+      "evaluated_rows": 72,
+      "metric_mode": "exact",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V2"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "entity_avg_f1": 0.20988355780022447,
+      "entity_avg_jaccard": 0.1275524629691296,
+      "entity_avg_precision": 0.23842592592592593,
+      "entity_avg_recall": 0.2248842592592593,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-difflib",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V2"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "entity_avg_f1": 0.2699841824841825,
+      "entity_avg_jaccard": 0.17021103896103887,
+      "entity_avg_precision": 0.2916666666666666,
+      "entity_avg_recall": 0.29422949735449727,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-embedding",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V2"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "entity_avg_f1": 0.0,
+      "entity_avg_jaccard": 0.0,
+      "entity_avg_precision": 0.0,
+      "entity_avg_recall": 0.0,
+      "evaluated_rows": 72,
+      "metric_mode": "exact",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 1.0,
+      "strict": 0.0,
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "entity_avg_f1": 0.20988355780022447,
+      "entity_avg_jaccard": 0.1275524629691296,
+      "entity_avg_precision": 0.23842592592592593,
+      "entity_avg_recall": 0.2248842592592593,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-difflib",
+      "relaxed_1": 0.013888888888888888,
+      "relaxed_2": 0.013888888888888888,
+      "relaxed_3": 0.013888888888888888,
+      "role_accuracy": 1.0,
+      "strict": 0.0,
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "true_blind_combined_v3",
+      "entity_avg_f1": 0.2699841824841825,
+      "entity_avg_jaccard": 0.17021103896103887,
+      "entity_avg_precision": 0.2916666666666666,
+      "entity_avg_recall": 0.29422949735449727,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-embedding",
+      "relaxed_1": 0.027777777777777776,
+      "relaxed_2": 0.027777777777777776,
+      "relaxed_3": 0.027777777777777776,
+      "role_accuracy": 1.0,
+      "strict": 0.0,
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "entity_avg_f1": 0.0,
+      "entity_avg_jaccard": 0.0,
+      "entity_avg_precision": 0.0,
+      "entity_avg_recall": 0.0,
+      "evaluated_rows": 72,
+      "metric_mode": "exact",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "entity_avg_f1": 0.03250661375661376,
+      "entity_avg_jaccard": 0.020734126984126983,
+      "entity_avg_precision": 0.0763888888888889,
+      "entity_avg_recall": 0.021197089947089947,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-difflib",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "entity_avg_f1": 0.03366402116402117,
+      "entity_avg_jaccard": 0.021527777777777774,
+      "entity_avg_precision": 0.0763888888888889,
+      "entity_avg_recall": 0.02199074074074074,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-embedding",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V0_pred_entities"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "entity_avg_f1": 0.0,
+      "entity_avg_jaccard": 0.0,
+      "entity_avg_precision": 0.0,
+      "entity_avg_recall": 0.0,
+      "evaluated_rows": 72,
+      "metric_mode": "exact",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "entity_avg_f1": 0.03250661375661376,
+      "entity_avg_jaccard": 0.020734126984126983,
+      "entity_avg_precision": 0.0763888888888889,
+      "entity_avg_recall": 0.021197089947089947,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-difflib",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "entity_avg_f1": 0.03366402116402117,
+      "entity_avg_jaccard": 0.021527777777777774,
+      "entity_avg_precision": 0.0763888888888889,
+      "entity_avg_recall": 0.02199074074074074,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-embedding",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V_ontology"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "entity_avg_f1": 0.0,
+      "entity_avg_jaccard": 0.0,
+      "entity_avg_precision": 0.0,
+      "entity_avg_recall": 0.0,
+      "evaluated_rows": 72,
+      "metric_mode": "exact",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V2"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "entity_avg_f1": 0.20988355780022447,
+      "entity_avg_jaccard": 0.1275524629691296,
+      "entity_avg_precision": 0.23842592592592593,
+      "entity_avg_recall": 0.2248842592592593,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-difflib",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V2"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "entity_avg_f1": 0.2699841824841825,
+      "entity_avg_jaccard": 0.17021103896103887,
+      "entity_avg_precision": 0.2916666666666666,
+      "entity_avg_recall": 0.29422949735449727,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-embedding",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 0.3055555555555556,
+      "strict": 0.0,
+      "variant": "V2"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "entity_avg_f1": 0.0,
+      "entity_avg_jaccard": 0.0,
+      "entity_avg_precision": 0.0,
+      "entity_avg_recall": 0.0,
+      "evaluated_rows": 72,
+      "metric_mode": "exact",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role_accuracy": 1.0,
+      "strict": 0.0,
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "entity_avg_f1": 0.20988355780022447,
+      "entity_avg_jaccard": 0.1275524629691296,
+      "entity_avg_precision": 0.23842592592592593,
+      "entity_avg_recall": 0.2248842592592593,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-difflib",
+      "relaxed_1": 0.013888888888888888,
+      "relaxed_2": 0.013888888888888888,
+      "relaxed_3": 0.013888888888888888,
+      "role_accuracy": 1.0,
+      "strict": 0.0,
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    },
+    {
+      "dataset": "true_blind_R6",
+      "entity_avg_f1": 0.2699841824841825,
+      "entity_avg_jaccard": 0.17021103896103887,
+      "entity_avg_precision": 0.2916666666666666,
+      "entity_avg_recall": 0.29422949735449727,
+      "evaluated_rows": 72,
+      "metric_mode": "soft-embedding",
+      "relaxed_1": 0.027777777777777776,
+      "relaxed_2": 0.027777777777777776,
+      "relaxed_3": 0.027777777777777776,
+      "role_accuracy": 1.0,
+      "strict": 0.0,
+      "variant": "DIAGNOSTIC_gold_other_V2"
+    }
+  ],
+  "verdicts": {
+    "entities_sufficient_for_relaxed": false,
+    "in_domain_no_regression": true,
+    "soft_metric_unlocks_transfer": false,
+    "strict_moves": true
+  }
+}

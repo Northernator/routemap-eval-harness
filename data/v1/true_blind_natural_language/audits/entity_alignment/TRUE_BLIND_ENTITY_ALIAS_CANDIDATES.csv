@@ -1,0 +1,92 @@
+gold_entity,predicted_entity,support_count,example_rows,confidence,reason
+control,controls,1,TB033,high,punctuation_or_singular_match; matches_existing_ontology_synonym_or_canonical_form
+evaluation,evaluation,1,TB072,high,punctuation_or_singular_match; matches_existing_ontology_synonym_or_canonical_form
+gold labels,gold labels,1,TB072,high,punctuation_or_singular_match; matches_existing_ontology_synonym_or_canonical_form
+scores,evaluation,1,TB066,high,cooccurs_without_string_match; matches_existing_ontology_synonym_or_canonical_form
+evaluation folder,evaluation,1,TB018,medium,substring_match
+approver,controls,2,TB032; TB036,low,cooccurs_without_string_match
+access control,controls,1,TB061,low,cooccurs_without_string_match
+alerts,controls,1,TB032,low,cooccurs_without_string_match
+alerts,human review,1,TB032,low,cooccurs_without_string_match
+approval,permission boundary,1,TB004,low,cooccurs_without_string_match
+approval bypasses,controls,1,TB031,low,cooccurs_without_string_match
+approval gate,controls,1,TB033,low,cooccurs_without_string_match
+approver,human review,1,TB032,low,cooccurs_without_string_match
+assistant,permission boundary,1,TB004,low,cooccurs_without_string_match
+bank-detail changes,controls,1,TB031,low,cooccurs_without_string_match
+blind corpus,benchmark,1,TB048,low,cooccurs_without_string_match
+blind review set,evaluation,1,TB042,low,cooccurs_without_string_match
+blind set,evaluation,1,TB066,low,cooccurs_without_string_match
+borderline cases,human review,1,TB030,low,cooccurs_without_string_match
+case,controls,1,TB036,low,cooccurs_without_string_match
+case summaries,benchmark,1,TB048,low,cooccurs_without_string_match
+catalogue notes,evaluation,1,TB072,low,cooccurs_without_string_match
+catalogue notes,gold labels,1,TB072,low,cooccurs_without_string_match
+CivicAid Permit Triage,incident response,1,TB001,low,cooccurs_without_string_match
+confidentiality,human review,1,TB046,low,cooccurs_without_string_match
+council service requests,incident response,1,TB001,low,cooccurs_without_string_match
+crowd flow,controls,1,TB061,low,cooccurs_without_string_match
+curator,evaluation,1,TB072,low,cooccurs_without_string_match
+curator,gold labels,1,TB072,low,cooccurs_without_string_match
+duplicate check,controls,1,TB034,low,cooccurs_without_string_match
+duplicate invoice patterns,controls,1,TB031,low,cooccurs_without_string_match
+duplicate invoices,controls,1,TB035,low,cooccurs_without_string_match
+evaluation,gold labels,1,TB072,low,cooccurs_without_string_match
+EventMesh,controls,1,TB061,low,cooccurs_without_string_match
+evidence,controls,1,TB036,low,cooccurs_without_string_match
+evidence field,controls,1,TB033,low,cooccurs_without_string_match
+false alarms,evaluation,1,TB042,low,cooccurs_without_string_match
+finance reviewers,controls,1,TB032,low,cooccurs_without_string_match
+finance reviewers,human review,1,TB032,low,cooccurs_without_string_match
+FraudSieve,controls,1,TB031,low,cooccurs_without_string_match
+fresh blind batch,evaluation,1,TB060,low,cooccurs_without_string_match
+gold examples,benchmark,1,TB048,low,cooccurs_without_string_match
+gold labels,evaluation,1,TB072,low,cooccurs_without_string_match
+gold set,human review,1,TB030,low,cooccurs_without_string_match
+gross amount,controls,1,TB034,low,cooccurs_without_string_match
+historic alerts,controls,1,TB035,low,cooccurs_without_string_match
+human officer,incident response,1,TB001,low,cooccurs_without_string_match
+invoice,controls,1,TB032,low,cooccurs_without_string_match
+invoice,human review,1,TB032,low,cooccurs_without_string_match
+invoice number,controls,1,TB034,low,cooccurs_without_string_match
+invoice-control router,controls,1,TB031,low,cooccurs_without_string_match
+legal evidence,permission boundary,1,TB004,low,cooccurs_without_string_match
+live-event incident notes,controls,1,TB061,low,cooccurs_without_string_match
+medical support,controls,1,TB061,low,cooccurs_without_string_match
+missed deployments,evaluation,1,TB042,low,cooccurs_without_string_match
+model,evaluation,1,TB066,low,cooccurs_without_string_match
+model prompt,evaluation,1,TB018,low,cooccurs_without_string_match
+partial screenshot,permission boundary,1,TB004,low,cooccurs_without_string_match
+patient identifiers,evaluation,1,TB018,low,cooccurs_without_string_match
+payment,controls,1,TB036,low,cooccurs_without_string_match
+payment risk,controls,1,TB033,low,cooccurs_without_string_match
+payment status,incident response,1,TB001,low,cooccurs_without_string_match
+permit evidence,incident response,1,TB001,low,cooccurs_without_string_match
+pilot sectors,evaluation,1,TB060,low,cooccurs_without_string_match
+planning permission,permission boundary,1,TB004,low,cooccurs_without_string_match
+planning questions,incident response,1,TB001,low,cooccurs_without_string_match
+precision,controls,1,TB035,low,cooccurs_without_string_match
+predictions,evaluation,1,TB072,low,cooccurs_without_string_match
+predictions,gold labels,1,TB072,low,cooccurs_without_string_match
+privilege,human review,1,TB046,low,cooccurs_without_string_match
+production scoring threshold,evaluation,1,TB060,low,cooccurs_without_string_match
+purchase-order reference,controls,1,TB034,low,cooccurs_without_string_match
+qualified reviewer,human review,1,TB046,low,cooccurs_without_string_match
+re-identification key,evaluation,1,TB018,low,cooccurs_without_string_match
+recall,controls,1,TB035,low,cooccurs_without_string_match
+reviewer column,human review,1,TB030,low,cooccurs_without_string_match
+senior tutors,human review,1,TB030,low,cooccurs_without_string_match
+steward deployment,controls,1,TB061,low,cooccurs_without_string_match
+storm event,evaluation,1,TB042,low,cooccurs_without_string_match
+supplier name,controls,1,TB034,low,cooccurs_without_string_match
+supplier names,controls,1,TB035,low,cooccurs_without_string_match
+suppliers,evaluation,1,TB060,low,cooccurs_without_string_match
+synthetic IDs,evaluation,1,TB018,low,cooccurs_without_string_match
+technical fault,controls,1,TB061,low,cooccurs_without_string_match
+tool,controls,1,TB036,low,cooccurs_without_string_match
+training snippets,benchmark,1,TB048,low,cooccurs_without_string_match
+vendor,controls,1,TB032,low,cooccurs_without_string_match
+vendor,human review,1,TB032,low,cooccurs_without_string_match
+vendor identity changes,controls,1,TB031,low,cooccurs_without_string_match
+venue,evaluation,1,TB066,low,cooccurs_without_string_match
+venue-specific language,evaluation,1,TB066,low,cooccurs_without_string_match

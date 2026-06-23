@@ -1,0 +1,5 @@
+bank_name,moduli,combined_modulus_M,random_error_count,ruled_out,escaped,random_error_catch_rate,all_escapes_multiples_of_M,seconds
+digital_root_only,9,9,200000,177800,22200,0.889000000,1,1.367245
+small_7_9_11,7 9 11,693,200000,199720,280,0.998600000,1,2.535075
+default_7_9_11_13_37_101,7 9 11 13 37 101,33666633,200000,200000,0,1.000000000,1,4.165629
+extended_default_41_43,7 9 11 13 37 101 41 43,59354273979,200000,200000,0,1.000000000,1,5.229612

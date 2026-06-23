@@ -1,0 +1,81 @@
+dataset,strategy,segment_id,gold_entities,pred_entities,jaccard,precision,recall,f1,exact,zero_overlap,missing,extra
+in_domain_dev,hybrid_v2,HELDOUT_S0001,source context; AI principles; trustworthy AI,policy context,0.0,0.0,0.0,0.0,False,True,source context; AI principles; trustworthy AI,policy context
+in_domain_dev,hybrid_v2,HELDOUT_S0002,secure AI development; model release review; release evidence,model release governance; secure AI development,0.25,0.5,0.3333333333333333,0.4,False,False,model release review; release evidence,model release governance
+in_domain_dev,hybrid_v2,HELDOUT_S0003,LLM application security; source context,LLM application security,0.5,1.0,0.5,0.6666666666666666,False,False,source context,
+in_domain_dev,hybrid_v2,HELDOUT_S0004,AI risk management; risk management,AI risk management; risk management,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0005,controls; LLM application security; model behavior,controls; LLM application security,0.6666666666666666,1.0,0.6666666666666666,0.8,False,False,model behavior,
+in_domain_dev,hybrid_v2,HELDOUT_S0006,data protection; privacy,data protection; privacy,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0007,documentation; EU AI Act; high-risk AI,act place high-risk; act place high-risk system; ai act place; ai act place high-risk; eu ai act place; the eu ai act,0.0,0.0,0.0,0.0,False,True,documentation; EU AI Act; high-risk AI,act place high-risk; act place high-risk system; ai act place; ai act place high-risk; eu ai act place; the eu ai act
+in_domain_dev,hybrid_v2,HELDOUT_S0008,benchmark; gold labels; mismatch review; route extraction; evaluation scripts,benchmark; evaluation; gold labels; mismatch review; route extraction; RouteMap; source context,0.5,0.5714285714285714,0.8,0.6666666666666666,False,False,evaluation scripts,evaluation; RouteMap; source context
+in_domain_dev,hybrid_v2,HELDOUT_S0009,agent memory; source context,agent memory,0.5,1.0,0.5,0.6666666666666666,False,False,source context,
+in_domain_dev,hybrid_v2,HELDOUT_S0010,AI roadmap,ai roadmap language; briefing introduce ai; briefing introduce ai roadmap; cisa briefing introduce; cisa briefing introduce ai; introduce ai roadmap,0.0,0.0,0.0,0.0,False,True,AI roadmap,ai roadmap language; briefing introduce ai; briefing introduce ai roadmap; cisa briefing introduce; cisa briefing introduce ai; introduce ai roadmap
+in_domain_dev,hybrid_v2,HELDOUT_S0011,monitoring,governance,0.0,0.0,0.0,0.0,False,True,monitoring,governance
+in_domain_dev,hybrid_v2,HELDOUT_S0012,model behavior,evaluation,0.0,0.0,0.0,0.0,False,True,model behavior,evaluation
+in_domain_dev,hybrid_v2,HELDOUT_S0013,governance,governance,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0014,evaluation; retrieval; secure AI development,controls; retrieval; secure AI development,0.5,0.6666666666666666,0.6666666666666666,0.6666666666666666,False,False,evaluation,controls
+in_domain_dev,hybrid_v2,HELDOUT_S0015,agent memory,agent memory,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0016,privacy,privacy,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0017,evaluation; retrieval,retrieval,0.5,1.0,0.5,0.6666666666666666,False,False,evaluation,
+in_domain_dev,hybrid_v2,HELDOUT_S0018,controls,controls,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0019,evaluation,AI safety evaluation; audit trail; evaluation,0.3333333333333333,0.3333333333333333,1.0,0.5,False,False,,AI safety evaluation; audit trail
+in_domain_dev,hybrid_v2,HELDOUT_S0020,evaluation; retrieval,retrieval; RouteMap; RouteMap segment,0.25,0.3333333333333333,0.5,0.4,False,False,evaluation,RouteMap; RouteMap segment
+in_domain_dev,hybrid_v2,HELDOUT_S0021,route provenance; source context,route provenance,0.5,1.0,0.5,0.6666666666666666,False,False,source context,
+in_domain_dev,hybrid_v2,HELDOUT_S0022,answer support; evaluation; retrieval; retrieval trace,answer support; evidence selection; retrieval; retrieval trace,0.6,0.75,0.75,0.75,False,False,evaluation,evidence selection
+in_domain_dev,hybrid_v2,HELDOUT_S0023,AI risk management; controls,AI risk management; controls; governance; risk management,0.5,0.5,1.0,0.6666666666666666,False,False,,governance; risk management
+in_domain_dev,hybrid_v2,HELDOUT_S0024,permission boundary; privacy,consent boundary; permission boundary; privacy,0.6666666666666666,0.6666666666666666,1.0,0.8,False,False,,consent boundary
+in_domain_dev,hybrid_v2,HELDOUT_S0025,RouteMap segment,controls,0.0,0.0,0.0,0.0,False,True,RouteMap segment,controls
+in_domain_dev,hybrid_v2,HELDOUT_S0026,RouteMap segment,RouteMap; RouteMap segment,0.5,0.5,1.0,0.6666666666666666,False,False,,RouteMap
+in_domain_dev,hybrid_v2,HELDOUT_S0027,benchmark; evaluation,benchmark; evaluation,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0028,RouteMap segment,ai feature; heldout_ops_definition md operational; heldout_ops_definition md operational readines; md operational readines; md operational readines mean; operational readines mean,0.0,0.0,0.0,0.0,False,True,RouteMap segment,ai feature; heldout_ops_definition md operational; heldout_ops_definition md operational readines; md operational readines; md operational readines mean; operational readines mean
+in_domain_dev,hybrid_v2,HELDOUT_S0029,RouteMap segment,attempted exploit; attempted exploit route; exploit route; finding record; observed system response; red-team finding record,0.0,0.0,0.0,0.0,False,True,RouteMap segment,attempted exploit; attempted exploit route; exploit route; finding record; observed system response; red-team finding record
+in_domain_dev,hybrid_v2,HELDOUT_S0030,RouteMap segment,RouteMap; RouteMap segment,0.5,0.5,1.0,0.6666666666666666,False,False,,RouteMap
+in_domain_dev,hybrid_v2,HELDOUT_S0031,RouteMap segment,retrieval; RouteMap; RouteMap segment,0.3333333333333333,0.3333333333333333,1.0,0.5,False,False,,retrieval; RouteMap
+in_domain_dev,hybrid_v2,HELDOUT_S0032,human review; LLM application security; permission boundary,human review; permission boundary,0.6666666666666666,1.0,0.6666666666666666,0.8,False,False,LLM application security,
+in_domain_dev,hybrid_v2,HELDOUT_S0033,evaluation; retrieval,answer support; retrieval; RouteMap; RouteMap segment,0.2,0.25,0.5,0.3333333333333333,False,False,evaluation,answer support; RouteMap; RouteMap segment
+in_domain_dev,hybrid_v2,HELDOUT_S0034,evaluation,evaluation; retrieval; RouteMap; RouteMap segment,0.25,0.25,1.0,0.4,False,False,,retrieval; RouteMap; RouteMap segment
+in_domain_dev,hybrid_v2,HELDOUT_S0035,human review; source context,incident response,0.0,0.0,0.0,0.0,False,True,human review; source context,incident response
+in_domain_dev,hybrid_v2,HELDOUT_S0036,source context,RouteMap; RouteMap segment,0.0,0.0,0.0,0.0,False,True,source context,RouteMap; RouteMap segment
+in_domain_dev,hybrid_v2,HELDOUT_S0037,RouteMap segment,RouteMap; RouteMap segment,0.5,0.5,1.0,0.6666666666666666,False,False,,RouteMap
+in_domain_dev,hybrid_v2,HELDOUT_S0038,human review,human review,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0039,human review,human review,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0040,source context; monitoring,answer check source; answer check source drift; check source drift; live answer check; live answer check source; monitoring routine sample,0.0,0.0,0.0,0.0,False,True,source context; monitoring,answer check source; answer check source drift; check source drift; live answer check; live answer check source; monitoring routine sample
+in_domain_dev,hybrid_v2,HELDOUT_S0041,RouteMap segment,RouteMap; RouteMap segment,0.5,0.5,1.0,0.6666666666666666,False,False,,RouteMap
+in_domain_dev,hybrid_v2,HELDOUT_S0042,RouteMap segment,benchmark,0.0,0.0,0.0,0.0,False,True,RouteMap segment,benchmark
+in_domain_dev,hybrid_v2,HELDOUT_S0043,benchmark,benchmark,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0044,RouteMap segment,RouteMap; RouteMap segment,0.5,0.5,1.0,0.6666666666666666,False,False,,RouteMap
+in_domain_dev,hybrid_v2,HELDOUT_S0045,RouteMap segment,all title row; all title row but; but missed several; but missed several definition; classifier matched all; classifier matched all title,0.0,0.0,0.0,0.0,False,True,RouteMap segment,all title row; all title row but; but missed several; but missed several definition; classifier matched all; classifier matched all title
+in_domain_dev,hybrid_v2,HELDOUT_S0046,governance; human review; privacy,governance; human review; privacy,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0047,evaluation; retrieval; source context,retrieval; source context,0.6666666666666666,1.0,0.6666666666666666,0.8,False,False,evaluation,
+in_domain_dev,hybrid_v2,HELDOUT_S0048,RouteMap segment,benchmark,0.0,0.0,0.0,0.0,False,True,RouteMap segment,benchmark
+in_domain_dev,hybrid_v2,HELDOUT_S0049,evaluation,evaluation; RouteMap; RouteMap segment,0.3333333333333333,0.3333333333333333,1.0,0.5,False,False,,RouteMap; RouteMap segment
+in_domain_dev,hybrid_v2,HELDOUT_S0050,evaluation; retrieval,retrieval,0.5,1.0,0.5,0.6666666666666666,False,False,evaluation,
+in_domain_dev,hybrid_v2,HELDOUT_S0051,audit,audit method; audit method doe; deployed model; heldout_safety_limitation md; itself prove; new user behavior,0.0,0.0,0.0,0.0,False,True,audit,audit method; audit method doe; deployed model; heldout_safety_limitation md; itself prove; new user behavior
+in_domain_dev,hybrid_v2,HELDOUT_S0052,benchmark,benchmark,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0053,permission boundary; privacy,consent boundary; privacy,0.3333333333333333,0.5,0.5,0.5,False,False,permission boundary,consent boundary
+in_domain_dev,hybrid_v2,HELDOUT_S0054,RouteMap segment,evaluation,0.0,0.0,0.0,0.0,False,True,RouteMap segment,evaluation
+in_domain_dev,hybrid_v2,HELDOUT_S0055,evaluation; retrieval; documentation,retrieval; RouteMap; RouteMap segment,0.2,0.3333333333333333,0.3333333333333333,0.3333333333333333,False,False,evaluation; documentation,RouteMap; RouteMap segment
+in_domain_dev,hybrid_v2,HELDOUT_S0056,incident response; source context; monitoring,incident response,0.3333333333333333,1.0,0.3333333333333333,0.5,False,False,source context; monitoring,
+in_domain_dev,hybrid_v2,HELDOUT_S0057,RouteMap segment,complete threat; complete threat model; deployment path; every sector; every sector product; top-ten risk list,0.0,0.0,0.0,0.0,False,True,RouteMap segment,complete threat; complete threat model; deployment path; every sector; every sector product; top-ten risk list
+in_domain_dev,hybrid_v2,HELDOUT_S0058,RouteMap segment,heldout_sample_limitation md small; heldout_sample_limitation md small gold; md small gold; md small gold set; small gold set; small gold set leave,0.0,0.0,0.0,0.0,False,True,RouteMap segment,heldout_sample_limitation md small; heldout_sample_limitation md small gold; md small gold; md small gold set; small gold set; small gold set leave
+in_domain_dev,hybrid_v2,HELDOUT_S0059,RouteMap segment,heldout_route_limitation md route; heldout_route_limitation md route compression; md route compression; md route compression can; route compression can; route compression can lose,0.0,0.0,0.0,0.0,False,True,RouteMap segment,heldout_route_limitation md route; heldout_route_limitation md route compression; md route compression; md route compression can; route compression can; route compression can lose
+in_domain_dev,hybrid_v2,HELDOUT_S0060,evaluation; retrieval,evaluation; retrieval,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0061,evaluation,evaluation; model release governance; RouteMap; RouteMap segment,0.25,0.25,1.0,0.4,False,False,,model release governance; RouteMap; RouteMap segment
+in_domain_dev,hybrid_v2,HELDOUT_S0062,benchmark,benchmark,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0063,RouteMap,RouteMap,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0064,human review,human review,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0065,RouteMap segment,RouteMap; RouteMap segment,0.5,0.5,1.0,0.6666666666666666,False,False,,RouteMap
+in_domain_dev,hybrid_v2,HELDOUT_S0066,RouteMap segment,RouteMap; RouteMap segment,0.5,0.5,1.0,0.6666666666666666,False,False,,RouteMap
+in_domain_dev,hybrid_v2,HELDOUT_S0067,evaluation,evaluation,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0068,permission boundary; privacy,consent boundary; privacy,0.3333333333333333,0.5,0.5,0.5,False,False,permission boundary,consent boundary
+in_domain_dev,hybrid_v2,HELDOUT_S0069,RouteMap segment,benchmark,0.0,0.0,0.0,0.0,False,True,RouteMap segment,benchmark
+in_domain_dev,hybrid_v2,HELDOUT_S0070,RouteMap segment,mismatch review,0.0,0.0,0.0,0.0,False,True,RouteMap segment,mismatch review
+in_domain_dev,hybrid_v2,HELDOUT_S0071,privacy,privacy,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0072,LLM application security,LLM application security,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0073,privacy,privacy,1.0,1.0,1.0,1.0,True,False,,
+in_domain_dev,hybrid_v2,HELDOUT_S0074,permission boundary,permission boundary; retrieval,0.5,0.5,1.0,0.6666666666666666,False,False,,retrieval
+in_domain_dev,hybrid_v2,HELDOUT_S0075,evaluation; retrieval,benchmark; evaluation; retrieval,0.6666666666666666,0.6666666666666666,1.0,0.8,False,False,,benchmark
+in_domain_dev,hybrid_v2,HELDOUT_S0076,controls; human review,controls; human review; RouteMap; RouteMap segment,0.5,0.5,1.0,0.6666666666666666,False,False,,RouteMap; RouteMap segment
+in_domain_dev,hybrid_v2,HELDOUT_S0077,monitoring,RouteMap; RouteMap segment,0.0,0.0,0.0,0.0,False,True,monitoring,RouteMap; RouteMap segment
+in_domain_dev,hybrid_v2,HELDOUT_S0078,audit,applicant may need; applicant may need separate; bia evidence appeal; bia evidence appeal proces; evidence appeal proces; job applicant may,0.0,0.0,0.0,0.0,False,True,audit,applicant may need; applicant may need separate; bia evidence appeal; bia evidence appeal proces; evidence appeal proces; job applicant may
+in_domain_dev,hybrid_v2,HELDOUT_S0079,permission boundary; privacy,consent boundary; privacy,0.3333333333333333,0.5,0.5,0.5,False,False,permission boundary,consent boundary
+in_domain_dev,hybrid_v2,HELDOUT_S0080,RouteMap segment,blocked may need; question asking why; release was blocked; release was blocked may; row; was blocked may,0.0,0.0,0.0,0.0,False,True,RouteMap segment,blocked may need; question asking why; release was blocked; release was blocked may; row; was blocked may

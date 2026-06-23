@@ -1,0 +1,143 @@
+{
+  "ablation": "true_blind_domain_general_entity_extractor_v1",
+  "best_variant": {
+    "matcher": "M4_embedding_cosine",
+    "mean_preds_per_segment": 8.0,
+    "rows": 72,
+    "soft_f1": 0.5374009092759091,
+    "soft_jaccard": 0.3792333052749719,
+    "soft_precision": 0.4357638888888889,
+    "soft_recall": 0.7285879629629629,
+    "threshold": 0.5,
+    "variant": "noun_chunks_topk"
+  },
+  "embedding_axis_ran": true,
+  "embedding_status": "available",
+  "headroom_ceiling_context": 0.9885714285714285,
+  "llm_status": "skipped: --with-llm not passed",
+  "ontology_v1_reference_best": {
+    "matcher": "M4_embedding_cosine",
+    "mean_preds_per_segment": 0.2638888888888889,
+    "rows": 72,
+    "soft_f1": 0.03366402116402117,
+    "soft_jaccard": 0.021527777777777774,
+    "soft_precision": 0.0763888888888889,
+    "soft_recall": 0.02199074074074074,
+    "threshold": 0.5,
+    "variant": "ontology_v1_reference"
+  },
+  "recommendation": "Adopt extractive entity field as next development path, starting from noun_chunks_topk with fixed dev-set tuning before any fresh blind eval.",
+  "results": {
+    "noun_chunks_topk": [
+      {
+        "matcher": "M1_normalized_exact",
+        "mean_preds_per_segment": 8.0,
+        "rows": 72,
+        "soft_f1": 0.19092250342250347,
+        "soft_jaccard": 0.12306108243608242,
+        "soft_precision": 0.14756944444444445,
+        "soft_recall": 0.27913359788359776,
+        "threshold": 1.0,
+        "variant": "noun_chunks_topk"
+      },
+      {
+        "matcher": "M3_fuzzy_difflib",
+        "mean_preds_per_segment": 8.0,
+        "rows": 72,
+        "soft_f1": 0.46714766714766703,
+        "soft_jaccard": 0.31863075196408536,
+        "soft_precision": 0.3784722222222222,
+        "soft_recall": 0.6347552910052908,
+        "threshold": 0.6,
+        "variant": "noun_chunks_topk"
+      },
+      {
+        "matcher": "M4_embedding_cosine",
+        "mean_preds_per_segment": 8.0,
+        "rows": 72,
+        "soft_f1": 0.5374009092759091,
+        "soft_jaccard": 0.3792333052749719,
+        "soft_precision": 0.4357638888888889,
+        "soft_recall": 0.7285879629629629,
+        "threshold": 0.5,
+        "variant": "noun_chunks_topk"
+      }
+    ],
+    "ontology_v1_reference": [
+      {
+        "matcher": "M1_normalized_exact",
+        "mean_preds_per_segment": 0.2638888888888889,
+        "rows": 72,
+        "soft_f1": 0.013492063492063493,
+        "soft_jaccard": 0.009027777777777779,
+        "soft_precision": 0.027777777777777776,
+        "soft_recall": 0.009027777777777779,
+        "threshold": 1.0,
+        "variant": "ontology_v1_reference"
+      },
+      {
+        "matcher": "M3_fuzzy_difflib",
+        "mean_preds_per_segment": 0.2638888888888889,
+        "rows": 72,
+        "soft_f1": 0.03250661375661376,
+        "soft_jaccard": 0.020734126984126983,
+        "soft_precision": 0.0763888888888889,
+        "soft_recall": 0.021197089947089947,
+        "threshold": 0.6,
+        "variant": "ontology_v1_reference"
+      },
+      {
+        "matcher": "M4_embedding_cosine",
+        "mean_preds_per_segment": 0.2638888888888889,
+        "rows": 72,
+        "soft_f1": 0.03366402116402117,
+        "soft_jaccard": 0.021527777777777774,
+        "soft_precision": 0.0763888888888889,
+        "soft_recall": 0.02199074074074074,
+        "threshold": 0.5,
+        "variant": "ontology_v1_reference"
+      }
+    ],
+    "proper_quoted": [
+      {
+        "matcher": "M1_normalized_exact",
+        "mean_preds_per_segment": 0.5972222222222222,
+        "rows": 72,
+        "soft_f1": 0.06429673721340388,
+        "soft_jaccard": 0.03784722222222223,
+        "soft_precision": 0.2222222222222222,
+        "soft_recall": 0.03784722222222223,
+        "threshold": 1.0,
+        "variant": "proper_quoted"
+      },
+      {
+        "matcher": "M3_fuzzy_difflib",
+        "mean_preds_per_segment": 0.5972222222222222,
+        "rows": 72,
+        "soft_f1": 0.07587081128747795,
+        "soft_jaccard": 0.04525462962962963,
+        "soft_precision": 0.25,
+        "soft_recall": 0.04525462962962963,
+        "threshold": 0.6,
+        "variant": "proper_quoted"
+      },
+      {
+        "matcher": "M4_embedding_cosine",
+        "mean_preds_per_segment": 0.5972222222222222,
+        "rows": 72,
+        "soft_f1": 0.08936287477954145,
+        "soft_jaccard": 0.053356481481481484,
+        "soft_precision": 0.2777777777777778,
+        "soft_recall": 0.05428240740740741,
+        "threshold": 0.5,
+        "variant": "proper_quoted"
+      }
+    ]
+  },
+  "verdicts": {
+    "beats_ontology_baseline": true,
+    "llm_variant_ran": false,
+    "precision_healthy": true,
+    "reaches_in_domain_band": true
+  }
+}

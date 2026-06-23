@@ -1,0 +1,14 @@
+task_id,domain,raw_response,extracted_content,checker_reason
+arith_000,arithmetic,73786976294838206464,73786976294838206464,claimed integer disagrees with exact expression residue on moduli: 11 13 37 101
+arith_001,arithmetic,0,0,claimed integer disagrees with exact expression residue on moduli: 37 101
+arith_002,arithmetic,13,13,claimed integer disagrees with exact expression residue on moduli: 7 9 11 13 37 101
+json_000,json_schema,"Here is the JSON object that matches the description:
+```
+{
+  ""id"": ""route-0"",
+  ""score"": 104,
+  ""status"": ""maybe"",
+  ""tags"": []
+}
+```
+I've made sure to include only the required fields and values, without any extra keys.","{""id"":""route-0"",""score"":104,""status"":""maybe"",""tags"":[]}",$.score above maximum 100

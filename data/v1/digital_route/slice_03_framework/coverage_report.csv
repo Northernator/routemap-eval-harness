@@ -1,0 +1,5 @@
+checker,coverage,blind_spot_example
+arithmetic_residue_v1,Catches arithmetic answers whose difference from truth is nonzero modulo at least one active modulus; cannot catch errors that are multiples of the combined modulus.,"For 2 + 3, claimed 33666638 passes the default bank because it differs from 5 by M=33666633."
+python_code_parse_v1,Catches syntactically impossible Python; cannot catch code that parses but computes the wrong result.,"def add(a, b):
+    return a - b"
+json_schema_constraints_v1,Catches invalid JSON and declared type/required/enum/range violations; cannot catch schema-valid but semantically wrong values.,"{""answer"": 42, ""units"": ""meters""} can satisfy a schema even when the real answer is 43 meters."

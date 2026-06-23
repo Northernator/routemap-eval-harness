@@ -1,0 +1,53 @@
+{
+  "before_after": [
+    {
+      "domain": "python_code",
+      "slice3_raw_rule_out_rate": "1.000",
+      "slice4_current_raw_rule_out_rate": "1.000",
+      "slice4_extracted_rule_out_rate": "0.000",
+      "slice4_uncheckable_rate": "0.000"
+    },
+    {
+      "domain": "json_schema",
+      "slice3_raw_rule_out_rate": "1.000",
+      "slice4_current_raw_rule_out_rate": "1.000",
+      "slice4_extracted_rule_out_rate": "1.000",
+      "slice4_uncheckable_rate": "0.000"
+    }
+  ],
+  "per_domain": [
+    {
+      "content_rule_out_rate_extracted": "1.000",
+      "domain": "arithmetic",
+      "extraction_success_rate": "1.000",
+      "outputs": 3,
+      "practical_false_positive_rate": "0.000",
+      "ruled_out_count": 3,
+      "uncheckable_count": 0,
+      "uncheckable_rate": "0.000",
+      "valid_extracted_count": 0
+    },
+    {
+      "content_rule_out_rate_extracted": "0.000",
+      "domain": "python_code",
+      "extraction_success_rate": "1.000",
+      "outputs": 1,
+      "practical_false_positive_rate": "0.000",
+      "ruled_out_count": 0,
+      "uncheckable_count": 0,
+      "uncheckable_rate": "0.000",
+      "valid_extracted_count": 1
+    },
+    {
+      "content_rule_out_rate_extracted": "1.000",
+      "domain": "json_schema",
+      "extraction_success_rate": "1.000",
+      "outputs": 1,
+      "practical_false_positive_rate": "0.000",
+      "ruled_out_count": 1,
+      "uncheckable_count": 0,
+      "uncheckable_rate": "0.000",
+      "valid_extracted_count": 0
+    }
+  ]
+}

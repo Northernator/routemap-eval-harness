@@ -1,0 +1,19 @@
+{
+  "dataset": "fresh_blind_v1",
+  "frozen_gold_path": "data\\v1\\fresh_blind_v1\\annotation\\fresh_blind_gold_frozen.csv",
+  "gold_path": "data\\v1\\fresh_blind_v1\\annotation\\fresh_blind_gold.csv",
+  "gold_provenance": "synthetic gold by construction from generator-declared segment intent; not model-generated labels",
+  "role_counts": {
+    "BACKGROUND": 20,
+    "CLAIM": 20,
+    "DEFINE": 20,
+    "EXAMPLE": 20,
+    "LIMITATION": 20,
+    "METHOD": 20,
+    "NEXT_STEP": 20,
+    "RESULT": 20
+  },
+  "row_count": 160,
+  "rule": "Freeze before prediction. If this manifest exists with a different fresh_blind_gold.csv hash, refuse to run.",
+  "sha256": "552ed2c366217b2253dc2655e6c9d9d95c2aeaaf0812377fc5375da0cb4e79a9"
+}

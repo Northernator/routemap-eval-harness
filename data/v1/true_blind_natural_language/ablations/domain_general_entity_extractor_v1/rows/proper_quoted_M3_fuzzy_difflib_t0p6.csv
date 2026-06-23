@@ -1,0 +1,73 @@
+variant,matcher,threshold,segment_id,gold_entities,pred_entities,gold_count,pred_count,matches,soft_precision,soft_recall,soft_f1,soft_jaccard,matched_pairs
+proper_quoted,M3_fuzzy_difflib,0.6,TB001,CivicAid Permit Triage; council service requests; planning questions; permit evidence; payment status; human officer,CivicAid Permit Triage,6,1,1,1.000000,0.166667,0.285714,0.166667,"[{""gold"": ""CivicAid Permit Triage"", ""pred"": ""CivicAid Permit Triage"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB002,residents; complaint; permit query; missing-document evidence,,4,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB003,request type; required evidence; deadline sensitivity; status; new decision,,5,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB004,assistant; planning permission; approval; partial screenshot; legal evidence,,5,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB005,pilot review; archived requests; routing errors; missing attachments; resident intent,,5,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB006,blind annotation batch; council-style messages; route classifier; manual triage spreadsheet,Next,4,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB007,HarborFlow; logistics exception tracker; containers; gate-out confirmation,HarborFlow,4,1,1,1.000000,0.250000,0.400000,0.250000,"[{""gold"": ""HarborFlow"", ""pred"": ""HarborFlow"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB008,port team; email chains; customs hold; carrier delay,,4,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB009,exception; cause; accountable party; last verified timestamp; financial exposure; operations lead,Each,6,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB010,refrigerated container; temperature alarm; inspection seal; cold-chain risk; compliance review,,5,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB011,cargo value; commodity notes; verified shipment record,,3,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB012,exception; dwell time; forty-eight hours; confirmed owner,Add,4,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB013,ClinicPulse; backlog monitor; appointment delays; pathway; urgency; clinician dependency; patient-contact status,ClinicPulse,7,1,1,1.000000,0.142857,0.250000,0.142857,"[{""gold"": ""ClinicPulse"", ""pred"": ""ClinicPulse"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB014,clinic manager; clinical review; administrative booking; patients,,4,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB015,route map; pathway name; current wait age; blocker type; responsible role; backlog note,,6,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB016,urgent flag; clinical risk wording; days since referral,Change,3,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB017,administrative blockers; booking teams; queue; sample,,4,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB018,patient identifiers; model prompt; synthetic IDs; re-identification key; evaluation folder,Do; IDs,5,2,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB019,GridLens; battery storage sites; inverter faults; thermal alerts; state-of-charge anomalies; technician dispatch,GridLens,6,1,1,1.000000,0.166667,0.285714,0.166667,"[{""gold"": ""GridLens"", ""pred"": ""GridLens"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB020,maintenance team; telemetry summaries; engineer notes; repeated faults,,4,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB021,asset; symptom; severity; recurrence count; safety implication; recommended intervention,Normalize,6,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB022,alert; planned firmware test; scheduled work; operational incident,,4,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB023,dry run; model; inverter trips; balancing events; thermal warnings,,5,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB024,blind set; engineer notes; production alert rules,Create,3,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB025,TutorTrail; tutoring notes; learning routes; concept gap; practice need; confidence issue; assessment target; parent follow-up,TutorTrail,8,1,1,1.000000,0.125000,0.222222,0.125000,"[{""gold"": ""TutorTrail"", ""pred"": ""TutorTrail"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB026,tutors; ability; behaviour; homework completion; lesson plan,Tutors,5,1,1,1.000000,0.200000,0.333333,0.200000,"[{""gold"": ""tutors"", ""pred"": ""Tutors"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB027,topic; misconception; evidence sentence; exercise type; conceptual issue; fluency-based issue,Extract,6,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB028,pupil; linear equations; wording; transfer practice; basic algebra,,5,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB029,special educational need; frustration note; tutor; support plan,Do,4,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB030,reviewer column; senior tutors; borderline cases; gold set,Add,4,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB031,FraudSieve; invoice-control router; vendor identity changes; bank-detail changes; duplicate invoice patterns; approval bypasses,FraudSieve,6,1,1,1.000000,0.166667,0.285714,0.166667,"[{""gold"": ""FraudSieve"", ""pred"": ""FraudSieve"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB032,finance reviewers; alerts; vendor; invoice; approver,Finance,5,1,1,1.000000,0.200000,0.333333,0.200000,"[{""gold"": ""finance reviewers"", ""pred"": ""Finance"", ""score"": 0.6086956521739131}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB033,payment risk; evidence field; control; approval gate,,4,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB034,duplicate check; invoice number; supplier name; gross amount; purchase-order reference,Replace,5,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB035,historic alerts; precision; duplicate invoices; recall; supplier names,,5,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB036,tool; payment; case; approver; evidence,,5,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB037,RiverWatch; field notes; water levels; blocked culverts; pump status; road closures; flood-response routes,RiverWatch,7,1,1,1.000000,0.142857,0.250000,0.142857,"[{""gold"": ""RiverWatch"", ""pred"": ""RiverWatch"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB038,duty officer; photos; resident calls; sensor messages; field deployment,,5,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB039,location; hazard type; confidence; immediate action; agency notification,Classify,5,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB040,standing water; test basin; scheduled drill; public-road closure route,,4,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB041,trial; blocked culvert reports; bridge-depth notes; severity rule,,4,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB042,blind review set; storm event; false alarms; missed deployments,Add,4,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB043,LawBrief Disclosure Tracker; litigation notes; evidence request; privilege issue; disclosure deadline; client instruction; counsel review,LawBrief Disclosure Tracker,7,1,1,1.000000,0.142857,0.250000,0.142857,"[{""gold"": ""LawBrief Disclosure Tracker"", ""pred"": ""LawBrief Disclosure Tracker"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB044,case handlers; factual evidence; legal advice; deadline reminders,Case,4,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB045,extractor; document type; legal sensitivity; deadline; responsible person; case route,,6,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB046,privilege; confidentiality; qualified reviewer,,3,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB047,client; contract draft; old laptop; evidence collection; privilege review,,5,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB048,blind corpus; case summaries; gold examples; training snippets,Build,4,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB049,RoboInspect; factory inspection notes; defect type; machine owner; safety class; downtime risk; repair priority,RoboInspect,7,1,1,1.000000,0.142857,0.250000,0.142857,"[{""gold"": ""RoboInspect"", ""pred"": ""RoboInspect"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB050,operators; shift change; cosmetic defect; safety-critical fault; line,Operators,5,1,1,1.000000,0.200000,0.333333,0.200000,"[{""gold"": ""operators"", ""pred"": ""Operators"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB051,machine ID; station; observed symptom; recurrence; production stop,Each; ID,5,2,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB052,calibration rule; minor vibration notes; escalating risk; third occurrence; seven days,Add,5,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB053,review; route classifier; downtime label; spare part,,4,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB054,fault; machine; planned maintenance,Do,3,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB055,GreenLedger; supplier notes; carbon evidence; labour-risk concern; certification status; data gap; remediation action,GreenLedger,7,1,1,1.000000,0.142857,0.250000,0.142857,"[{""gold"": ""GreenLedger"", ""pred"": ""GreenLedger"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB056,procurement teams; supplier claim; verified document,Procurement,3,1,1,1.000000,0.333333,0.500000,0.333333,"[{""gold"": ""procurement teams"", ""pred"": ""Procurement"", ""score"": 0.8148148148148148}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB057,claim; evidence source; verification level; due date; audit; supplier follow-up; internal approval,Extract,7,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB058,marketing brochure; certification; standard; certificate number,Do,4,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB059,first pass; data-gap detection; supplier; expired certificate,,4,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB060,fresh blind batch; suppliers; pilot sectors; production scoring threshold,Create,4,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB061,EventMesh; live-event incident notes; crowd flow; medical support; access control; technical fault; steward deployment,EventMesh,7,1,1,1.000000,0.142857,0.250000,0.142857,"[{""gold"": ""EventMesh"", ""pred"": ""EventMesh"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB062,busy event; radio messages; issue; action,,4,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB063,zone; incident type; urgency; current owner; incident,,5,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB064,Gate C; scanner; queue; technical fault; crowd-flow monitoring,Gate C,5,1,1,1.000000,0.200000,0.333333,0.200000,"[{""gold"": ""Gate C"", ""pred"": ""Gate C"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB065,medical note; medical keywords; priority; review,,4,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB066,model; blind set; venue; venue-specific language; scores,Test,5,1,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB067,HeritageVault; museum catalogue notes; provenance gap; conservation risk; digitisation need; loan restriction; research lead,HeritageVault,7,1,1,1.000000,0.142857,0.250000,0.142857,"[{""gold"": ""HeritageVault"", ""pred"": ""HeritageVault"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB068,curators; condition concern; historical claim; display recommendation,Curators,4,1,1,1.000000,0.250000,0.400000,0.250000,"[{""gold"": ""curators"", ""pred"": ""Curators"", ""score"": 1.0}]"
+proper_quoted,M3_fuzzy_difflib,0.6,TB069,object identifier; material; risk phrase; evidence phrase; workflow route; specialist review,,6,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB070,item; another piece; provenance evidence,,3,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB071,trial; catalogue descriptions; digitisation needs; research lead; provenance gap,,5,0,0,0.000000,0.000000,0.000000,0.000000,[]
+proper_quoted,M3_fuzzy_difflib,0.6,TB072,evaluation; catalogue notes; predictions; curator; gold labels,Run,5,1,0,0.000000,0.000000,0.000000,0.000000,[]

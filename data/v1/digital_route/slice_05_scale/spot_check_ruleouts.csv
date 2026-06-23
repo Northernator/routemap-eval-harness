@@ -1,0 +1,136 @@
+task_id,domain,raw_output,extracted_content,checker_reason
+arith_000,arithmetic,0,0,claimed integer disagrees with exact expression residue on moduli: 7 9 11 13 101
+arith_001,arithmetic,2432902008176640000,2432902008176640000,claimed integer disagrees with exact expression residue on moduli: 37 101
+arith_002,arithmetic,28657316055,28657316055,claimed integer disagrees with exact expression residue on moduli: 7 9 11 13 37 101
+arith_003,arithmetic,2469124,2469124,claimed integer disagrees with exact expression residue on moduli: 7 9 11 13 37 101
+arith_004,arithmetic,"332,955,975",332955975,claimed integer disagrees with exact expression residue on moduli: 7 9 11 13 37 101
+arith_006,arithmetic,0,0,claimed integer disagrees with exact expression residue on moduli: 37 101
+arith_007,arithmetic,55278708239112164032848111,55278708239112164032848111,claimed integer disagrees with exact expression residue on moduli: 7 9 11 13 37 101
+arith_008,arithmetic,2469122,2469122,claimed integer disagrees with exact expression residue on moduli: 7 9 11 13 37 101
+arith_009,arithmetic,"35,341,880",35341880,claimed integer disagrees with exact expression residue on moduli: 9 11 13 37 101
+arith_010,arithmetic,0,0,claimed integer disagrees with exact expression residue on moduli: 7 9 11 13 37 101
+arith_012,arithmetic,"34,642,949,563,221,338,319",34642949563221338319,claimed integer disagrees with exact expression residue on moduli: 9 11 13 37 101
+arith_013,arithmetic,3274124,3274124,claimed integer disagrees with exact expression residue on moduli: 7 9 11 13 37
+arith_014,arithmetic,"371,891,795",371891795,claimed integer disagrees with exact expression residue on moduli: 9 11 13 101
+arith_015,arithmetic,359884678544,359884678544,claimed integer disagrees with exact expression residue on moduli: 7 9 13 37 101
+arith_017,arithmetic,1597,1597,claimed integer disagrees with exact expression residue on moduli: 7 9 13 37 101
+json_000,json_schema,"```json
+{
+  ""id"": ""route-0"",
+  ""score"": 104,
+  ""status"": ""maybe"",
+  ""tags"": []
+}
+```","{""id"":""route-0"",""score"":104,""status"":""maybe"",""tags"":[]}",$.score above maximum 100
+json_001,json_schema,"```json
+{
+  ""id"": ""route-1"",
+  ""score"": -3,
+  ""status"": ""fail"",
+  ""tags"": [""route"", ""audit""]
+}
+```","{""id"":""route-1"",""score"":-3,""status"":""fail"",""tags"":[""route"",""audit""]}",$.score below minimum 0
+json_005,json_schema,"```json
+{
+  ""id"": ""route-5"",
+  ""score"": 104,
+  ""status"": ""fail"",
+  ""tags"": [""route"", ""audit""]
+}
+```","{""id"":""route-5"",""score"":104,""status"":""fail"",""tags"":[""route"",""audit""]}",$.score above maximum 100
+json_006,json_schema,"```json
+{
+  ""id"": ""route-6"",
+  ""score"": -3,
+  ""status"": ""pass"",
+  ""tags"": []
+}
+```","{""id"":""route-6"",""score"":-3,""status"":""pass"",""tags"":[]}",$.score below minimum 0
+json_007,json_schema,"```json
+{
+  ""id"": ""route-7"",
+  ""score"": 17,
+  ""status"": ""maybe"",
+  ""tags"": [""route"", ""audit""]
+}
+```","{""id"":""route-7"",""score"":17,""status"":""maybe"",""tags"":[""route"",""audit""]}","$.status value 'maybe' not in enum ['pass', 'fail']"
+json_010,json_schema,"```json
+{
+  ""id"": ""route-10"",
+  ""score"": 104,
+  ""status"": ""pass"",
+  ""tags"": [""route"", ""audit""]
+}
+```","{""id"":""route-10"",""score"":104,""status"":""pass"",""tags"":[""route"",""audit""]}",$.score above maximum 100
+json_011,json_schema,"```json
+{
+  ""id"": ""route-11"",
+  ""score"": -3,
+  ""status"": ""fail"",
+  ""tags"": [""route"", ""audit""]
+}
+```","{""id"":""route-11"",""score"":-3,""status"":""fail"",""tags"":[""route"",""audit""]}",$.score below minimum 0
+json_012,json_schema,"```json
+{
+  ""id"": ""route-12"",
+  ""score"": 22,
+  ""status"": ""pass"",
+  ""tags"": []
+}
+```","{""id"":""route-12"",""score"":22,""status"":""pass"",""tags"":[]}",$.tags has fewer than minItems=1
+json_014,json_schema,"```json
+{
+  ""id"": ""route-14"",
+  ""score"": 24,
+  ""status"": ""maybe"",
+  ""tags"": [""route"", ""audit""]
+}
+```","{""id"":""route-14"",""score"":24,""status"":""maybe"",""tags"":[""route"",""audit""]}","$.status value 'maybe' not in enum ['pass', 'fail']"
+json_015,json_schema,"```json
+{
+  ""id"": ""route-15"",
+  ""score"": 104,
+  ""status"": ""fail"",
+  ""tags"": [""route"", ""audit""]
+}
+```","{""id"":""route-15"",""score"":104,""status"":""fail"",""tags"":[""route"",""audit""]}",$.score above maximum 100
+json_016,json_schema,"```json
+{
+  ""id"": ""route-16"",
+  ""score"": -3,
+  ""status"": ""pass"",
+  ""tags"": [""route"", ""audit""]
+}
+```","{""id"":""route-16"",""score"":-3,""status"":""pass"",""tags"":[""route"",""audit""]}",$.score below minimum 0
+json_018,json_schema,"```json
+{
+  ""id"": ""route-18"",
+  ""score"": 28,
+  ""status"": ""pass"",
+  ""tags"": []
+}
+```","{""id"":""route-18"",""score"":28,""status"":""pass"",""tags"":[]}",$.tags has fewer than minItems=1
+json_020,json_schema,"```json
+{
+  ""id"": ""route-20"",
+  ""score"": 104,
+  ""status"": ""pass"",
+  ""tags"": [""route"", ""audit""]
+}
+```","{""id"":""route-20"",""score"":104,""status"":""pass"",""tags"":[""route"",""audit""]}",$.score above maximum 100
+json_021,json_schema,"```json
+{
+  ""id"": ""route-21"",
+  ""score"": -3,
+  ""status"": ""fail"",
+  ""tags"": [""route"", ""audit""]
+}
+```","{""id"":""route-21"",""score"":-3,""status"":""fail"",""tags"":[""route"",""audit""]}",$.score below minimum 0
+json_024,json_schema,"```json
+{
+  ""id"": ""route-24"",
+  ""score"": 34,
+  ""status"": ""pass"",
+  ""tags"": []
+}
+```","{""id"":""route-24"",""score"":34,""status"":""pass"",""tags"":[]}",$.tags has fewer than minItems=1

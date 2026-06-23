@@ -1,0 +1,5 @@
+{"segment_id": "HELDOUT2_S0001", "provider": "ollama_http", "model": "llama3.1", "raw_response": "{\"error\": \"<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>\"}"}
+{"segment_id": "HELDOUT2_S0002", "provider": "ollama_http", "model": "llama3.1", "raw_response": "{\"error\": \"<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>\"}"}
+{"segment_id": "HELDOUT2_S0003", "provider": "ollama_http", "model": "llama3.1", "raw_response": "{\"error\": \"<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>\"}"}
+{"segment_id": "HELDOUT2_S0004", "provider": "ollama_http", "model": "llama3.1", "raw_response": "{\"error\": \"<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>\"}"}
+{"segment_id": "HELDOUT2_S0005", "provider": "ollama_http", "model": "llama3.1", "raw_response": "{\"error\": \"<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>\"}"}

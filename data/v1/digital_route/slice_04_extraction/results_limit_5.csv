@@ -1,0 +1,19 @@
+task_id,domain,raw_response,extracted_content,extraction_ok,extraction_note,verdict,checker_reason,actually_valid_checkable_property,difference,raw_input_verdict
+arith_000,arithmetic,73786976294838206464,73786976294838206464,1,extracted integer,RULED_OUT_WRONG,claimed integer disagrees with exact expression residue on moduli: 11 13 37 101,0,67204024288998171183,
+code_000,python_code,"```python
+def f_0(a, b):
+    return a + b
+```","def f_0(a, b):
+    return a + b",1,first fenced code block,NOT_RULED_OUT,source parses as Python; logic and runtime behavior are not proven,1,,RULED_OUT_WRONG
+json_000,json_schema,"Here is the JSON object that matches the description:
+```
+{
+  ""id"": ""route-0"",
+  ""score"": 104,
+  ""status"": ""maybe"",
+  ""tags"": []
+}
+```
+I've made sure to include only the required fields and values, without any extra keys.","{""id"":""route-0"",""score"":104,""status"":""maybe"",""tags"":[]}",1,extracted JSON object,RULED_OUT_WRONG,$.score above maximum 100,0,,RULED_OUT_WRONG
+arith_001,arithmetic,0,0,1,extracted integer,RULED_OUT_WRONG,claimed integer disagrees with exact expression residue on moduli: 37 101,0,-403291461126605635584000000,
+arith_002,arithmetic,13,13,1,extracted integer,RULED_OUT_WRONG,claimed integer disagrees with exact expression residue on moduli: 7 9 11 13 37 101,0,-498454011879251,

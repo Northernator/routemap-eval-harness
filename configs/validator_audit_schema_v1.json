@@ -1,0 +1,132 @@
+{
+  "$id": "validator_audit_v1",
+  "schema_version": "validator_audit_v1",
+  "type": "object",
+  "additionalProperties": true,
+  "reserved_optional_fields": [
+    "route_family",
+    "route_score",
+    "action"
+  ],
+  "required": [
+    "schema_version",
+    "record_id",
+    "timestamp",
+    "task_type",
+    "object_id",
+    "model",
+    "raw_sha1",
+    "extraction_ok",
+    "extraction_note",
+    "extracted_repr",
+    "checker",
+    "verdict",
+    "reason",
+    "coverage_note",
+    "checks",
+    "spec_hash"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "validator_audit_v1"
+    },
+    "record_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "task_type": {
+      "type": "string"
+    },
+    "object_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "model": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "raw_sha1": {
+      "type": "string"
+    },
+    "extraction_ok": {
+      "type": "boolean"
+    },
+    "extraction_note": {
+      "type": "string"
+    },
+    "extracted_repr": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "checker": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "RULED_OUT_WRONG",
+        "NOT_RULED_OUT",
+        "UNCHECKABLE"
+      ]
+    },
+    "reason": {
+      "type": "string"
+    },
+    "coverage_note": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "checker",
+          "verdict",
+          "reason",
+          "coverage_note"
+        ],
+        "properties": {
+          "checker": {
+            "type": "string"
+          },
+          "verdict": {
+            "enum": [
+              "RULED_OUT_WRONG",
+              "NOT_RULED_OUT",
+              "UNCHECKABLE"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "coverage_note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "spec_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

@@ -1,0 +1,7 @@
+corruption_type,wrong_count,ruled_out,catch_rate
+random_offset,11,11,1.000000
+digit_transpose,11,11,1.000000
+off_by_power10,11,11,1.000000
+sign_flip,11,11,1.000000
+off_by_multiple_of_9,11,11,1.000000
+overall,55,55,1.000000

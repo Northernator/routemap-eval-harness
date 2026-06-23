@@ -1,0 +1,16 @@
+problem_id,family,size_label,estimated_digits,residue_seconds,full_expansion_seconds,full_over_residue_ratio,status
+power_small,power,8-digit exponent,9,0.000006800,0.000002500,0.4,measured
+power_medium,power,250 exponent,393,0.000024300,0.000006200,0.3,measured
+power_large,power,5000 exponent,25458,0.000008400,0.001349100,160.6,measured
+factorial_small,factorial,25!,26,0.000009300,0.000002000,0.2,measured
+factorial_medium,factorial,75!,110,0.000010700,0.000003000,0.3,measured
+factorial_edge,factorial,100!,158,0.000012900,0.000004600,0.4,measured
+fibonacci_small,fibonacci,F(40),9,0.000017200,0.000003500,0.2,measured
+fibonacci_medium,fibonacci,F(1000),209,0.000025300,0.000008900,0.4,measured
+fibonacci_large,fibonacci,F(20000),4180,0.000034000,0.000175800,5.2,measured
+bigsum_medium,bigsum,899 cubic terms,24,0.001241900,0.000108200,0.1,measured
+bigprod_medium,bigprod,259 factors,927,0.000233300,0.000054200,0.2,measured
+power_extreme_skip,power,"2,000,000 exponent",9999922,0.000009100,,,skipped_impractical
+factorial_extreme_skip,factorial,100000!,456574,0.000005000,,,skipped_impractical
+fibonacci_extreme,fibonacci,F(500000),104494,0.000047800,0.027522800,575.8,measured
+bigsum_large,bigsum,200000 terms,11,0.216267200,0.024999000,0.1,measured

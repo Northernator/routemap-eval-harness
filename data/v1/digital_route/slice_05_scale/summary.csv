@@ -1,0 +1,4 @@
+domain,target_n,cached_n,completed_n,partial,completed_generation_rate,extraction_success_rate_completed,content_rule_out_rate_extracted,uncheckable_rate_cached,practical_false_positive_rate,valid_extracted_n,ruled_out_n,uncheckable_n
+arithmetic,30,30,30,0,1.000,0.867,1.000,0.133,0.000,0,26,4
+python_code,30,30,30,0,1.000,1.000,0.000,0.000,0.000,30,0,0
+json_schema,30,30,30,0,1.000,1.000,0.600,0.000,0.000,12,18,0

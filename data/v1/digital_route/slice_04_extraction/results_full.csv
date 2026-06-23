@@ -1,0 +1,151 @@
+task_id,domain,raw_response,extracted_content,extraction_ok,extraction_note,verdict,checker_reason,actually_valid_checkable_property,difference,raw_input_verdict
+arith_000,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_001,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_002,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_003,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_004,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_005,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_006,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_007,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_008,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_009,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_010,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_011,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_012,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_013,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_014,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_015,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_016,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_017,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_018,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_019,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_020,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_021,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_022,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_023,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_024,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_025,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_026,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_027,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_028,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_029,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_030,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_031,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_032,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_033,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_034,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_035,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_036,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_037,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_038,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_039,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_040,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_041,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_042,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_043,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_044,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_045,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_046,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_047,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_048,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+arith_049,arithmetic,,,0,no integer found,UNCHECKABLE,integer extraction failed,0,,
+code_000,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_001,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_002,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_003,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_004,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_005,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_006,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_007,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_008,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_009,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_010,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_011,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_012,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_013,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_014,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_015,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_016,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_017,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_018,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_019,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_020,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_021,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_022,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_023,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_024,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_025,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_026,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_027,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_028,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_029,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_030,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_031,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_032,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_033,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_034,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_035,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_036,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_037,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_038,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_039,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_040,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_041,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_042,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_043,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_044,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_045,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_046,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_047,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_048,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+code_049,python_code,,,0,no content after prose stripping,UNCHECKABLE,code extraction failed,0,,NOT_RULED_OUT
+json_000,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_001,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_002,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_003,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_004,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_005,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_006,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_007,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_008,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_009,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_010,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_011,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_012,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_013,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_014,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_015,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_016,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_017,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_018,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_019,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_020,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_021,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_022,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_023,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_024,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_025,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_026,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_027,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_028,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_029,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_030,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_031,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_032,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_033,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_034,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_035,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_036,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_037,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_038,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_039,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_040,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_041,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_042,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_043,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_044,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_045,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_046,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_047,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_048,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG
+json_049,json_schema,,,0,no parseable JSON object found,UNCHECKABLE,json extraction failed,0,,RULED_OUT_WRONG

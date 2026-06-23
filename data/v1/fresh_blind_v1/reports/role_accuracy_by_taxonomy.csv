@@ -1,0 +1,9 @@
+﻿model,taxonomy,accuracy
+RouteMap-LLM,fine_8,0.98125
+RouteMap-LLM,coarse_5,0.98125
+RouteMap-LLM,coarse_4,0.98125
+RouteMap-LLM,coarse_3,0.98125
+deterministic_baseline,fine_8,0.45
+deterministic_baseline,coarse_5,0.5625
+deterministic_baseline,coarse_4,0.6125
+deterministic_baseline,coarse_3,0.75625

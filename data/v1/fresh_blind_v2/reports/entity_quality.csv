@@ -1,0 +1,4 @@
+﻿model,pred_verbatim_rate,empty_row_count,exact_entity_avg_jaccard,exact_entity_match,exact_frac_jaccard_ge_0_5,soft_difflib_available,soft_difflib_reason,soft_difflib_entity_avg_jaccard,soft_difflib_frac_jaccard_ge_0_5,soft_embedding_available,soft_embedding_reason,soft_embedding_entity_avg_jaccard,soft_embedding_frac_jaccard_ge_0_5
+repaired_fallback,0.8593350383631714,0,0.105798611111111,0.03125,0.0625,True,difflib stdlib,0.28510416666666655,0.13125,True,available,0.314409722222222,0.13125
+llm_open,1.0,137,0.07197916666666668,0.03125,0.0625,True,difflib stdlib,0.1084375,0.13125,True,available,0.11156250000000001,0.13125
+ontology,0.06666666666666667,137,0.0,0.0,0.0,True,difflib stdlib,0.0,0.0,True,available,0.008333333333333333,0.0

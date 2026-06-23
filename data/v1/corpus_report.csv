@@ -1,1 +1,11 @@
-
+file_name,path,extension,characters,estimated_segments,too_little_text,define_definition,method,result,limitation,next_step,example
+01_nist_ai_rmf_route_notes.md,data\v1\documents\01_nist_ai_rmf_route_notes.md,.md,1880,10,False,3,4,1,4,0,1
+02_ncsc_secure_ai_development_route_notes.md,data\v1\documents\02_ncsc_secure_ai_development_route_notes.md,.md,1619,10,False,2,1,1,1,0,1
+03_owasp_llm_top10_route_notes.md,data\v1\documents\03_owasp_llm_top10_route_notes.md,.md,1567,10,False,3,3,1,2,0,3
+04_ico_ai_data_protection_route_notes.md,data\v1\documents\04_ico_ai_data_protection_route_notes.md,.md,1600,10,False,3,2,1,2,0,2
+05_google_saif_route_notes.md,data\v1\documents\05_google_saif_route_notes.md,.md,1549,10,False,1,2,1,1,0,1
+06_microsoft_responsible_ai_standard_route_notes.md,data\v1\documents\06_microsoft_responsible_ai_standard_route_notes.md,.md,1609,10,False,1,3,1,3,0,1
+07_cisa_ai_roadmap_route_notes.md,data\v1\documents\07_cisa_ai_roadmap_route_notes.md,.md,1506,9,False,1,3,1,4,0,1
+08_eu_ai_act_risk_management_route_notes.md,data\v1\documents\08_eu_ai_act_risk_management_route_notes.md,.md,1509,10,False,2,3,1,3,0,1
+09_route_extraction_benchmark_design_notes.md,data\v1\documents\09_route_extraction_benchmark_design_notes.md,.md,1375,10,False,3,3,3,4,1,2
+10_long_context_agent_memory_notes.md,data\v1\documents\10_long_context_agent_memory_notes.md,.md,1345,10,False,1,1,1,1,0,1

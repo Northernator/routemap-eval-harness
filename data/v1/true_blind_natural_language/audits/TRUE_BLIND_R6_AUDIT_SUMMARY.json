@@ -1,0 +1,80 @@
+{
+  "R6_strict_blocker_counts": {
+    "answer": 13,
+    "entity": 72,
+    "multiple": 60,
+    "relation": 56,
+    "role": 50,
+    "status": 33
+  },
+  "audit_answers": {
+    "A_role": false,
+    "B_coarse3": true,
+    "C_relaxed1": false,
+    "D_relaxed2": true,
+    "E_relaxed3": true,
+    "F_loses_strict": false,
+    "G_entity_main": true,
+    "H_relation_secondary": true,
+    "I_overfit_evidence": false
+  },
+  "final_verdict": "keep R6 provisional pending more true-blind rows",
+  "metrics": {
+    "D": {
+      "answer": 0.8194444444444444,
+      "coarse_3": 0.3055555555555556,
+      "coarse_4": 0.2361111111111111,
+      "coarse_5": 0.2361111111111111,
+      "entity_exact": 0.0,
+      "entity_jaccard": 0.0,
+      "relation": 0.2222222222222222,
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role": 0.2361111111111111,
+      "status": 0.3611111111111111,
+      "strict": 0.0
+    },
+    "R6": {
+      "answer": 0.8194444444444444,
+      "coarse_3": 0.5555555555555556,
+      "coarse_4": 0.3472222222222222,
+      "coarse_5": 0.3333333333333333,
+      "entity_exact": 0.0,
+      "entity_jaccard": 0.0,
+      "relation": 0.2222222222222222,
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role": 0.3055555555555556,
+      "status": 0.5416666666666666,
+      "strict": 0.0
+    },
+    "combined_v3": {
+      "answer": 0.8194444444444444,
+      "coarse_3": 0.5555555555555556,
+      "coarse_4": 0.3611111111111111,
+      "coarse_5": 0.3472222222222222,
+      "entity_exact": 0.0,
+      "entity_jaccard": 0.0,
+      "relation": 0.2222222222222222,
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role": 0.3055555555555556,
+      "status": 0.5416666666666666,
+      "strict": 0.0
+    }
+  },
+  "role_guard_counts": {
+    "R6_fine_role_correct_but_strict_fails": 22,
+    "coarse_3_guard_changed_D_role": 48
+  },
+  "row_bucket_counts": {
+    "R6_role_repair_failure": 10,
+    "R6_role_repair_success": 15,
+    "entity_blocks_R6": 4,
+    "multi_field_blocks_R6": 43
+  },
+  "rows": 72
+}

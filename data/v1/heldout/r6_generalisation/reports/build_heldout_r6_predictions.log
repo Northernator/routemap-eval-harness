@@ -1,0 +1,92 @@
+ollama_row=1/84 segment_id=EXPAND_S0003
+ollama_row=2/84 segment_id=EXPAND_S0004
+ollama_row=3/84 segment_id=EXPAND_S0014
+ollama_row=4/84 segment_id=EXPAND_S0028
+ollama_row=5/84 segment_id=EXPAND_S0029
+ollama_row=6/84 segment_id=EXPAND_S0039
+ollama_row=7/84 segment_id=EXPAND_S0053
+ollama_row=8/84 segment_id=EXPAND_S0054
+ollama_row=9/84 segment_id=EXPAND_S0064
+ollama_row=10/84 segment_id=EXPAND_S0078
+ollama_row=11/84 segment_id=EXPAND_S0079
+ollama_row=12/84 segment_id=EXPAND_S0089
+ollama_row=13/84 segment_id=EXPAND_S0103
+ollama_row=14/84 segment_id=EXPAND_S0104
+ollama_row=15/84 segment_id=EXPAND_S0114
+ollama_row=16/84 segment_id=EXPAND_S0128
+ollama_row=17/84 segment_id=EXPAND_S0129
+ollama_row=18/84 segment_id=EXPAND_S0139
+ollama_row=19/84 segment_id=EXPAND_S0153
+ollama_row=20/84 segment_id=EXPAND_S0154
+ollama_row=21/84 segment_id=EXPAND_S0164
+ollama_row=22/84 segment_id=EXPAND_S0178
+ollama_row=23/84 segment_id=EXPAND_S0179
+ollama_row=24/84 segment_id=EXPAND_S0189
+ollama_row=25/84 segment_id=EXPAND_S0203
+ollama_row=26/84 segment_id=EXPAND_S0204
+ollama_row=27/84 segment_id=EXPAND_S0214
+ollama_row=28/84 segment_id=EXPAND_S0228
+ollama_row=29/84 segment_id=EXPAND_S0229
+ollama_row=30/84 segment_id=EXPAND_S0239
+ollama_row=31/84 segment_id=EXPAND_S0253
+ollama_row=32/84 segment_id=EXPAND_S0254
+ollama_row=33/84 segment_id=EXPAND_S0264
+ollama_row=34/84 segment_id=EXPAND_S0278
+ollama_row=35/84 segment_id=EXPAND_S0279
+ollama_row=36/84 segment_id=EXPAND_S0289
+ollama_row=37/84 segment_id=EXPAND_S0303
+ollama_row=38/84 segment_id=EXPAND_S0304
+ollama_row=39/84 segment_id=EXPAND_S0314
+ollama_row=40/84 segment_id=EXPAND_S0328
+ollama_row=41/84 segment_id=EXPAND_S0329
+ollama_row=42/84 segment_id=EXPAND_S0339
+ollama_row=43/84 segment_id=EXPAND_S0353
+ollama_row=44/84 segment_id=EXPAND_S0354
+ollama_row=45/84 segment_id=EXPAND_S0364
+ollama_row=46/84 segment_id=EXPAND_S0378
+ollama_row=47/84 segment_id=EXPAND_S0379
+ollama_row=48/84 segment_id=EXPAND_S0389
+ollama_row=49/84 segment_id=EXPAND_S0417
+ollama_row=50/84 segment_id=EXPAND_S0418
+ollama_row=51/84 segment_id=EXPAND_S0419
+ollama_row=52/84 segment_id=EXPAND_S0420
+ollama_row=53/84 segment_id=EXPAND_S0421
+ollama_row=54/84 segment_id=EXPAND_S0422
+ollama_row=55/84 segment_id=EXPAND_S0423
+ollama_row=56/84 segment_id=EXPAND_S0424
+ollama_row=57/84 segment_id=EXPAND_S0441
+ollama_row=58/84 segment_id=EXPAND_S0442
+ollama_row=59/84 segment_id=EXPAND_S0443
+ollama_row=60/84 segment_id=EXPAND_S0444
+ollama_row=61/84 segment_id=EXPAND_S0445
+ollama_row=62/84 segment_id=EXPAND_S0446
+ollama_row=63/84 segment_id=EXPAND_S0447
+ollama_row=64/84 segment_id=EXPAND_S0448
+ollama_row=65/84 segment_id=EXPAND_S0457
+ollama_row=66/84 segment_id=EXPAND_S0458
+ollama_row=67/84 segment_id=EXPAND_S0459
+ollama_row=68/84 segment_id=EXPAND_S0460
+ollama_row=69/84 segment_id=EXPAND_S0461
+ollama_row=70/84 segment_id=EXPAND_S0462
+ollama_row=71/84 segment_id=EXPAND_S0463
+ollama_row=72/84 segment_id=EXPAND_S0464
+ollama_row=73/84 segment_id=EXPAND_S0517
+ollama_row=74/84 segment_id=EXPAND_S0518
+ollama_row=75/84 segment_id=EXPAND_S0519
+ollama_row=76/84 segment_id=EXPAND_S0520
+ollama_row=77/84 segment_id=EXPAND_S0545
+ollama_row=78/84 segment_id=EXPAND_S0546
+ollama_row=79/84 segment_id=EXPAND_S0547
+ollama_row=80/84 segment_id=EXPAND_S0548
+ollama_row=81/84 segment_id=EXPAND_S0549
+ollama_row=82/84 segment_id=EXPAND_S0550
+ollama_row=83/84 segment_id=EXPAND_S0551
+ollama_row=84/84 segment_id=EXPAND_S0552
+heldout_r6_prediction_build
+source_split=data\v1\gold\expanded_test_v2.csv
+heldout_rows=84
+combined_predictions=data\v1\heldout\r6_generalisation\predictions\combined_v3_heldout_predictions.csv
+D_predictions=data\v1\heldout\r6_generalisation\predictions\D_heldout_predictions.csv
+R6_predictions=data\v1\heldout\r6_generalisation\predictions\R6_heldout_predictions.csv
+ollama_raw=data\v1\heldout\r6_generalisation\predictions\ollama_llama31_heldout_outputs.jsonl
+split_provenance=data\v1\heldout\r6_generalisation\reports\HELDOUT_R6_SPLIT_PROVENANCE.md

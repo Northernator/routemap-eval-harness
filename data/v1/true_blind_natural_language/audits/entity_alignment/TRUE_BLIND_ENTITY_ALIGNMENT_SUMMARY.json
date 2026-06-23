@@ -1,0 +1,433 @@
+{
+  "alias_candidates_count": 91,
+  "entity_column_names": {
+    "gold": "gold_entities",
+    "predictions": {
+      "D": "pred_entities",
+      "R6": "pred_entities",
+      "combined": "pred_entities"
+    }
+  },
+  "high_or_medium_alias_candidates_count": 5,
+  "main_diagnosis": "Entity scoring collapsed because true-blind gold entities are JSON-list, domain-freeform labels while predictions are semicolon-delimited ontology_v1 canonical labels; current evaluator reads gold JSON as a single nonmatching entity and simple normalisation does not restore overlap.",
+  "mismatch_bucket_counts": {
+    "delimiter_format_mismatch": 13,
+    "empty_prediction_entities": 55,
+    "singular_plural_or_alias_mismatch": 4
+  },
+  "non_empty_gold_entity_rows": 72,
+  "non_empty_prediction_entity_rows": {
+    "D": 17,
+    "R6": 17,
+    "combined": 17
+  },
+  "normalised_overlap": {
+    "D": {
+      "alias_candidate_average_jaccard": 0.014583333333333334,
+      "lowercase_trim_average_jaccard": 0.005555555555555556,
+      "punctuation_stripped_average_jaccard": 0.005555555555555556,
+      "rows_improved_by_alias_candidate": 4,
+      "rows_improved_by_lowercase_trim": 1,
+      "rows_improved_by_punctuation_stripped": 1
+    },
+    "R6": {
+      "alias_candidate_average_jaccard": 0.014583333333333334,
+      "lowercase_trim_average_jaccard": 0.005555555555555556,
+      "punctuation_stripped_average_jaccard": 0.005555555555555556,
+      "rows_improved_by_alias_candidate": 4,
+      "rows_improved_by_lowercase_trim": 1,
+      "rows_improved_by_punctuation_stripped": 1
+    },
+    "combined": {
+      "alias_candidate_average_jaccard": 0.014583333333333334,
+      "lowercase_trim_average_jaccard": 0.005555555555555556,
+      "punctuation_stripped_average_jaccard": 0.005555555555555556,
+      "rows_improved_by_alias_candidate": 4,
+      "rows_improved_by_lowercase_trim": 1,
+      "rows_improved_by_punctuation_stripped": 1
+    }
+  },
+  "parse_failures": {
+    "D": 0,
+    "R6": 0,
+    "combined": 0,
+    "gold": 0
+  },
+  "raw_overlap": {
+    "D": {
+      "average_current_jaccard": 0.0,
+      "rows_with_any_overlap": 0,
+      "rows_with_exact_match": 0
+    },
+    "R6": {
+      "average_current_jaccard": 0.0,
+      "rows_with_any_overlap": 0,
+      "rows_with_exact_match": 0
+    },
+    "combined": {
+      "average_current_jaccard": 0.0,
+      "rows_with_any_overlap": 0,
+      "rows_with_exact_match": 0
+    }
+  },
+  "recommended_next_test": "Create a separate human-reviewed ontology-alignment ablation that maps true-blind freeform gold entities to ontology_v1 or expands ontology_v1, then rerun scoring without changing original gold/predictions.",
+  "row_count": 72,
+  "schemas": {
+    "D": {
+      "fieldnames": [
+        "doc_id",
+        "title",
+        "segment_id",
+        "source_doc",
+        "source_topic",
+        "segment_index",
+        "route_question",
+        "text",
+        "segment_text",
+        "role",
+        "entities",
+        "operative_status",
+        "relation",
+        "answer_relevance",
+        "gold_role",
+        "gold_entities",
+        "gold_operative_status",
+        "gold_relation",
+        "gold_answer_relevance",
+        "annotation_notes",
+        "gold_answer_relevant",
+        "answer_relevant",
+        "pred_role",
+        "pred_entities",
+        "pred_operative_status",
+        "pred_relation",
+        "pred_answer_relevant",
+        "pred_rationale",
+        "pred_provider",
+        "pred_model",
+        "pred_valid",
+        "pred_errors"
+      ],
+      "gold_entities": true,
+      "pred_entities": true
+    },
+    "R6": {
+      "fieldnames": [
+        "doc_id",
+        "title",
+        "segment_id",
+        "source_doc",
+        "source_topic",
+        "segment_index",
+        "route_question",
+        "text",
+        "segment_text",
+        "role",
+        "entities",
+        "operative_status",
+        "relation",
+        "answer_relevance",
+        "gold_role",
+        "gold_entities",
+        "gold_operative_status",
+        "gold_relation",
+        "gold_answer_relevance",
+        "annotation_notes",
+        "gold_answer_relevant",
+        "answer_relevant",
+        "pred_role",
+        "pred_entities",
+        "pred_operative_status",
+        "pred_relation",
+        "pred_answer_relevant",
+        "pred_rationale",
+        "pred_provider",
+        "pred_model",
+        "pred_valid",
+        "pred_errors"
+      ],
+      "gold_entities": true,
+      "pred_entities": true
+    },
+    "combined": {
+      "fieldnames": [
+        "doc_id",
+        "title",
+        "segment_id",
+        "source_doc",
+        "source_topic",
+        "segment_index",
+        "route_question",
+        "text",
+        "segment_text",
+        "role",
+        "entities",
+        "operative_status",
+        "relation",
+        "answer_relevance",
+        "gold_role",
+        "gold_entities",
+        "gold_operative_status",
+        "gold_relation",
+        "gold_answer_relevance",
+        "annotation_notes",
+        "gold_answer_relevant",
+        "answer_relevant",
+        "pred_role",
+        "pred_entities",
+        "pred_operative_status",
+        "pred_relation",
+        "pred_answer_relevant",
+        "pred_rationale",
+        "pred_provider",
+        "pred_model",
+        "pred_valid",
+        "pred_errors"
+      ],
+      "gold_entities": true,
+      "pred_entities": true
+    },
+    "gold": {
+      "fieldnames": [
+        "doc_id",
+        "title",
+        "segment_id",
+        "source_doc",
+        "source_topic",
+        "segment_index",
+        "route_question",
+        "text",
+        "segment_text",
+        "role",
+        "entities",
+        "operative_status",
+        "relation",
+        "answer_relevance",
+        "gold_role",
+        "gold_entities",
+        "gold_operative_status",
+        "gold_relation",
+        "gold_answer_relevance",
+        "annotation_notes",
+        "gold_answer_relevant",
+        "answer_relevant"
+      ],
+      "gold_entities": true,
+      "pred_entities": false
+    }
+  },
+  "top_missing_gold_entities": [
+    {
+      "count": 2,
+      "entity": "route classifier",
+      "examples": [
+        "TB006",
+        "TB053"
+      ]
+    },
+    {
+      "count": 2,
+      "entity": "exception",
+      "examples": [
+        "TB009",
+        "TB012"
+      ]
+    },
+    {
+      "count": 2,
+      "entity": "urgency",
+      "examples": [
+        "TB013",
+        "TB063"
+      ]
+    },
+    {
+      "count": 2,
+      "entity": "queue",
+      "examples": [
+        "TB017",
+        "TB064"
+      ]
+    },
+    {
+      "count": 2,
+      "entity": "engineer notes",
+      "examples": [
+        "TB020",
+        "TB024"
+      ]
+    },
+    {
+      "count": 2,
+      "entity": "model",
+      "examples": [
+        "TB023",
+        "TB066"
+      ]
+    },
+    {
+      "count": 2,
+      "entity": "blind set",
+      "examples": [
+        "TB024",
+        "TB066"
+      ]
+    },
+    {
+      "count": 2,
+      "entity": "approver",
+      "examples": [
+        "TB032",
+        "TB036"
+      ]
+    },
+    {
+      "count": 2,
+      "entity": "trial",
+      "examples": [
+        "TB041",
+        "TB071"
+      ]
+    },
+    {
+      "count": 2,
+      "entity": "review",
+      "examples": [
+        "TB053",
+        "TB065"
+      ]
+    },
+    {
+      "count": 2,
+      "entity": "technical fault",
+      "examples": [
+        "TB061",
+        "TB064"
+      ]
+    },
+    {
+      "count": 2,
+      "entity": "provenance gap",
+      "examples": [
+        "TB067",
+        "TB071"
+      ]
+    },
+    {
+      "count": 2,
+      "entity": "research lead",
+      "examples": [
+        "TB067",
+        "TB071"
+      ]
+    },
+    {
+      "count": 1,
+      "entity": "payment status",
+      "examples": [
+        "TB001"
+      ]
+    },
+    {
+      "count": 1,
+      "entity": "permit evidence",
+      "examples": [
+        "TB001"
+      ]
+    },
+    {
+      "count": 1,
+      "entity": "human officer",
+      "examples": [
+        "TB001"
+      ]
+    },
+    {
+      "count": 1,
+      "entity": "CivicAid Permit Triage",
+      "examples": [
+        "TB001"
+      ]
+    },
+    {
+      "count": 1,
+      "entity": "council service requests",
+      "examples": [
+        "TB001"
+      ]
+    },
+    {
+      "count": 1,
+      "entity": "planning questions",
+      "examples": [
+        "TB001"
+      ]
+    },
+    {
+      "count": 1,
+      "entity": "residents",
+      "examples": [
+        "TB002"
+      ]
+    }
+  ],
+  "top_predicted_only_entities": [
+    {
+      "count": 7,
+      "entity": "controls",
+      "examples": [
+        "TB031",
+        "TB032",
+        "TB033",
+        "TB034",
+        "TB035"
+      ]
+    },
+    {
+      "count": 4,
+      "entity": "evaluation",
+      "examples": [
+        "TB018",
+        "TB042",
+        "TB060",
+        "TB066"
+      ]
+    },
+    {
+      "count": 3,
+      "entity": "human review",
+      "examples": [
+        "TB030",
+        "TB032",
+        "TB046"
+      ]
+    },
+    {
+      "count": 1,
+      "entity": "incident response",
+      "examples": [
+        "TB001"
+      ]
+    },
+    {
+      "count": 1,
+      "entity": "permission boundary",
+      "examples": [
+        "TB004"
+      ]
+    },
+    {
+      "count": 1,
+      "entity": "benchmark",
+      "examples": [
+        "TB048"
+      ]
+    }
+  ],
+  "unique_gold_entities_count": 337,
+  "unique_predicted_entities_count": {
+    "D": 7,
+    "R6": 7,
+    "combined": 7
+  }
+}

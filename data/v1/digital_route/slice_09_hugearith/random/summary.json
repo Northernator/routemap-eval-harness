@@ -1,0 +1,44 @@
+{
+  "error": "random",
+  "families": [
+    "digital_root",
+    "mod_m",
+    "last_k_digits",
+    "divisibility",
+    "impossibility",
+    "linear_recurrence_residue",
+    "fibonacci_state",
+    "pascal_row_entry"
+  ],
+  "metrics": {
+    "blind_spot_n": 0,
+    "blind_spot_rate": 0.0,
+    "catchable_n": 82,
+    "checked_n": 175,
+    "compute_saved_by_size": {
+      "huge": 0.0,
+      "large": 4.853726388188764,
+      "small": 0.6245273586389959
+    },
+    "compute_saved_large": 4.853726388188764,
+    "compute_saved_overall": 3.277975782726247,
+    "false_rejection_rate": 0.0,
+    "full_expansion_impossible_cases": 81,
+    "oracle_verifier_agreement": 1.0,
+    "raw_solver_accuracy": 0.53,
+    "route_answerable_n": 150,
+    "route_decidable_coverage": 0.875,
+    "route_engine_accuracy": 1.0,
+    "speed_bar_basis": "expansion_impossible",
+    "speed_minimum_bar": "PASS",
+    "speed_strong_bar": "PASS",
+    "verifier_catch_rate": 1.0,
+    "verifier_minimum_bar": "PASS",
+    "verifier_strong_bar": "PASS",
+    "wrong_checked_n": 82
+  },
+  "n": 200,
+  "p": 0.5,
+  "seed": 7,
+  "solver": "noisy"
+}

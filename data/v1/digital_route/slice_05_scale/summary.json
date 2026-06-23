@@ -1,0 +1,47 @@
+[
+  {
+    "cached_n": 30,
+    "completed_generation_rate": "1.000",
+    "completed_n": 30,
+    "content_rule_out_rate_extracted": "1.000",
+    "domain": "arithmetic",
+    "extraction_success_rate_completed": "0.867",
+    "partial": "0",
+    "practical_false_positive_rate": "0.000",
+    "ruled_out_n": 26,
+    "target_n": 30,
+    "uncheckable_n": 4,
+    "uncheckable_rate_cached": "0.133",
+    "valid_extracted_n": 0
+  },
+  {
+    "cached_n": 30,
+    "completed_generation_rate": "1.000",
+    "completed_n": 30,
+    "content_rule_out_rate_extracted": "0.000",
+    "domain": "python_code",
+    "extraction_success_rate_completed": "1.000",
+    "partial": "0",
+    "practical_false_positive_rate": "0.000",
+    "ruled_out_n": 0,
+    "target_n": 30,
+    "uncheckable_n": 0,
+    "uncheckable_rate_cached": "0.000",
+    "valid_extracted_n": 30
+  },
+  {
+    "cached_n": 30,
+    "completed_generation_rate": "1.000",
+    "completed_n": 30,
+    "content_rule_out_rate_extracted": "0.600",
+    "domain": "json_schema",
+    "extraction_success_rate_completed": "1.000",
+    "partial": "0",
+    "practical_false_positive_rate": "0.000",
+    "ruled_out_n": 18,
+    "target_n": 30,
+    "uncheckable_n": 0,
+    "uncheckable_rate_cached": "0.000",
+    "valid_extracted_n": 12
+  }
+]

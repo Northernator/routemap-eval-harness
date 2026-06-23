@@ -1,0 +1,251 @@
+role FBV1_0111 pred=EXAMPLE parse_failed=False invalid=False
+role FBV1_0112 pred=RESULT parse_failed=False invalid=False
+role FBV1_0113 pred=CLAIM parse_failed=False invalid=False
+role FBV1_0114 pred=EXAMPLE parse_failed=False invalid=False
+role FBV1_0115 pred=DEFINE parse_failed=False invalid=False
+role FBV1_0116 pred=METHOD parse_failed=False invalid=False
+role FBV1_0117 pred=RESULT parse_failed=False invalid=False
+role FBV1_0118 pred=EXAMPLE parse_failed=False invalid=False
+role FBV1_0119 pred=NEXT_STEP parse_failed=False invalid=False
+role FBV1_0120 pred=BACKGROUND parse_failed=False invalid=False
+role FBV1_0121 pred=DEFINE parse_failed=False invalid=False
+role FBV1_0122 pred=LIMITATION parse_failed=False invalid=False
+role FBV1_0123 pred=NEXT_STEP parse_failed=False invalid=False
+role FBV1_0124 pred=CLAIM parse_failed=False invalid=False
+role FBV1_0125 pred=METHOD parse_failed=False invalid=False
+role FBV1_0126 pred=RESULT parse_failed=False invalid=False
+role FBV1_0127 pred=LIMITATION parse_failed=False invalid=False
+role FBV1_0128 pred=BACKGROUND parse_failed=False invalid=False
+role FBV1_0129 pred=EXAMPLE parse_failed=False invalid=False
+role FBV1_0130 pred=CLAIM parse_failed=False invalid=False
+role FBV1_0131 pred=DEFINE parse_failed=False invalid=False
+role FBV1_0132 pred=NEXT_STEP parse_failed=False invalid=False
+role FBV1_0133 pred=METHOD parse_failed=False invalid=False
+role FBV1_0134 pred=CLAIM parse_failed=False invalid=False
+role FBV1_0135 pred=RESULT parse_failed=False invalid=False
+role FBV1_0136 pred=LIMITATION parse_failed=False invalid=False
+role FBV1_0137 pred=LIMITATION parse_failed=False invalid=False
+role FBV1_0138 pred=EXAMPLE parse_failed=False invalid=False
+role FBV1_0139 pred=METHOD parse_failed=False invalid=False
+role FBV1_0140 pred=BACKGROUND parse_failed=False invalid=False
+role FBV1_0141 pred=BACKGROUND parse_failed=False invalid=False
+role FBV1_0142 pred=NEXT_STEP parse_failed=False invalid=False
+role FBV1_0143 pred=RESULT parse_failed=False invalid=False
+role FBV1_0144 pred=DEFINE parse_failed=False invalid=False
+role FBV1_0145 pred=LIMITATION parse_failed=False invalid=False
+role FBV1_0146 pred=NEXT_STEP parse_failed=False invalid=False
+role FBV1_0147 pred=LIMITATION parse_failed=False invalid=False
+role FBV1_0148 pred=LIMITATION parse_failed=False invalid=False
+role FBV1_0149 pred=METHOD parse_failed=False invalid=False
+role FBV1_0150 pred=NEXT_STEP parse_failed=False invalid=False
+role FBV1_0151 pred=BACKGROUND parse_failed=False invalid=False
+role FBV1_0152 pred=DEFINE parse_failed=False invalid=False
+role FBV1_0153 pred=EXAMPLE parse_failed=False invalid=False
+role FBV1_0154 pred=RESULT parse_failed=False invalid=False
+role FBV1_0155 pred=RESULT parse_failed=False invalid=False
+role FBV1_0156 pred=CLAIM parse_failed=False invalid=False
+role FBV1_0157 pred=BACKGROUND parse_failed=False invalid=False
+role FBV1_0158 pred=EXAMPLE parse_failed=False invalid=False
+role FBV1_0159 pred=DEFINE parse_failed=False invalid=False
+role FBV1_0160 pred=METHOD parse_failed=False invalid=False
+entity FBV1_0001 spans=0 parse_failed=False
+entity FBV1_0002 spans=0 parse_failed=False
+entity FBV1_0003 spans=3 parse_failed=False
+entity FBV1_0004 spans=0 parse_failed=False
+entity FBV1_0005 spans=0 parse_failed=False
+entity FBV1_0006 spans=0 parse_failed=False
+entity FBV1_0007 spans=0 parse_failed=False
+entity FBV1_0008 spans=0 parse_failed=False
+entity FBV1_0009 spans=0 parse_failed=False
+entity FBV1_0010 spans=0 parse_failed=False
+entity FBV1_0011 spans=0 parse_failed=False
+entity FBV1_0012 spans=0 parse_failed=False
+entity FBV1_0013 spans=0 parse_failed=False
+entity FBV1_0014 spans=0 parse_failed=False
+entity FBV1_0015 spans=0 parse_failed=False
+entity FBV1_0016 spans=0 parse_failed=False
+entity FBV1_0017 spans=0 parse_failed=False
+entity FBV1_0018 spans=0 parse_failed=False
+entity FBV1_0019 spans=0 parse_failed=False
+entity FBV1_0020 spans=0 parse_failed=False
+entity FBV1_0021 spans=0 parse_failed=False
+entity FBV1_0022 spans=0 parse_failed=False
+entity FBV1_0023 spans=0 parse_failed=False
+entity FBV1_0024 spans=0 parse_failed=False
+entity FBV1_0025 spans=0 parse_failed=False
+entity FBV1_0026 spans=0 parse_failed=False
+entity FBV1_0027 spans=0 parse_failed=False
+entity FBV1_0028 spans=5 parse_failed=False
+entity FBV1_0029 spans=0 parse_failed=False
+entity FBV1_0030 spans=5 parse_failed=False
+entity FBV1_0031 spans=0 parse_failed=False
+entity FBV1_0032 spans=0 parse_failed=False
+entity FBV1_0033 spans=0 parse_failed=False
+entity FBV1_0034 spans=0 parse_failed=False
+entity FBV1_0035 spans=0 parse_failed=False
+entity FBV1_0036 spans=0 parse_failed=False
+entity FBV1_0037 spans=0 parse_failed=False
+entity FBV1_0038 spans=0 parse_failed=False
+entity FBV1_0039 spans=0 parse_failed=False
+entity FBV1_0040 spans=0 parse_failed=False
+entity FBV1_0041 spans=0 parse_failed=False
+entity FBV1_0042 spans=0 parse_failed=False
+entity FBV1_0043 spans=0 parse_failed=False
+entity FBV1_0044 spans=0 parse_failed=False
+entity FBV1_0045 spans=0 parse_failed=False
+entity FBV1_0046 spans=4 parse_failed=False
+entity FBV1_0047 spans=0 parse_failed=False
+entity FBV1_0048 spans=0 parse_failed=False
+entity FBV1_0049 spans=2 parse_failed=False
+entity FBV1_0050 spans=0 parse_failed=False
+entity FBV1_0051 spans=0 parse_failed=False
+entity FBV1_0052 spans=3 parse_failed=False
+entity FBV1_0053 spans=5 parse_failed=False
+entity FBV1_0054 spans=0 parse_failed=False
+entity FBV1_0055 spans=0 parse_failed=False
+entity FBV1_0056 spans=0 parse_failed=False
+entity FBV1_0057 spans=0 parse_failed=False
+entity FBV1_0058 spans=0 parse_failed=False
+entity FBV1_0059 spans=0 parse_failed=False
+entity FBV1_0060 spans=0 parse_failed=False
+entity FBV1_0061 spans=5 parse_failed=False
+entity FBV1_0062 spans=0 parse_failed=False
+entity FBV1_0063 spans=2 parse_failed=False
+entity FBV1_0064 spans=0 parse_failed=False
+entity FBV1_0065 spans=0 parse_failed=False
+entity FBV1_0066 spans=0 parse_failed=False
+entity FBV1_0067 spans=0 parse_failed=False
+entity FBV1_0068 spans=0 parse_failed=False
+entity FBV1_0069 spans=0 parse_failed=False
+entity FBV1_0070 spans=0 parse_failed=False
+entity FBV1_0071 spans=0 parse_failed=False
+entity FBV1_0072 spans=0 parse_failed=False
+entity FBV1_0073 spans=0 parse_failed=False
+entity FBV1_0074 spans=0 parse_failed=False
+entity FBV1_0075 spans=0 parse_failed=False
+entity FBV1_0076 spans=0 parse_failed=False
+entity FBV1_0077 spans=0 parse_failed=False
+entity FBV1_0078 spans=0 parse_failed=False
+entity FBV1_0079 spans=0 parse_failed=False
+entity FBV1_0080 spans=0 parse_failed=False
+entity FBV1_0081 spans=0 parse_failed=False
+entity FBV1_0082 spans=0 parse_failed=False
+entity FBV1_0083 spans=0 parse_failed=False
+entity FBV1_0084 spans=0 parse_failed=False
+entity FBV1_0085 spans=0 parse_failed=False
+entity FBV1_0086 spans=0 parse_failed=False
+entity FBV1_0087 spans=0 parse_failed=False
+entity FBV1_0088 spans=0 parse_failed=False
+entity FBV1_0089 spans=4 parse_failed=False
+entity FBV1_0090 spans=0 parse_failed=False
+entity FBV1_0091 spans=0 parse_failed=False
+entity FBV1_0092 spans=0 parse_failed=False
+entity FBV1_0093 spans=4 parse_failed=False
+entity FBV1_0094 spans=0 parse_failed=False
+entity FBV1_0095 spans=0 parse_failed=False
+entity FBV1_0096 spans=0 parse_failed=False
+entity FBV1_0097 spans=0 parse_failed=False
+entity FBV1_0098 spans=0 parse_failed=False
+entity FBV1_0099 spans=0 parse_failed=False
+entity FBV1_0100 spans=0 parse_failed=False
+entity FBV1_0101 spans=0 parse_failed=False
+entity FBV1_0102 spans=0 parse_failed=False
+entity FBV1_0103 spans=0 parse_failed=False
+entity FBV1_0104 spans=0 parse_failed=False
+entity FBV1_0105 spans=0 parse_failed=False
+entity FBV1_0106 spans=0 parse_failed=False
+entity FBV1_0107 spans=0 parse_failed=False
+entity FBV1_0108 spans=0 parse_failed=False
+entity FBV1_0109 spans=0 parse_failed=False
+entity FBV1_0110 spans=0 parse_failed=False
+entity FBV1_0111 spans=0 parse_failed=False
+entity FBV1_0112 spans=0 parse_failed=False
+entity FBV1_0113 spans=0 parse_failed=False
+entity FBV1_0114 spans=0 parse_failed=False
+entity FBV1_0115 spans=0 parse_failed=False
+entity FBV1_0116 spans=0 parse_failed=False
+entity FBV1_0117 spans=0 parse_failed=False
+entity FBV1_0118 spans=0 parse_failed=False
+entity FBV1_0119 spans=0 parse_failed=False
+entity FBV1_0120 spans=0 parse_failed=False
+entity FBV1_0121 spans=0 parse_failed=False
+entity FBV1_0122 spans=0 parse_failed=False
+entity FBV1_0123 spans=0 parse_failed=False
+entity FBV1_0124 spans=0 parse_failed=False
+entity FBV1_0125 spans=0 parse_failed=False
+entity FBV1_0126 spans=0 parse_failed=False
+entity FBV1_0127 spans=0 parse_failed=False
+entity FBV1_0128 spans=0 parse_failed=False
+entity FBV1_0129 spans=0 parse_failed=False
+entity FBV1_0130 spans=0 parse_failed=False
+entity FBV1_0131 spans=0 parse_failed=False
+entity FBV1_0132 spans=0 parse_failed=False
+entity FBV1_0133 spans=0 parse_failed=False
+entity FBV1_0134 spans=0 parse_failed=False
+entity FBV1_0135 spans=0 parse_failed=False
+entity FBV1_0136 spans=0 parse_failed=False
+entity FBV1_0137 spans=0 parse_failed=False
+entity FBV1_0138 spans=0 parse_failed=False
+entity FBV1_0139 spans=0 parse_failed=False
+entity FBV1_0140 spans=5 parse_failed=False
+entity FBV1_0141 spans=0 parse_failed=False
+entity FBV1_0142 spans=0 parse_failed=False
+entity FBV1_0143 spans=0 parse_failed=False
+entity FBV1_0144 spans=0 parse_failed=False
+entity FBV1_0145 spans=0 parse_failed=False
+entity FBV1_0146 spans=0 parse_failed=False
+entity FBV1_0147 spans=0 parse_failed=False
+entity FBV1_0148 spans=0 parse_failed=False
+entity FBV1_0149 spans=0 parse_failed=False
+entity FBV1_0150 spans=0 parse_failed=False
+entity FBV1_0151 spans=0 parse_failed=False
+entity FBV1_0152 spans=0 parse_failed=False
+entity FBV1_0153 spans=0 parse_failed=False
+entity FBV1_0154 spans=0 parse_failed=False
+entity FBV1_0155 spans=0 parse_failed=False
+entity FBV1_0156 spans=0 parse_failed=False
+entity FBV1_0157 spans=0 parse_failed=False
+entity FBV1_0158 spans=0 parse_failed=False
+entity FBV1_0159 spans=0 parse_failed=False
+entity FBV1_0160 spans=0 parse_failed=False
+fresh_blind_v1_eval
+gold_sha256=552ed2c366217b2253dc2655e6c9d9d95c2aeaaf0812377fc5375da0cb4e79a9
+row_count=160
+ollama_model=llama3.1
+role_cache_summary={"cached": 110, "called": 50, "invalid": 0, "parse_failed": 0, "rows": 160}
+entity_cache_summary={"cached": 0, "called": 160, "parse_failed": 0, "rows": 160}
+
+role_accuracy_by_taxonomy
+| model | taxonomy | accuracy |
+| --- | --- | --- |
+| RouteMap-LLM | fine_8 | 0.981250 |
+| RouteMap-LLM | coarse_5 | 0.981250 |
+| RouteMap-LLM | coarse_4 | 0.981250 |
+| RouteMap-LLM | coarse_3 | 0.981250 |
+| deterministic_baseline | fine_8 | 0.450000 |
+| deterministic_baseline | coarse_5 | 0.562500 |
+| deterministic_baseline | coarse_4 | 0.612500 |
+| deterministic_baseline | coarse_3 | 0.756250 |
+
+entity_quality
+| model | exact_entity_avg_jaccard | soft_difflib_entity_avg_jaccard | soft_difflib_frac_jaccard_ge_0_5 | soft_embedding_entity_avg_jaccard | soft_embedding_frac_jaccard_ge_0_5 |
+| --- | --- | --- | --- | --- | --- |
+| RouteMap-LLM adaptive | 0.007872 | 0.019955 | 0.006250 | 0.023080 | 0.012500 |
+| RouteMap-LLM open | 0.009658 | 0.019955 | 0.006250 | 0.023080 | 0.012500 |
+| deterministic ontology | 0.000000 | 0.004167 | 0.000000 | 0.004167 | 0.000000 |
+
+full_row_scores
+| model | metric_mode | entity_avg_jaccard | strict | relaxed_1 | relaxed_2 | relaxed_3 | answer_accuracy |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| RouteMap-LLM | exact | 0.007872 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.950000 |
+| RouteMap-LLM | soft-difflib | 0.019955 | 0.000000 | 0.006250 | 0.006250 | 0.006250 | 0.950000 |
+| RouteMap-LLM | soft-embedding | 0.023080 | 0.000000 | 0.006250 | 0.006250 | 0.006250 | 0.950000 |
+| deterministic_baseline | exact | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.918750 |
+| deterministic_baseline | soft-difflib | 0.004167 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.918750 |
+| deterministic_baseline | soft-embedding | 0.004167 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.918750 |
+| entity_only_ceiling | exact | 0.007872 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 1.000000 |
+| entity_only_ceiling | soft-difflib | 0.019955 | 0.000000 | 0.006250 | 0.006250 | 0.006250 | 1.000000 |
+| entity_only_ceiling | soft-embedding | 0.023080 | 0.000000 | 0.012500 | 0.012500 | 0.012500 | 1.000000 |
+headline_statement=Frozen RouteMap-LLM role behavior holds, but full-row relaxed score drops on synthetic fresh_blind_v1. The binding constraint is the gap between entity coverage and full-row route/answer survival, with relaxed_3=0.006250 versus entity-only ceiling=0.012500.
+report=C:\dev\RouteMap\routemap_eval_harness\routemap_eval_harness\data\v1\fresh_blind_v1\reports\FRESH_BLIND_V1_HEADLINE_REPORT.md
+summary=C:\dev\RouteMap\routemap_eval_harness\routemap_eval_harness\data\v1\fresh_blind_v1\SUMMARY.json

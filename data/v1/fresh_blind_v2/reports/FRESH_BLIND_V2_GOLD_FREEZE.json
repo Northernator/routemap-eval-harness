@@ -1,0 +1,36 @@
+{
+  "dataset": "fresh_blind_v2",
+  "frozen_gold_path": "data\\v1\\fresh_blind_v2\\annotation\\fresh_blind_v2_gold_frozen.csv",
+  "gold_path": "data\\v1\\fresh_blind_v2\\annotation\\fresh_blind_v2_gold.csv",
+  "role_counts": {
+    "BACKGROUND": 20,
+    "CLAIM": 20,
+    "DEFINE": 20,
+    "EXAMPLE": 20,
+    "LIMITATION": 20,
+    "METHOD": 20,
+    "NEXT_STEP": 20,
+    "RESULT": 20
+  },
+  "row_count": 160,
+  "rule": "Freeze before prediction. If fresh_blind_v2_gold.csv hash changes after this manifest exists, evaluation refuses to run.",
+  "sha256": "258557a2f96c57d469a9cd07919500814fe16fd3871c5db58a1f4df3c79375fa",
+  "telegraph_probe_8role_accuracy": 0.875,
+  "validation_metrics": {
+    "banned_marker_hit_rate": 0.0,
+    "banned_marker_hit_rate_by_role": {
+      "BACKGROUND": 0.0,
+      "CLAIM": 0.0,
+      "DEFINE": 0.0,
+      "EXAMPLE": 0.0,
+      "LIMITATION": 0.0,
+      "METHOD": 0.0,
+      "NEXT_STEP": 0.0,
+      "RESULT": 0.0
+    },
+    "entity_vocab_diversity": 0.5,
+    "total_entity_mentions": 480,
+    "unique_entities": 240,
+    "verbatim_entity_rate": 1.0
+  }
+}

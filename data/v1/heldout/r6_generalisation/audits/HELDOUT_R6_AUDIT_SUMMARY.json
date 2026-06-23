@@ -1,0 +1,84 @@
+{
+  "R6_strict_blocker_counts": {
+    "answer": 18,
+    "entity": 80,
+    "multiple": 51,
+    "relation": 44,
+    "role": 34,
+    "status": 32
+  },
+  "audit_answers": {
+    "A_relaxed1": true,
+    "B_relaxed2": true,
+    "C_relaxed3": true,
+    "D_strict": true,
+    "E_fine_role": true,
+    "F_guard_help": true,
+    "G_entity_main": true,
+    "H_relation_secondary": true,
+    "I_overfit_evidence": false
+  },
+  "final_verdict": "promote R6 as RouteMap v2 candidate",
+  "metrics": {
+    "D": {
+      "answer": 0.7857142857142857,
+      "coarse_3": 0.5119047619047619,
+      "entity_exact": 0.047619047619047616,
+      "entity_jaccard": 0.45858843537414934,
+      "relation": 0.47619047619047616,
+      "relaxed_1": 0.16666666666666666,
+      "relaxed_2": 0.16666666666666666,
+      "relaxed_3": 0.16666666666666666,
+      "role": 0.5,
+      "status": 0.6666666666666666,
+      "strict": 0.03571428571428571
+    },
+    "R6": {
+      "answer": 0.7857142857142857,
+      "coarse_3": 0.8333333333333334,
+      "entity_exact": 0.047619047619047616,
+      "entity_jaccard": 0.45858843537414934,
+      "relation": 0.47619047619047616,
+      "relaxed_1": 0.2619047619047619,
+      "relaxed_2": 0.30952380952380953,
+      "relaxed_3": 0.34523809523809523,
+      "role": 0.5952380952380952,
+      "status": 0.6190476190476191,
+      "strict": 0.023809523809523808
+    },
+    "combined_v3": {
+      "answer": 0.7857142857142857,
+      "coarse_3": 0.8333333333333334,
+      "entity_exact": 0.047619047619047616,
+      "entity_jaccard": 0.45858843537414934,
+      "relation": 0.47619047619047616,
+      "relaxed_1": 0.17857142857142858,
+      "relaxed_2": 0.27380952380952384,
+      "relaxed_3": 0.34523809523809523,
+      "role": 0.47619047619047616,
+      "status": 0.6190476190476191,
+      "strict": 0.023809523809523808
+    }
+  },
+  "recommended_next_test": "Run the unchanged R6 stack on a larger natural-language blind split; keep expanded_test_v2 as boundary-stress evidence rather than final promotion evidence if results are mixed.",
+  "role_repair_counts": {
+    "R6_fine_role_correct_but_strict_fails": 48,
+    "changes_helped": 16,
+    "changes_hurt": 1,
+    "changes_improved_coarse3_only": 19,
+    "changes_improved_fine_role": 17,
+    "coarse_3_guard_changed_D_role": 46
+  },
+  "row_bucket_counts": {
+    "D_strict_win": 2,
+    "R6_coarse_guard_saved_row": 12,
+    "R6_preserves_combined_relaxed3": 16,
+    "R6_relaxed1_gain": 5,
+    "R6_role_repair_failure": 9,
+    "R6_role_repair_success": 8,
+    "all_strict_correct": 1,
+    "entity_blocks_R6": 15,
+    "multi_field_blocks_R6": 16
+  },
+  "rows": 84
+}

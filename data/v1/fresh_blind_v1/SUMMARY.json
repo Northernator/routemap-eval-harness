@@ -1,0 +1,286 @@
+{
+  "entity_cache_summary": {
+    "cached": 160,
+    "called": 0,
+    "parse_failed": 0,
+    "rows": 160
+  },
+  "entity_quality": [
+    {
+      "exact_entity_avg_jaccard": 0.00787202380952381,
+      "exact_entity_match": 0.0,
+      "exact_frac_jaccard_ge_0_5": 0.0,
+      "model": "RouteMap-LLM adaptive",
+      "soft_difflib_available": true,
+      "soft_difflib_entity_avg_jaccard": 0.019955357142857143,
+      "soft_difflib_frac_jaccard_ge_0_5": 0.00625,
+      "soft_difflib_reason": "difflib stdlib",
+      "soft_embedding_available": true,
+      "soft_embedding_entity_avg_jaccard": 0.023080357142857142,
+      "soft_embedding_frac_jaccard_ge_0_5": 0.0125,
+      "soft_embedding_reason": "available"
+    },
+    {
+      "exact_entity_avg_jaccard": 0.009657738095238094,
+      "exact_entity_match": 0.0,
+      "exact_frac_jaccard_ge_0_5": 0.0,
+      "model": "RouteMap-LLM open",
+      "soft_difflib_available": true,
+      "soft_difflib_entity_avg_jaccard": 0.019955357142857143,
+      "soft_difflib_frac_jaccard_ge_0_5": 0.00625,
+      "soft_difflib_reason": "difflib stdlib",
+      "soft_embedding_available": true,
+      "soft_embedding_entity_avg_jaccard": 0.023080357142857142,
+      "soft_embedding_frac_jaccard_ge_0_5": 0.0125,
+      "soft_embedding_reason": "available"
+    },
+    {
+      "exact_entity_avg_jaccard": 0.0,
+      "exact_entity_match": 0.0,
+      "exact_frac_jaccard_ge_0_5": 0.0,
+      "model": "deterministic ontology",
+      "soft_difflib_available": true,
+      "soft_difflib_entity_avg_jaccard": 0.004166666666666667,
+      "soft_difflib_frac_jaccard_ge_0_5": 0.0,
+      "soft_difflib_reason": "difflib stdlib",
+      "soft_embedding_available": true,
+      "soft_embedding_entity_avg_jaccard": 0.004166666666666667,
+      "soft_embedding_frac_jaccard_ge_0_5": 0.0,
+      "soft_embedding_reason": "available"
+    }
+  ],
+  "experiment": "fresh_blind_v1",
+  "freeze_manifest": {
+    "dataset": "fresh_blind_v1",
+    "frozen_gold_path": "data\\v1\\fresh_blind_v1\\annotation\\fresh_blind_gold_frozen.csv",
+    "gold_path": "data\\v1\\fresh_blind_v1\\annotation\\fresh_blind_gold.csv",
+    "gold_provenance": "synthetic gold by construction from generator-declared segment intent; not model-generated labels",
+    "role_counts": {
+      "BACKGROUND": 20,
+      "CLAIM": 20,
+      "DEFINE": 20,
+      "EXAMPLE": 20,
+      "LIMITATION": 20,
+      "METHOD": 20,
+      "NEXT_STEP": 20,
+      "RESULT": 20
+    },
+    "row_count": 160,
+    "rule": "Freeze before prediction. If this manifest exists with a different fresh_blind_gold.csv hash, refuse to run.",
+    "sha256": "552ed2c366217b2253dc2655e6c9d9d95c2aeaaf0812377fc5375da0cb4e79a9"
+  },
+  "frozen_prompt_identifiers": {
+    "adaptive_gate": {
+      "BROAD_CANONICALS": [
+        "RouteMap",
+        "RouteMap segment",
+        "controls",
+        "evaluation",
+        "governance",
+        "retrieval",
+        "risk management",
+        "source context"
+      ],
+      "G_GATE": 1,
+      "T_LINK_HIGH": 0.85
+    },
+    "entity_model": "llama3.1",
+    "entity_prompt_sha256": "80c558d39443eb7e5ab19aec62ddeed0f1d3d08f6c82a18ae1e0f0d92e919abd",
+    "role_model": "llama3.1",
+    "role_prompt_sha256": "c987f5320b43aaac3eb209bf5800068868022131e4462c4412eaac721558a742"
+  },
+  "full_row_scores": [
+    {
+      "answer_accuracy": 0.95,
+      "entity_avg_jaccard": 0.00787202380952381,
+      "entity_matcher_available": true,
+      "entity_matcher_reason": "",
+      "metric_mode": "exact",
+      "model": "RouteMap-LLM",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role8_accuracy": 0.98125,
+      "strict": 0.0
+    },
+    {
+      "answer_accuracy": 0.95,
+      "entity_avg_jaccard": 0.019955357142857143,
+      "entity_matcher_available": true,
+      "entity_matcher_reason": "difflib stdlib",
+      "metric_mode": "soft-difflib",
+      "model": "RouteMap-LLM",
+      "relaxed_1": 0.00625,
+      "relaxed_2": 0.00625,
+      "relaxed_3": 0.00625,
+      "role8_accuracy": 0.98125,
+      "strict": 0.0
+    },
+    {
+      "answer_accuracy": 0.95,
+      "entity_avg_jaccard": 0.023080357142857142,
+      "entity_matcher_available": true,
+      "entity_matcher_reason": "available",
+      "metric_mode": "soft-embedding",
+      "model": "RouteMap-LLM",
+      "relaxed_1": 0.00625,
+      "relaxed_2": 0.00625,
+      "relaxed_3": 0.00625,
+      "role8_accuracy": 0.98125,
+      "strict": 0.0
+    },
+    {
+      "answer_accuracy": 0.91875,
+      "entity_avg_jaccard": 0.0,
+      "entity_matcher_available": true,
+      "entity_matcher_reason": "",
+      "metric_mode": "exact",
+      "model": "deterministic_baseline",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role8_accuracy": 0.45,
+      "strict": 0.0
+    },
+    {
+      "answer_accuracy": 0.91875,
+      "entity_avg_jaccard": 0.004166666666666667,
+      "entity_matcher_available": true,
+      "entity_matcher_reason": "difflib stdlib",
+      "metric_mode": "soft-difflib",
+      "model": "deterministic_baseline",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role8_accuracy": 0.45,
+      "strict": 0.0
+    },
+    {
+      "answer_accuracy": 0.91875,
+      "entity_avg_jaccard": 0.004166666666666667,
+      "entity_matcher_available": true,
+      "entity_matcher_reason": "available",
+      "metric_mode": "soft-embedding",
+      "model": "deterministic_baseline",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role8_accuracy": 0.45,
+      "strict": 0.0
+    },
+    {
+      "answer_accuracy": 1.0,
+      "entity_avg_jaccard": 0.00787202380952381,
+      "entity_matcher_available": true,
+      "entity_matcher_reason": "",
+      "metric_mode": "exact",
+      "model": "entity_only_ceiling",
+      "relaxed_1": 0.0,
+      "relaxed_2": 0.0,
+      "relaxed_3": 0.0,
+      "role8_accuracy": 1.0,
+      "strict": 0.0
+    },
+    {
+      "answer_accuracy": 1.0,
+      "entity_avg_jaccard": 0.019955357142857143,
+      "entity_matcher_available": true,
+      "entity_matcher_reason": "difflib stdlib",
+      "metric_mode": "soft-difflib",
+      "model": "entity_only_ceiling",
+      "relaxed_1": 0.00625,
+      "relaxed_2": 0.00625,
+      "relaxed_3": 0.00625,
+      "role8_accuracy": 1.0,
+      "strict": 0.0
+    },
+    {
+      "answer_accuracy": 1.0,
+      "entity_avg_jaccard": 0.023080357142857142,
+      "entity_matcher_available": true,
+      "entity_matcher_reason": "available",
+      "metric_mode": "soft-embedding",
+      "model": "entity_only_ceiling",
+      "relaxed_1": 0.0125,
+      "relaxed_2": 0.0125,
+      "relaxed_3": 0.0125,
+      "role8_accuracy": 1.0,
+      "strict": 0.0
+    }
+  ],
+  "headline": {
+    "entity_ceiling_relaxed3_soft_embedding": 0.0125,
+    "route_llm_coarse3": 0.98125,
+    "route_llm_relaxed1_soft_embedding": 0.00625,
+    "route_llm_relaxed3_soft_embedding": 0.00625,
+    "route_llm_role8": 0.98125,
+    "route_llm_strict_soft_embedding": 0.0
+  },
+  "headline_statement": "Frozen RouteMap-LLM role behavior holds, but full-row relaxed score drops on synthetic fresh_blind_v1. The binding constraint is the gap between entity coverage and full-row route/answer survival, with relaxed_3=0.006250 versus entity-only ceiling=0.012500.",
+  "offline_generation": true,
+  "outputs": {
+    "entity_quality": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\fresh_blind_v1\\reports\\entity_quality.csv",
+    "full_row_scores": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\fresh_blind_v1\\reports\\full_row_scores.csv",
+    "headline_report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\fresh_blind_v1\\reports\\FRESH_BLIND_V1_HEADLINE_REPORT.md",
+    "mismatches": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\fresh_blind_v1\\mismatches",
+    "predictions": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\fresh_blind_v1\\predictions\\fresh_blind_v1_predictions.csv",
+    "role_accuracy_by_taxonomy": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\fresh_blind_v1\\reports\\role_accuracy_by_taxonomy.csv",
+    "summary": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\fresh_blind_v1\\SUMMARY.json"
+  },
+  "prior_true_blind": {
+    "coarse3": 0.681,
+    "entity_ceiling": 0.181,
+    "relaxed_3": 0.125,
+    "role8": 0.556
+  },
+  "role_accuracy_by_taxonomy": [
+    {
+      "accuracy": 0.98125,
+      "model": "RouteMap-LLM",
+      "taxonomy": "fine_8"
+    },
+    {
+      "accuracy": 0.98125,
+      "model": "RouteMap-LLM",
+      "taxonomy": "coarse_5"
+    },
+    {
+      "accuracy": 0.98125,
+      "model": "RouteMap-LLM",
+      "taxonomy": "coarse_4"
+    },
+    {
+      "accuracy": 0.98125,
+      "model": "RouteMap-LLM",
+      "taxonomy": "coarse_3"
+    },
+    {
+      "accuracy": 0.45,
+      "model": "deterministic_baseline",
+      "taxonomy": "fine_8"
+    },
+    {
+      "accuracy": 0.5625,
+      "model": "deterministic_baseline",
+      "taxonomy": "coarse_5"
+    },
+    {
+      "accuracy": 0.6125,
+      "model": "deterministic_baseline",
+      "taxonomy": "coarse_4"
+    },
+    {
+      "accuracy": 0.75625,
+      "model": "deterministic_baseline",
+      "taxonomy": "coarse_3"
+    }
+  ],
+  "role_cache_summary": {
+    "cached": 160,
+    "called": 0,
+    "invalid": 0,
+    "parse_failed": 0,
+    "rows": 160
+  },
+  "single_read": true
+}

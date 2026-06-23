@@ -1,0 +1,31 @@
+{
+  "arithmetic_anchor_matches_slice2": true,
+  "mode": "limit_5",
+  "model": "llama3.1",
+  "per_domain": {
+    "arithmetic": {
+      "checkable_error_rate": 1.0,
+      "false_positive_count": 0,
+      "false_positive_rate": 0.0,
+      "known_valid_count": 2,
+      "model_output_count": 5,
+      "ruled_out_count": 5
+    },
+    "json_schema": {
+      "checkable_error_rate": 0.0,
+      "false_positive_count": 0,
+      "false_positive_rate": 0.0,
+      "known_valid_count": 2,
+      "model_output_count": 0,
+      "ruled_out_count": 0
+    },
+    "python_code": {
+      "checkable_error_rate": 0.0,
+      "false_positive_count": 0,
+      "false_positive_rate": 0.0,
+      "known_valid_count": 2,
+      "model_output_count": 0,
+      "ruled_out_count": 0
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{"task_id": "arith_pow_1", "domain": "arithmetic", "prompt": "Compute 37^31 exactly.", "response": "588127694295973516923730845657105396406352258351619320197296"}
+{"task_id": "arith_pow_2", "domain": "arithmetic", "prompt": "Compute 12345^9 exactly.", "response": "1161406116455"}
+{"task_id": "arith_fact_1", "domain": "arithmetic", "prompt": "Compute 40! exactly.", "response": "0"}
+{"task_id": "arith_fact_2", "domain": "arithmetic", "prompt": "Compute 75! exactly.", "response": "0"}
+{"task_id": "arith_sum_1", "domain": "arithmetic", "prompt": "Compute 918273645546 + 837465129102 + 746382915011 + 665544332211 exactly.", "response": "918273645546\n+837465129102\n=1756738774648\n+746382915011\n=2505118689659\n+665544332211\n=2571663222870"}

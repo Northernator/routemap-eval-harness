@@ -1,0 +1,35 @@
+[
+  {
+    "actual_correct_rate_after_repair": "0.000",
+    "after_error_rate_on_flagged": "1.000",
+    "before_error_rate": "1.000",
+    "checker_pass_rate_after_repair": "0.000",
+    "domain": "arithmetic",
+    "flagged_n": 30,
+    "passes_but_wrong_n": 0,
+    "repair_attempted_n": 30,
+    "residual_after_k_n": 30
+  },
+  {
+    "actual_correct_rate_after_repair": "0.000",
+    "after_error_rate_on_flagged": "0.000",
+    "before_error_rate": "0.000",
+    "checker_pass_rate_after_repair": "0.000",
+    "domain": "python_code",
+    "flagged_n": 0,
+    "passes_but_wrong_n": 0,
+    "repair_attempted_n": 0,
+    "residual_after_k_n": 0
+  },
+  {
+    "actual_correct_rate_after_repair": "0.444",
+    "after_error_rate_on_flagged": "0.556",
+    "before_error_rate": "0.600",
+    "checker_pass_rate_after_repair": "0.444",
+    "domain": "json_schema",
+    "flagged_n": 18,
+    "passes_but_wrong_n": 0,
+    "repair_attempted_n": 18,
+    "residual_after_k_n": 10
+  }
+]

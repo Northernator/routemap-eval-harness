@@ -1,0 +1,9 @@
+﻿model,taxonomy,accuracy
+RouteMap-LLM,fine_8,0.70625
+RouteMap-LLM,coarse_5,0.7625
+RouteMap-LLM,coarse_4,0.79375
+RouteMap-LLM,coarse_3,0.8625
+lexical_baseline,fine_8,0.875
+lexical_baseline,coarse_5,0.8875
+lexical_baseline,coarse_4,0.9
+lexical_baseline,coarse_3,0.94375

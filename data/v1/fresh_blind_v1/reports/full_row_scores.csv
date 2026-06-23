@@ -1,0 +1,10 @@
+﻿model,metric_mode,entity_avg_jaccard,strict,relaxed_1,relaxed_2,relaxed_3,role8_accuracy,answer_accuracy,entity_matcher_available,entity_matcher_reason
+RouteMap-LLM,exact,0.00787202380952381,0.0,0.0,0.0,0.0,0.98125,0.95,True,
+RouteMap-LLM,soft-difflib,0.019955357142857143,0.0,0.00625,0.00625,0.00625,0.98125,0.95,True,difflib stdlib
+RouteMap-LLM,soft-embedding,0.023080357142857142,0.0,0.00625,0.00625,0.00625,0.98125,0.95,True,available
+deterministic_baseline,exact,0.0,0.0,0.0,0.0,0.0,0.45,0.91875,True,
+deterministic_baseline,soft-difflib,0.004166666666666667,0.0,0.0,0.0,0.0,0.45,0.91875,True,difflib stdlib
+deterministic_baseline,soft-embedding,0.004166666666666667,0.0,0.0,0.0,0.0,0.45,0.91875,True,available
+entity_only_ceiling,exact,0.00787202380952381,0.0,0.0,0.0,0.0,1.0,1.0,True,
+entity_only_ceiling,soft-difflib,0.019955357142857143,0.0,0.00625,0.00625,0.00625,1.0,1.0,True,difflib stdlib
+entity_only_ceiling,soft-embedding,0.023080357142857142,0.0,0.0125,0.0125,0.0125,1.0,1.0,True,available

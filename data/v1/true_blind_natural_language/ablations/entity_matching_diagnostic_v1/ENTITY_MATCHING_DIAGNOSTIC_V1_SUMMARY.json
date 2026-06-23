@@ -1,0 +1,770 @@
+{
+  "ablation": "true_blind_entity_matching_diagnostic_v1",
+  "embedding_axis_ran": true,
+  "embedding_skip_reason": "available",
+  "headroom": {
+    "by_variant": {
+      "D": {
+        "frac_gold_captured_by_prediction": 0.008571428571428572,
+        "headroom_gap": 0.98
+      },
+      "R6": {
+        "frac_gold_captured_by_prediction": 0.008571428571428572,
+        "headroom_gap": 0.98
+      },
+      "combined_v3": {
+        "frac_gold_captured_by_prediction": 0.008571428571428572,
+        "headroom_gap": 0.98
+      }
+    },
+    "frac_gold_captured_by_prediction_max_variant": 0.008571428571428572,
+    "frac_gold_text_present": 0.9885714285714285,
+    "gold_entities_total": 350,
+    "headroom_gap_max_variant": 0.98
+  },
+  "recommendation": "pursue a domain-general entity extractor; current predictions do not recover gold entities even under relaxed matching.",
+  "results": {
+    "all_gold_rows": {
+      "D": [
+        {
+          "kind": "surface",
+          "matcher": "M0_exact_canonical",
+          "rows": 72,
+          "soft_f1": 0.018121693121693126,
+          "soft_jaccard": 0.011805555555555557,
+          "soft_precision": 0.041666666666666664,
+          "soft_recall": 0.011805555555555557,
+          "threshold": 1.0
+        },
+        {
+          "kind": "surface",
+          "matcher": "M1_normalized_exact",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 1.0
+        },
+        {
+          "kind": "surface",
+          "matcher": "M2_token_set_jaccard",
+          "rows": 72,
+          "soft_f1": 0.030191798941798947,
+          "soft_jaccard": 0.018882275132275132,
+          "soft_precision": 0.08333333333333333,
+          "soft_recall": 0.018882275132275132,
+          "threshold": 0.3
+        },
+        {
+          "kind": "surface",
+          "matcher": "M2_token_set_jaccard",
+          "rows": 72,
+          "soft_f1": 0.021593915343915346,
+          "soft_jaccard": 0.01378968253968254,
+          "soft_precision": 0.05555555555555555,
+          "soft_recall": 0.01378968253968254,
+          "threshold": 0.5
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.03250661375661376,
+          "soft_jaccard": 0.020734126984126983,
+          "soft_precision": 0.0763888888888889,
+          "soft_recall": 0.021197089947089947,
+          "threshold": 0.6
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.021593915343915346,
+          "soft_jaccard": 0.01378968253968254,
+          "soft_precision": 0.05555555555555555,
+          "soft_recall": 0.01378968253968254,
+          "threshold": 0.7
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.8
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.9
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.03366402116402117,
+          "soft_jaccard": 0.021527777777777774,
+          "soft_precision": 0.0763888888888889,
+          "soft_recall": 0.02199074074074074,
+          "threshold": 0.5
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.6
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.7
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.8
+        }
+      ],
+      "R6": [
+        {
+          "kind": "surface",
+          "matcher": "M0_exact_canonical",
+          "rows": 72,
+          "soft_f1": 0.018121693121693126,
+          "soft_jaccard": 0.011805555555555557,
+          "soft_precision": 0.041666666666666664,
+          "soft_recall": 0.011805555555555557,
+          "threshold": 1.0
+        },
+        {
+          "kind": "surface",
+          "matcher": "M1_normalized_exact",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 1.0
+        },
+        {
+          "kind": "surface",
+          "matcher": "M2_token_set_jaccard",
+          "rows": 72,
+          "soft_f1": 0.030191798941798947,
+          "soft_jaccard": 0.018882275132275132,
+          "soft_precision": 0.08333333333333333,
+          "soft_recall": 0.018882275132275132,
+          "threshold": 0.3
+        },
+        {
+          "kind": "surface",
+          "matcher": "M2_token_set_jaccard",
+          "rows": 72,
+          "soft_f1": 0.021593915343915346,
+          "soft_jaccard": 0.01378968253968254,
+          "soft_precision": 0.05555555555555555,
+          "soft_recall": 0.01378968253968254,
+          "threshold": 0.5
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.03250661375661376,
+          "soft_jaccard": 0.020734126984126983,
+          "soft_precision": 0.0763888888888889,
+          "soft_recall": 0.021197089947089947,
+          "threshold": 0.6
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.021593915343915346,
+          "soft_jaccard": 0.01378968253968254,
+          "soft_precision": 0.05555555555555555,
+          "soft_recall": 0.01378968253968254,
+          "threshold": 0.7
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.8
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.9
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.03366402116402117,
+          "soft_jaccard": 0.021527777777777774,
+          "soft_precision": 0.0763888888888889,
+          "soft_recall": 0.02199074074074074,
+          "threshold": 0.5
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.6
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.7
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.8
+        }
+      ],
+      "combined_v3": [
+        {
+          "kind": "surface",
+          "matcher": "M0_exact_canonical",
+          "rows": 72,
+          "soft_f1": 0.018121693121693126,
+          "soft_jaccard": 0.011805555555555557,
+          "soft_precision": 0.041666666666666664,
+          "soft_recall": 0.011805555555555557,
+          "threshold": 1.0
+        },
+        {
+          "kind": "surface",
+          "matcher": "M1_normalized_exact",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 1.0
+        },
+        {
+          "kind": "surface",
+          "matcher": "M2_token_set_jaccard",
+          "rows": 72,
+          "soft_f1": 0.030191798941798947,
+          "soft_jaccard": 0.018882275132275132,
+          "soft_precision": 0.08333333333333333,
+          "soft_recall": 0.018882275132275132,
+          "threshold": 0.3
+        },
+        {
+          "kind": "surface",
+          "matcher": "M2_token_set_jaccard",
+          "rows": 72,
+          "soft_f1": 0.021593915343915346,
+          "soft_jaccard": 0.01378968253968254,
+          "soft_precision": 0.05555555555555555,
+          "soft_recall": 0.01378968253968254,
+          "threshold": 0.5
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.03250661375661376,
+          "soft_jaccard": 0.020734126984126983,
+          "soft_precision": 0.0763888888888889,
+          "soft_recall": 0.021197089947089947,
+          "threshold": 0.6
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.021593915343915346,
+          "soft_jaccard": 0.01378968253968254,
+          "soft_precision": 0.05555555555555555,
+          "soft_recall": 0.01378968253968254,
+          "threshold": 0.7
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.8
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.9
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.03366402116402117,
+          "soft_jaccard": 0.021527777777777774,
+          "soft_precision": 0.0763888888888889,
+          "soft_recall": 0.02199074074074074,
+          "threshold": 0.5
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.6
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.7
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.8
+        }
+      ]
+    },
+    "scored_rows": {
+      "D": [
+        {
+          "kind": "surface",
+          "matcher": "M0_exact_canonical",
+          "rows": 72,
+          "soft_f1": 0.018121693121693126,
+          "soft_jaccard": 0.011805555555555557,
+          "soft_precision": 0.041666666666666664,
+          "soft_recall": 0.011805555555555557,
+          "threshold": 1.0
+        },
+        {
+          "kind": "surface",
+          "matcher": "M1_normalized_exact",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 1.0
+        },
+        {
+          "kind": "surface",
+          "matcher": "M2_token_set_jaccard",
+          "rows": 72,
+          "soft_f1": 0.030191798941798947,
+          "soft_jaccard": 0.018882275132275132,
+          "soft_precision": 0.08333333333333333,
+          "soft_recall": 0.018882275132275132,
+          "threshold": 0.3
+        },
+        {
+          "kind": "surface",
+          "matcher": "M2_token_set_jaccard",
+          "rows": 72,
+          "soft_f1": 0.021593915343915346,
+          "soft_jaccard": 0.01378968253968254,
+          "soft_precision": 0.05555555555555555,
+          "soft_recall": 0.01378968253968254,
+          "threshold": 0.5
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.03250661375661376,
+          "soft_jaccard": 0.020734126984126983,
+          "soft_precision": 0.0763888888888889,
+          "soft_recall": 0.021197089947089947,
+          "threshold": 0.6
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.021593915343915346,
+          "soft_jaccard": 0.01378968253968254,
+          "soft_precision": 0.05555555555555555,
+          "soft_recall": 0.01378968253968254,
+          "threshold": 0.7
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.8
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.9
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.03366402116402117,
+          "soft_jaccard": 0.021527777777777774,
+          "soft_precision": 0.0763888888888889,
+          "soft_recall": 0.02199074074074074,
+          "threshold": 0.5
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.6
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.7
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.8
+        }
+      ],
+      "R6": [
+        {
+          "kind": "surface",
+          "matcher": "M0_exact_canonical",
+          "rows": 72,
+          "soft_f1": 0.018121693121693126,
+          "soft_jaccard": 0.011805555555555557,
+          "soft_precision": 0.041666666666666664,
+          "soft_recall": 0.011805555555555557,
+          "threshold": 1.0
+        },
+        {
+          "kind": "surface",
+          "matcher": "M1_normalized_exact",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 1.0
+        },
+        {
+          "kind": "surface",
+          "matcher": "M2_token_set_jaccard",
+          "rows": 72,
+          "soft_f1": 0.030191798941798947,
+          "soft_jaccard": 0.018882275132275132,
+          "soft_precision": 0.08333333333333333,
+          "soft_recall": 0.018882275132275132,
+          "threshold": 0.3
+        },
+        {
+          "kind": "surface",
+          "matcher": "M2_token_set_jaccard",
+          "rows": 72,
+          "soft_f1": 0.021593915343915346,
+          "soft_jaccard": 0.01378968253968254,
+          "soft_precision": 0.05555555555555555,
+          "soft_recall": 0.01378968253968254,
+          "threshold": 0.5
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.03250661375661376,
+          "soft_jaccard": 0.020734126984126983,
+          "soft_precision": 0.0763888888888889,
+          "soft_recall": 0.021197089947089947,
+          "threshold": 0.6
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.021593915343915346,
+          "soft_jaccard": 0.01378968253968254,
+          "soft_precision": 0.05555555555555555,
+          "soft_recall": 0.01378968253968254,
+          "threshold": 0.7
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.8
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.9
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.03366402116402117,
+          "soft_jaccard": 0.021527777777777774,
+          "soft_precision": 0.0763888888888889,
+          "soft_recall": 0.02199074074074074,
+          "threshold": 0.5
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.6
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.7
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.8
+        }
+      ],
+      "combined_v3": [
+        {
+          "kind": "surface",
+          "matcher": "M0_exact_canonical",
+          "rows": 72,
+          "soft_f1": 0.018121693121693126,
+          "soft_jaccard": 0.011805555555555557,
+          "soft_precision": 0.041666666666666664,
+          "soft_recall": 0.011805555555555557,
+          "threshold": 1.0
+        },
+        {
+          "kind": "surface",
+          "matcher": "M1_normalized_exact",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 1.0
+        },
+        {
+          "kind": "surface",
+          "matcher": "M2_token_set_jaccard",
+          "rows": 72,
+          "soft_f1": 0.030191798941798947,
+          "soft_jaccard": 0.018882275132275132,
+          "soft_precision": 0.08333333333333333,
+          "soft_recall": 0.018882275132275132,
+          "threshold": 0.3
+        },
+        {
+          "kind": "surface",
+          "matcher": "M2_token_set_jaccard",
+          "rows": 72,
+          "soft_f1": 0.021593915343915346,
+          "soft_jaccard": 0.01378968253968254,
+          "soft_precision": 0.05555555555555555,
+          "soft_recall": 0.01378968253968254,
+          "threshold": 0.5
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.03250661375661376,
+          "soft_jaccard": 0.020734126984126983,
+          "soft_precision": 0.0763888888888889,
+          "soft_recall": 0.021197089947089947,
+          "threshold": 0.6
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.021593915343915346,
+          "soft_jaccard": 0.01378968253968254,
+          "soft_precision": 0.05555555555555555,
+          "soft_recall": 0.01378968253968254,
+          "threshold": 0.7
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.8
+        },
+        {
+          "kind": "surface",
+          "matcher": "M3_fuzzy_difflib",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.9
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.03366402116402117,
+          "soft_jaccard": 0.021527777777777774,
+          "soft_precision": 0.0763888888888889,
+          "soft_recall": 0.02199074074074074,
+          "threshold": 0.5
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.6
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.7
+        },
+        {
+          "kind": "embedding",
+          "matcher": "M4_embedding_cosine",
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779,
+          "threshold": 0.8
+        }
+      ]
+    }
+  },
+  "verdicts": {
+    "embedding_axis_ran": true,
+    "extractor_failure_dominant": true,
+    "metric_brittleness_significant": false,
+    "synonymy_gap": false
+  }
+}

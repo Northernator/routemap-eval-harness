@@ -1,0 +1,4 @@
+domain,flagged_n,repair_attempted_n,checker_pass_rate_after_repair,actual_correct_rate_after_repair,passes_but_wrong_n,residual_after_k_n,before_error_rate,after_error_rate_on_flagged
+arithmetic,30,30,0.000,0.000,0,30,1.000,1.000
+python_code,0,0,0.000,0.000,0,0,0.000,0.000
+json_schema,18,18,0.444,0.444,0,10,0.600,0.556

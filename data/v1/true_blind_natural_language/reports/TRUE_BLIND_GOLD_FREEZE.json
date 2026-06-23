@@ -1,0 +1,7 @@
+{
+  "frozen_gold_path": "data\\v1\\true_blind_natural_language\\annotation\\true_blind_gold_frozen.csv",
+  "gold_path": "data\\v1\\true_blind_natural_language\\annotation\\true_blind_gold.csv",
+  "rows": 72,
+  "rule": "Gold frozen before predictions; do not tune combined_v3, D, R6, prompts, taxonomies, mappings, thresholds, or evaluator logic from this test.",
+  "sha256": "3320e53b0d1b78839b3700387b56f709337f0a7123fc70fbf81f6147443d6cc3"
+}

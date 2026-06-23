@@ -1,0 +1,132 @@
+{
+  "broad_canonicals": [
+    "RouteMap",
+    "RouteMap segment",
+    "controls",
+    "evaluation",
+    "governance",
+    "retrieval",
+    "risk management",
+    "source context"
+  ],
+  "build_results": [
+    {
+      "cache_rows_joined_both": 72,
+      "dataset": "true_blind_combined_v3",
+      "empty_counts": {
+        "diagnostic_gold_other": {
+          "empty_entities": 42,
+          "empty_role": 0
+        },
+        "ent_llm_only": {
+          "empty_entities": 42,
+          "empty_role": 0
+        },
+        "full_llm_adaptive": {
+          "empty_entities": 42,
+          "empty_role": 0
+        },
+        "full_llm_open": {
+          "empty_entities": 54,
+          "empty_role": 0
+        },
+        "role_llm_only": {
+          "empty_entities": 55,
+          "empty_role": 0
+        }
+      },
+      "entity_cache": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\llm_entities\\outputs\\true_blind_llm_entities.jsonl",
+      "entity_cache_rows_available": 72,
+      "entity_missing": 0,
+      "entity_parse_failed": 5,
+      "prediction": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\llm_full_route\\predictions\\true_blind_combined_v3__llm_full_route.csv",
+      "role_cache": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\role_experiments\\llm_role_classifier\\outputs\\true_blind_roles.jsonl",
+      "role_cache_rows_available": 72,
+      "role_invalid": 0,
+      "role_missing": 0,
+      "role_parse_failed": 0,
+      "rows": 72,
+      "source": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\true_blind_natural_language\\predictions\\combined_v3_true_blind_predictions.csv"
+    },
+    {
+      "cache_rows_joined_both": 72,
+      "dataset": "true_blind_R6",
+      "empty_counts": {
+        "diagnostic_gold_other": {
+          "empty_entities": 42,
+          "empty_role": 0
+        },
+        "ent_llm_only": {
+          "empty_entities": 42,
+          "empty_role": 0
+        },
+        "full_llm_adaptive": {
+          "empty_entities": 42,
+          "empty_role": 0
+        },
+        "full_llm_open": {
+          "empty_entities": 54,
+          "empty_role": 0
+        },
+        "role_llm_only": {
+          "empty_entities": 55,
+          "empty_role": 0
+        }
+      },
+      "entity_cache": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\llm_entities\\outputs\\true_blind_llm_entities.jsonl",
+      "entity_cache_rows_available": 72,
+      "entity_missing": 0,
+      "entity_parse_failed": 5,
+      "prediction": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\llm_full_route\\predictions\\true_blind_R6__llm_full_route.csv",
+      "role_cache": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\role_experiments\\llm_role_classifier\\outputs\\true_blind_roles.jsonl",
+      "role_cache_rows_available": 72,
+      "role_invalid": 0,
+      "role_missing": 0,
+      "role_parse_failed": 0,
+      "rows": 72,
+      "source": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\true_blind_natural_language\\predictions\\R6_true_blind_predictions.csv"
+    },
+    {
+      "cache_rows_joined_both": 80,
+      "dataset": "dev",
+      "empty_counts": {
+        "diagnostic_gold_other": {
+          "empty_entities": 18,
+          "empty_role": 0
+        },
+        "ent_llm_only": {
+          "empty_entities": 18,
+          "empty_role": 0
+        },
+        "full_llm_adaptive": {
+          "empty_entities": 18,
+          "empty_role": 0
+        },
+        "full_llm_open": {
+          "empty_entities": 53,
+          "empty_role": 0
+        },
+        "role_llm_only": {
+          "empty_entities": 0,
+          "empty_role": 0
+        }
+      },
+      "entity_cache": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\llm_entities\\outputs\\dev_llm_entities.jsonl",
+      "entity_cache_rows_available": 80,
+      "entity_missing": 0,
+      "entity_parse_failed": 8,
+      "prediction": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\llm_full_route\\predictions\\dev__llm_full_route.csv",
+      "role_cache": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\role_experiments\\llm_role_classifier\\outputs\\dev_roles.jsonl",
+      "role_cache_rows_available": 80,
+      "role_invalid": 0,
+      "role_missing": 0,
+      "role_parse_failed": 0,
+      "rows": 80,
+      "source": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\gold\\heldout_full_extraction_pred_v2.csv"
+    }
+  ],
+  "experiment": "llm_full_route_build",
+  "g_gate": 1,
+  "offline": true,
+  "t_link_high": 0.85
+}

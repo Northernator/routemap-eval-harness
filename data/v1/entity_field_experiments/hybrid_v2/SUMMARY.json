@@ -1,0 +1,591 @@
+{
+  "clustering": {
+    "reason": "hybrid_v2 spec uses adaptive gate, not clustering",
+    "run": false
+  },
+  "embeddings": {
+    "available": true,
+    "reason": "available"
+  },
+  "experiment": "hybrid_entity_field_dev_eval_v2",
+  "frozen_config": {
+    "floor_met": true,
+    "g_gate": 1,
+    "k": 6,
+    "max_per_seg": 6,
+    "precision_floor": 0.3,
+    "selection_metric": "train soft_f1 M3_fuzzy_difflib@0.6 subject to train soft_precision >= 0.30",
+    "t_link_high": 0.85
+  },
+  "frozen_v1_config": {
+    "k": 6,
+    "max_entities_per_seg": 10,
+    "t_cluster": 0.72,
+    "t_link_embed": 0.5,
+    "t_link_fuzzy": 0.7
+  },
+  "inputs": {
+    "locked_test_files_read": false,
+    "train_dev": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\gold\\model_train_dev_role.csv",
+    "true_blind": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\true_blind_natural_language\\annotation\\true_blind_gold_frozen.csv"
+  },
+  "metrics": {
+    "in_domain_dev": {
+      "hybrid_v1": {
+        "M1_normalized_exact@1.0": {
+          "rows": 80,
+          "soft_f1": 0.08460407647907647,
+          "soft_jaccard": 0.049935515873015854,
+          "soft_precision": 0.05755952380952382,
+          "soft_recall": 0.21083333333333334
+        },
+        "M3_fuzzy_difflib@0.6": {
+          "rows": 80,
+          "soft_f1": 0.14488365800865807,
+          "soft_jaccard": 0.0862103174603175,
+          "soft_precision": 0.09730654761904768,
+          "soft_recall": 0.37416666666666665
+        },
+        "M4_embedding_cosine@0.5": {
+          "rows": 80,
+          "soft_f1": 0.17065656565656576,
+          "soft_jaccard": 0.1012896825396826,
+          "soft_precision": 0.11424107142857146,
+          "soft_recall": 0.43208333333333326
+        },
+        "exact_ontology": {
+          "exact": 0.0,
+          "f1": 0.08317550505050504,
+          "jaccard": 0.04924107142857141,
+          "precision": 0.056071428571428585,
+          "recall": 0.21500000000000002,
+          "rows": 80,
+          "zero_overlap": 0.7125
+        },
+        "mean_preds_per_seg": 6.1875
+      },
+      "hybrid_v2": {
+        "M1_normalized_exact@1.0": {
+          "rows": 80,
+          "soft_f1": 0.5035416666666664,
+          "soft_jaccard": 0.43229166666666663,
+          "soft_precision": 0.5029761904761905,
+          "soft_recall": 0.5714583333333334
+        },
+        "M3_fuzzy_difflib@0.6": {
+          "rows": 80,
+          "soft_f1": 0.5419742063492062,
+          "soft_jaccard": 0.47299107142857144,
+          "soft_precision": 0.5464285714285714,
+          "soft_recall": 0.6177083333333334
+        },
+        "M4_embedding_cosine@0.5": {
+          "rows": 80,
+          "soft_f1": 0.5451984126984126,
+          "soft_jaccard": 0.47470238095238093,
+          "soft_precision": 0.5401785714285714,
+          "soft_recall": 0.6364583333333333
+        },
+        "exact_ontology": {
+          "exact": 0.25,
+          "f1": 0.5231249999999998,
+          "jaccard": 0.4520833333333332,
+          "precision": 0.5217261904761904,
+          "recall": 0.5902083333333333,
+          "rows": 80,
+          "zero_overlap": 0.3
+        },
+        "mean_preds_per_seg": 2.5375
+      },
+      "ontology_v1": {
+        "M1_normalized_exact@1.0": {
+          "rows": 80,
+          "soft_f1": 0.5035416666666664,
+          "soft_jaccard": 0.43229166666666663,
+          "soft_precision": 0.5029761904761905,
+          "soft_recall": 0.5714583333333334
+        },
+        "M3_fuzzy_difflib@0.6": {
+          "rows": 80,
+          "soft_f1": 0.5356249999999999,
+          "soft_jaccard": 0.46934523809523804,
+          "soft_precision": 0.5422619047619046,
+          "soft_recall": 0.6010416666666668
+        },
+        "M4_embedding_cosine@0.5": {
+          "rows": 80,
+          "soft_f1": 0.5293749999999998,
+          "soft_jaccard": 0.46517857142857133,
+          "soft_precision": 0.5297619047619047,
+          "soft_recall": 0.596875
+        },
+        "exact_ontology": {
+          "exact": 0.25,
+          "f1": 0.5231249999999998,
+          "jaccard": 0.4520833333333332,
+          "precision": 0.5217261904761904,
+          "recall": 0.5902083333333333,
+          "rows": 80,
+          "zero_overlap": 0.3
+        },
+        "mean_preds_per_seg": 1.6375
+      },
+      "pure_extractive": {
+        "M1_normalized_exact@1.0": {
+          "rows": 80,
+          "soft_f1": 0.03691919191919192,
+          "soft_jaccard": 0.020729166666666667,
+          "soft_precision": 0.0234375,
+          "soft_recall": 0.10833333333333332
+        },
+        "M3_fuzzy_difflib@0.6": {
+          "rows": 80,
+          "soft_f1": 0.12602175602175597,
+          "soft_jaccard": 0.0732986111111111,
+          "soft_precision": 0.0796875,
+          "soft_recall": 0.37416666666666665
+        },
+        "M4_embedding_cosine@0.5": {
+          "rows": 80,
+          "soft_f1": 0.16286907536907522,
+          "soft_jaccard": 0.09638888888888884,
+          "soft_precision": 0.103125,
+          "soft_recall": 0.47458333333333325
+        },
+        "exact_ontology": {
+          "exact": 0.0,
+          "f1": 0.04257575757575758,
+          "jaccard": 0.02395833333333333,
+          "precision": 0.02700892857142857,
+          "recall": 0.12708333333333335,
+          "rows": 80,
+          "zero_overlap": 0.8
+        },
+        "mean_preds_per_seg": 8.0
+      }
+    },
+    "out_domain_true_blind": {
+      "hybrid_v1": {
+        "M1_normalized_exact@1.0": {
+          "rows": 72,
+          "soft_f1": 0.043700435367102025,
+          "soft_jaccard": 0.02420199399366066,
+          "soft_precision": 0.03778108465608465,
+          "soft_recall": 0.05421626984126984
+        },
+        "M3_fuzzy_difflib@0.6": {
+          "rows": 72,
+          "soft_f1": 0.23148918982252317,
+          "soft_jaccard": 0.13745089786756445,
+          "soft_precision": 0.20238095238095244,
+          "soft_recall": 0.28182870370370366
+        },
+        "M4_embedding_cosine@0.5": {
+          "rows": 72,
+          "soft_f1": 0.31517279017279004,
+          "soft_jaccard": 0.19951449013949013,
+          "soft_precision": 0.2756283068783068,
+          "soft_recall": 0.3829199735449734
+        },
+        "mean_preds_per_seg": 6.569444444444445
+      },
+      "hybrid_v2": {
+        "M1_normalized_exact@1.0": {
+          "rows": 72,
+          "soft_f1": 0.03924856008189342,
+          "soft_jaccard": 0.023463804713804715,
+          "soft_precision": 0.050925925925925916,
+          "soft_recall": 0.03974867724867725
+        },
+        "M3_fuzzy_difflib@0.6": {
+          "rows": 72,
+          "soft_f1": 0.20988355780022447,
+          "soft_jaccard": 0.1275524629691296,
+          "soft_precision": 0.23842592592592593,
+          "soft_recall": 0.2248842592592593
+        },
+        "M4_embedding_cosine@0.5": {
+          "rows": 72,
+          "soft_f1": 0.2699841824841825,
+          "soft_jaccard": 0.17021103896103887,
+          "soft_precision": 0.2916666666666666,
+          "soft_recall": 0.29422949735449727
+        },
+        "mean_preds_per_seg": 4.847222222222222
+      },
+      "ontology_v1": {
+        "M1_normalized_exact@1.0": {
+          "rows": 72,
+          "soft_f1": 0.013492063492063493,
+          "soft_jaccard": 0.009027777777777779,
+          "soft_precision": 0.027777777777777776,
+          "soft_recall": 0.009027777777777779
+        },
+        "M3_fuzzy_difflib@0.6": {
+          "rows": 72,
+          "soft_f1": 0.03250661375661376,
+          "soft_jaccard": 0.020734126984126983,
+          "soft_precision": 0.0763888888888889,
+          "soft_recall": 0.021197089947089947
+        },
+        "M4_embedding_cosine@0.5": {
+          "rows": 72,
+          "soft_f1": 0.03366402116402117,
+          "soft_jaccard": 0.021527777777777774,
+          "soft_precision": 0.0763888888888889,
+          "soft_recall": 0.02199074074074074
+        },
+        "mean_preds_per_seg": 0.2638888888888889
+      },
+      "pure_extractive": {
+        "M1_normalized_exact@1.0": {
+          "rows": 72,
+          "soft_f1": 0.19092250342250347,
+          "soft_jaccard": 0.12306108243608242,
+          "soft_precision": 0.14756944444444445,
+          "soft_recall": 0.27913359788359776
+        },
+        "M3_fuzzy_difflib@0.6": {
+          "rows": 72,
+          "soft_f1": 0.46714766714766703,
+          "soft_jaccard": 0.31863075196408536,
+          "soft_precision": 0.3784722222222222,
+          "soft_recall": 0.6347552910052908
+        },
+        "M4_embedding_cosine@0.5": {
+          "rows": 72,
+          "soft_f1": 0.5374009092759091,
+          "soft_jaccard": 0.3792333052749719,
+          "soft_precision": 0.4357638888888889,
+          "soft_recall": 0.7285879629629629
+        },
+        "mean_preds_per_seg": 8.0
+      }
+    }
+  },
+  "outputs": {
+    "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\entity_field_experiments\\hybrid_v2\\REPORT.md",
+    "summary": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\entity_field_experiments\\hybrid_v2\\SUMMARY.json"
+  },
+  "recommendation": "hybrid_v2 is a promising development candidate, but continue train/dev precision work before a fresh blind split.",
+  "row_counts": {
+    "dev": 80,
+    "train": 99,
+    "true_blind": 72
+  },
+  "train_sweep": [
+    {
+      "g_gate": 1,
+      "k": 6,
+      "max_per_seg": 6,
+      "soft_f1": 0.32753800632588503,
+      "soft_jaccard": 0.23726952060285392,
+      "soft_precision": 0.441919191919192,
+      "soft_recall": 0.32323232323232326,
+      "t_link_high": 0.85
+    },
+    {
+      "g_gate": 1,
+      "k": 6,
+      "max_per_seg": 6,
+      "soft_f1": 0.32753800632588503,
+      "soft_jaccard": 0.23726952060285392,
+      "soft_precision": 0.441919191919192,
+      "soft_recall": 0.32323232323232326,
+      "t_link_high": 0.9
+    },
+    {
+      "g_gate": 1,
+      "k": 6,
+      "max_per_seg": 4,
+      "soft_f1": 0.32640692640692637,
+      "soft_jaccard": 0.23673641173641172,
+      "soft_precision": 0.44444444444444453,
+      "soft_recall": 0.30639730639730633,
+      "t_link_high": 0.85
+    },
+    {
+      "g_gate": 1,
+      "k": 6,
+      "max_per_seg": 4,
+      "soft_f1": 0.32640692640692637,
+      "soft_jaccard": 0.23673641173641172,
+      "soft_precision": 0.44444444444444453,
+      "soft_recall": 0.30639730639730633,
+      "t_link_high": 0.9
+    },
+    {
+      "g_gate": 1,
+      "k": 4,
+      "max_per_seg": 4,
+      "soft_f1": 0.3259259259259259,
+      "soft_jaccard": 0.236063011063011,
+      "soft_precision": 0.44444444444444453,
+      "soft_recall": 0.3047138047138047,
+      "t_link_high": 0.85
+    },
+    {
+      "g_gate": 1,
+      "k": 4,
+      "max_per_seg": 4,
+      "soft_f1": 0.3259259259259259,
+      "soft_jaccard": 0.236063011063011,
+      "soft_precision": 0.44444444444444453,
+      "soft_recall": 0.3047138047138047,
+      "t_link_high": 0.9
+    },
+    {
+      "g_gate": 1,
+      "k": 4,
+      "max_per_seg": 6,
+      "soft_f1": 0.3237614237614237,
+      "soft_jaccard": 0.23389450056116723,
+      "soft_precision": 0.43989898989898996,
+      "soft_recall": 0.3148148148148148,
+      "t_link_high": 0.85
+    },
+    {
+      "g_gate": 1,
+      "k": 4,
+      "max_per_seg": 6,
+      "soft_f1": 0.3237614237614237,
+      "soft_jaccard": 0.23389450056116723,
+      "soft_precision": 0.43989898989898996,
+      "soft_recall": 0.3148148148148148,
+      "t_link_high": 0.9
+    },
+    {
+      "g_gate": 1,
+      "k": 4,
+      "max_per_seg": 8,
+      "soft_f1": 0.3234006734006733,
+      "soft_jaccard": 0.23365400032066697,
+      "soft_precision": 0.4396584896584897,
+      "soft_recall": 0.3148148148148148,
+      "t_link_high": 0.85
+    },
+    {
+      "g_gate": 1,
+      "k": 4,
+      "max_per_seg": 8,
+      "soft_f1": 0.3234006734006733,
+      "soft_jaccard": 0.23365400032066697,
+      "soft_precision": 0.4396584896584897,
+      "soft_recall": 0.3148148148148148,
+      "t_link_high": 0.9
+    },
+    {
+      "g_gate": 1,
+      "k": 6,
+      "max_per_seg": 8,
+      "soft_f1": 0.32288323348929404,
+      "soft_jaccard": 0.23356654568775778,
+      "soft_precision": 0.43759018759018764,
+      "soft_recall": 0.32323232323232326,
+      "t_link_high": 0.85
+    },
+    {
+      "g_gate": 1,
+      "k": 6,
+      "max_per_seg": 8,
+      "soft_f1": 0.32288323348929404,
+      "soft_jaccard": 0.23356654568775778,
+      "soft_precision": 0.43759018759018764,
+      "soft_recall": 0.32323232323232326,
+      "t_link_high": 0.9
+    },
+    {
+      "g_gate": 2,
+      "k": 4,
+      "max_per_seg": 4,
+      "soft_f1": 0.3162257495590828,
+      "soft_jaccard": 0.2211920795254128,
+      "soft_precision": 0.32323232323232315,
+      "soft_recall": 0.37861952861952863,
+      "t_link_high": 0.9
+    },
+    {
+      "g_gate": 2,
+      "k": 4,
+      "max_per_seg": 4,
+      "soft_f1": 0.31449414782748103,
+      "soft_jaccard": 0.2196769280102613,
+      "soft_precision": 0.32222222222222213,
+      "soft_recall": 0.3735690235690236,
+      "t_link_high": 0.85
+    },
+    {
+      "g_gate": 2,
+      "k": 6,
+      "max_per_seg": 4,
+      "soft_f1": 0.3132595799262464,
+      "soft_jaccard": 0.2197611030944364,
+      "soft_precision": 0.3202020202020201,
+      "soft_recall": 0.3760942760942761,
+      "t_link_high": 0.85
+    },
+    {
+      "g_gate": 2,
+      "k": 6,
+      "max_per_seg": 4,
+      "soft_f1": 0.3122975789642455,
+      "soft_jaccard": 0.21875100208433537,
+      "soft_precision": 0.3191919191919191,
+      "soft_recall": 0.3760942760942761,
+      "t_link_high": 0.9
+    },
+    {
+      "g_gate": 2,
+      "k": 6,
+      "max_per_seg": 6,
+      "soft_f1": 0.3083307825732066,
+      "soft_jaccard": 0.2145382395382395,
+      "soft_precision": 0.3061327561327561,
+      "soft_recall": 0.41346801346801343,
+      "t_link_high": 0.85
+    },
+    {
+      "g_gate": 2,
+      "k": 4,
+      "max_per_seg": 6,
+      "soft_f1": 0.3076304167213257,
+      "soft_jaccard": 0.2136848280787674,
+      "soft_precision": 0.30863395863395854,
+      "soft_recall": 0.397979797979798,
+      "t_link_high": 0.9
+    },
+    {
+      "g_gate": 2,
+      "k": 6,
+      "max_per_seg": 6,
+      "soft_f1": 0.30728861486437226,
+      "soft_jaccard": 0.21372053872053867,
+      "soft_precision": 0.3053150553150553,
+      "soft_recall": 0.41346801346801343,
+      "t_link_high": 0.9
+    },
+    {
+      "g_gate": 2,
+      "k": 4,
+      "max_per_seg": 8,
+      "soft_f1": 0.30657899900324126,
+      "soft_jaccard": 0.21288680455347117,
+      "soft_precision": 0.3077320827320827,
+      "soft_recall": 0.397979797979798,
+      "t_link_high": 0.9
+    },
+    {
+      "g_gate": 2,
+      "k": 4,
+      "max_per_seg": 6,
+      "soft_f1": 0.3061473319049075,
+      "soft_jaccard": 0.2125785269724663,
+      "soft_precision": 0.3077681577681577,
+      "soft_recall": 0.3929292929292929,
+      "t_link_high": 0.85
+    },
+    {
+      "g_gate": 2,
+      "k": 4,
+      "max_per_seg": 8,
+      "soft_f1": 0.3050959141868231,
+      "soft_jaccard": 0.21178050344717006,
+      "soft_precision": 0.3068662818662818,
+      "soft_recall": 0.3929292929292929,
+      "t_link_high": 0.85
+    },
+    {
+      "g_gate": 2,
+      "k": 6,
+      "max_per_seg": 8,
+      "soft_f1": 0.29970999819484645,
+      "soft_jaccard": 0.20686482428906672,
+      "soft_precision": 0.296055796055796,
+      "soft_recall": 0.42946127946127943,
+      "t_link_high": 0.85
+    },
+    {
+      "g_gate": 2,
+      "k": 6,
+      "max_per_seg": 8,
+      "soft_f1": 0.298900314051829,
+      "soft_jaccard": 0.20626357368781612,
+      "soft_precision": 0.29545454545454536,
+      "soft_recall": 0.42946127946127943,
+      "t_link_high": 0.9
+    }
+  ],
+  "transfer_matrix": [
+    {
+      "balanced_HM": 0.06334670322329557,
+      "in_domain_exact_f1": 0.5231249999999998,
+      "in_domain_exact_jaccard": 0.4520833333333332,
+      "in_domain_exact_precision": 0.5217261904761904,
+      "in_domain_exact_recall": 0.5902083333333333,
+      "in_domain_mean_preds_per_seg": 1.6375,
+      "in_domain_soft_f1": 0.5356249999999999,
+      "in_domain_soft_jaccard": 0.46934523809523804,
+      "in_domain_soft_precision": 0.5422619047619046,
+      "in_domain_soft_recall": 0.6010416666666668,
+      "out_domain_mean_preds_per_seg": 0.2638888888888889,
+      "out_domain_soft_f1_difflib": 0.03250661375661376,
+      "out_domain_soft_f1_embed": 0.03366402116402117,
+      "strategy": "ontology_v1"
+    },
+    {
+      "balanced_HM": 0.204166091444138,
+      "in_domain_exact_f1": 0.04257575757575758,
+      "in_domain_exact_jaccard": 0.02395833333333333,
+      "in_domain_exact_precision": 0.02700892857142857,
+      "in_domain_exact_recall": 0.12708333333333335,
+      "in_domain_mean_preds_per_seg": 8.0,
+      "in_domain_soft_f1": 0.12602175602175597,
+      "in_domain_soft_jaccard": 0.0732986111111111,
+      "in_domain_soft_precision": 0.0796875,
+      "in_domain_soft_recall": 0.37416666666666665,
+      "out_domain_mean_preds_per_seg": 8.0,
+      "out_domain_soft_f1_difflib": 0.46714766714766703,
+      "out_domain_soft_f1_embed": 0.5374009092759091,
+      "strategy": "pure_extractive"
+    },
+    {
+      "balanced_HM": 0.19851210400606858,
+      "in_domain_exact_f1": 0.08317550505050504,
+      "in_domain_exact_jaccard": 0.04924107142857141,
+      "in_domain_exact_precision": 0.056071428571428585,
+      "in_domain_exact_recall": 0.21500000000000002,
+      "in_domain_mean_preds_per_seg": 6.1875,
+      "in_domain_soft_f1": 0.14488365800865807,
+      "in_domain_soft_jaccard": 0.0862103174603175,
+      "in_domain_soft_precision": 0.09730654761904768,
+      "in_domain_soft_recall": 0.37416666666666665,
+      "out_domain_mean_preds_per_seg": 6.569444444444445,
+      "out_domain_soft_f1_difflib": 0.23148918982252317,
+      "out_domain_soft_f1_embed": 0.31517279017279004,
+      "strategy": "hybrid_v1"
+    },
+    {
+      "balanced_HM": 0.3604235513569634,
+      "in_domain_exact_f1": 0.5231249999999998,
+      "in_domain_exact_jaccard": 0.4520833333333332,
+      "in_domain_exact_precision": 0.5217261904761904,
+      "in_domain_exact_recall": 0.5902083333333333,
+      "in_domain_mean_preds_per_seg": 2.5375,
+      "in_domain_soft_f1": 0.5419742063492062,
+      "in_domain_soft_jaccard": 0.47299107142857144,
+      "in_domain_soft_precision": 0.5464285714285714,
+      "in_domain_soft_recall": 0.6177083333333334,
+      "out_domain_mean_preds_per_seg": 4.847222222222222,
+      "out_domain_soft_f1_difflib": 0.20988355780022447,
+      "out_domain_soft_f1_embed": 0.2699841824841825,
+      "strategy": "hybrid_v2"
+    }
+  ],
+  "verdicts": {
+    "floor_not_met": false,
+    "v2_balanced_best": true,
+    "v2_pareto_improves_v1": false,
+    "v2_precision_recovered": true,
+    "v2_stretch_met": false
+  }
+}

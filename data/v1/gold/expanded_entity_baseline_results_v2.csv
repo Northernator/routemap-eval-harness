@@ -1,0 +1,7 @@
+testset,model,exact,jaccard,precision,recall,f1,zero_overlap
+locked_fresh_adjudicated,current_extractor_v2,0.025316,0.325949,0.638186,0.373418,0.452140,12
+locked_fresh_adjudicated,ontology_v1,0.075949,0.505696,0.759494,0.588608,0.633584,5
+locked_fresh_adjudicated,expanded_gazetteer,0.050633,0.429325,0.812236,0.432489,0.545449,14
+expanded_test_v2,current_extractor_v2,0.023810,0.344218,0.476587,0.527778,0.481491,6
+expanded_test_v2,ontology_v1,0.047619,0.458588,0.589626,0.710317,0.613341,0
+expanded_test_v2,expanded_gazetteer,0.107143,0.586905,0.784921,0.706349,0.723554,0

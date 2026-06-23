@@ -1,0 +1,46 @@
+{
+  "all_wrong_catch_rate": 0.8333333333333334,
+  "by_type": {
+    "digit_transpose": {
+      "catch_rate": 1.0,
+      "escapes_are_multiples_of_M": true,
+      "ruled_out": 250,
+      "wrong_count": 250
+    },
+    "off_by_combined_modulus": {
+      "catch_rate": 0.0,
+      "escapes_are_multiples_of_M": true,
+      "ruled_out": 0,
+      "wrong_count": 250
+    },
+    "off_by_multiple_of_9": {
+      "catch_rate": 1.0,
+      "escapes_are_multiples_of_M": true,
+      "ruled_out": 250,
+      "wrong_count": 250
+    },
+    "off_by_power10": {
+      "catch_rate": 1.0,
+      "escapes_are_multiples_of_M": true,
+      "ruled_out": 250,
+      "wrong_count": 250
+    },
+    "random_offset": {
+      "catch_rate": 1.0,
+      "escapes_are_multiples_of_M": true,
+      "ruled_out": 250,
+      "wrong_count": 250
+    },
+    "sign_flip": {
+      "catch_rate": 1.0,
+      "escapes_are_multiples_of_M": true,
+      "ruled_out": 250,
+      "wrong_count": 250
+    }
+  },
+  "false_positive_rate": 0.0,
+  "standard_corruption_catch_rate": 1.0,
+  "standard_wrong_answer_count": 1250,
+  "synthetic_problem_count": 250,
+  "wrong_answer_count": 1500
+}

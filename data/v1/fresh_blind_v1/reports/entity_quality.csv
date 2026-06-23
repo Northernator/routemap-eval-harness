@@ -1,0 +1,4 @@
+﻿model,exact_entity_avg_jaccard,exact_entity_match,exact_frac_jaccard_ge_0_5,soft_difflib_available,soft_difflib_reason,soft_difflib_entity_avg_jaccard,soft_difflib_frac_jaccard_ge_0_5,soft_embedding_available,soft_embedding_reason,soft_embedding_entity_avg_jaccard,soft_embedding_frac_jaccard_ge_0_5
+RouteMap-LLM adaptive,0.00787202380952381,0.0,0.0,True,difflib stdlib,0.019955357142857143,0.00625,True,available,0.023080357142857142,0.0125
+RouteMap-LLM open,0.009657738095238094,0.0,0.0,True,difflib stdlib,0.019955357142857143,0.00625,True,available,0.023080357142857142,0.0125
+deterministic ontology,0.0,0.0,0.0,True,difflib stdlib,0.004166666666666667,0.0,True,available,0.004166666666666667,0.0

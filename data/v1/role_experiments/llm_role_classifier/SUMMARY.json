@@ -1,0 +1,308 @@
+{
+  "accuracy_rows": [
+    {
+      "accuracy": 0.825,
+      "dataset": "dev",
+      "model": "llm",
+      "taxonomy": "fine_8"
+    },
+    {
+      "accuracy": 0.85,
+      "dataset": "dev",
+      "model": "llm",
+      "taxonomy": "coarse_5"
+    },
+    {
+      "accuracy": 0.9125,
+      "dataset": "dev",
+      "model": "llm",
+      "taxonomy": "coarse_4"
+    },
+    {
+      "accuracy": 0.9375,
+      "dataset": "dev",
+      "model": "llm",
+      "taxonomy": "coarse_3"
+    },
+    {
+      "accuracy": 0.525,
+      "dataset": "dev",
+      "model": "baseline",
+      "taxonomy": "fine_8"
+    },
+    {
+      "accuracy": 0.6,
+      "dataset": "dev",
+      "model": "baseline",
+      "taxonomy": "coarse_5"
+    },
+    {
+      "accuracy": 0.6125,
+      "dataset": "dev",
+      "model": "baseline",
+      "taxonomy": "coarse_4"
+    },
+    {
+      "accuracy": 0.775,
+      "dataset": "dev",
+      "model": "baseline",
+      "taxonomy": "coarse_3"
+    },
+    {
+      "accuracy": 0.555556,
+      "dataset": "true_blind",
+      "model": "llm",
+      "taxonomy": "fine_8"
+    },
+    {
+      "accuracy": 0.625,
+      "dataset": "true_blind",
+      "model": "llm",
+      "taxonomy": "coarse_5"
+    },
+    {
+      "accuracy": 0.638889,
+      "dataset": "true_blind",
+      "model": "llm",
+      "taxonomy": "coarse_4"
+    },
+    {
+      "accuracy": 0.680556,
+      "dataset": "true_blind",
+      "model": "llm",
+      "taxonomy": "coarse_3"
+    },
+    {
+      "accuracy": 0.125,
+      "dataset": "true_blind",
+      "model": "baseline",
+      "taxonomy": "fine_8"
+    },
+    {
+      "accuracy": 0.166667,
+      "dataset": "true_blind",
+      "model": "baseline",
+      "taxonomy": "coarse_5"
+    },
+    {
+      "accuracy": 0.180556,
+      "dataset": "true_blind",
+      "model": "baseline",
+      "taxonomy": "coarse_4"
+    },
+    {
+      "accuracy": 0.319444,
+      "dataset": "true_blind",
+      "model": "baseline",
+      "taxonomy": "coarse_3"
+    }
+  ],
+  "build_results": [
+    {
+      "cache_rows": 80,
+      "dataset": "dev",
+      "invalid_label": 0,
+      "parse_failed": 0,
+      "parse_invalid_rate": 0.0,
+      "prediction": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\role_experiments\\llm_role_classifier\\predictions\\dev_role_predictions.csv",
+      "rows": 80
+    },
+    {
+      "cache_rows": 72,
+      "dataset": "true_blind",
+      "invalid_label": 0,
+      "parse_failed": 0,
+      "parse_invalid_rate": 0.0,
+      "prediction": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\role_experiments\\llm_role_classifier\\predictions\\true_blind_role_predictions.csv",
+      "rows": 72
+    }
+  ],
+  "experiment": "llm_role_classifier_eval",
+  "hard_pair_rows": [
+    {
+      "count": 0,
+      "dataset": "dev",
+      "gold": "CLAIM",
+      "model": "llm",
+      "pred": "DEFINE"
+    },
+    {
+      "count": 0,
+      "dataset": "dev",
+      "gold": "DEFINE",
+      "model": "llm",
+      "pred": "CLAIM"
+    },
+    {
+      "count": 0,
+      "dataset": "dev",
+      "gold": "RESULT",
+      "model": "llm",
+      "pred": "CLAIM"
+    },
+    {
+      "count": 0,
+      "dataset": "dev",
+      "gold": "CLAIM",
+      "model": "llm",
+      "pred": "RESULT"
+    },
+    {
+      "count": 1,
+      "dataset": "dev",
+      "gold": "BACKGROUND",
+      "model": "llm",
+      "pred": "CLAIM"
+    },
+    {
+      "count": 0,
+      "dataset": "dev",
+      "gold": "CLAIM",
+      "model": "llm",
+      "pred": "BACKGROUND"
+    },
+    {
+      "count": 1,
+      "dataset": "dev",
+      "gold": "CLAIM",
+      "model": "baseline",
+      "pred": "DEFINE"
+    },
+    {
+      "count": 1,
+      "dataset": "dev",
+      "gold": "DEFINE",
+      "model": "baseline",
+      "pred": "CLAIM"
+    },
+    {
+      "count": 0,
+      "dataset": "dev",
+      "gold": "RESULT",
+      "model": "baseline",
+      "pred": "CLAIM"
+    },
+    {
+      "count": 0,
+      "dataset": "dev",
+      "gold": "CLAIM",
+      "model": "baseline",
+      "pred": "RESULT"
+    },
+    {
+      "count": 0,
+      "dataset": "dev",
+      "gold": "BACKGROUND",
+      "model": "baseline",
+      "pred": "CLAIM"
+    },
+    {
+      "count": 1,
+      "dataset": "dev",
+      "gold": "CLAIM",
+      "model": "baseline",
+      "pred": "BACKGROUND"
+    },
+    {
+      "count": 0,
+      "dataset": "true_blind",
+      "gold": "CLAIM",
+      "model": "llm",
+      "pred": "DEFINE"
+    },
+    {
+      "count": 0,
+      "dataset": "true_blind",
+      "gold": "DEFINE",
+      "model": "llm",
+      "pred": "CLAIM"
+    },
+    {
+      "count": 0,
+      "dataset": "true_blind",
+      "gold": "RESULT",
+      "model": "llm",
+      "pred": "CLAIM"
+    },
+    {
+      "count": 0,
+      "dataset": "true_blind",
+      "gold": "CLAIM",
+      "model": "llm",
+      "pred": "RESULT"
+    },
+    {
+      "count": 5,
+      "dataset": "true_blind",
+      "gold": "BACKGROUND",
+      "model": "llm",
+      "pred": "CLAIM"
+    },
+    {
+      "count": 0,
+      "dataset": "true_blind",
+      "gold": "CLAIM",
+      "model": "llm",
+      "pred": "BACKGROUND"
+    },
+    {
+      "count": 0,
+      "dataset": "true_blind",
+      "gold": "CLAIM",
+      "model": "baseline",
+      "pred": "DEFINE"
+    },
+    {
+      "count": 0,
+      "dataset": "true_blind",
+      "gold": "DEFINE",
+      "model": "baseline",
+      "pred": "CLAIM"
+    },
+    {
+      "count": 3,
+      "dataset": "true_blind",
+      "gold": "RESULT",
+      "model": "baseline",
+      "pred": "CLAIM"
+    },
+    {
+      "count": 0,
+      "dataset": "true_blind",
+      "gold": "CLAIM",
+      "model": "baseline",
+      "pred": "RESULT"
+    },
+    {
+      "count": 1,
+      "dataset": "true_blind",
+      "gold": "BACKGROUND",
+      "model": "baseline",
+      "pred": "CLAIM"
+    },
+    {
+      "count": 0,
+      "dataset": "true_blind",
+      "gold": "CLAIM",
+      "model": "baseline",
+      "pred": "BACKGROUND"
+    }
+  ],
+  "model": "llama3.1",
+  "outputs": {
+    "predictions": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\role_experiments\\llm_role_classifier\\predictions",
+    "report": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\role_experiments\\llm_role_classifier\\ROLE_LLM_CLASSIFIER_REPORT.md",
+    "reports": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\role_experiments\\llm_role_classifier\\reports",
+    "summary": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\role_experiments\\llm_role_classifier\\SUMMARY.json"
+  },
+  "recommendation": "Adopt the LLM role classifier for diagnostic runs. Operationally, coarse_3 is the strongest taxonomy; keep fine_8 as an analysis label until hard-boundary errors shrink. Next step: inspect CLAIM/DEFINE and RESULT/CLAIM residuals, then reserve the locked fresh test for one final read.",
+  "verdicts": {
+    "hard_pair_total_baseline": 7,
+    "hard_pair_total_llm": 6,
+    "hard_pairs_reduced": true,
+    "llm_beats_0306_outdomain_reference": true,
+    "llm_beats_baseline_8role_dev": true,
+    "llm_beats_baseline_outdomain_8role": true,
+    "llm_coarse3_strong": true
+  }
+}

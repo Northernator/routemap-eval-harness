@@ -1,0 +1,41 @@
+{
+  "build_results": [
+    {
+      "cache": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\llm_entities\\outputs\\true_blind_llm_entities.jsonl",
+      "cache_rows_available": 72,
+      "dataset": "true_blind_combined_v3",
+      "empty_llm_adaptive": 42,
+      "empty_llm_open": 54,
+      "parse_failed": 5,
+      "prediction": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\llm_real_route\\predictions\\true_blind_combined_v3__llm_real_route.csv",
+      "rows": 72,
+      "source": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\true_blind_natural_language\\predictions\\combined_v3_true_blind_predictions.csv"
+    },
+    {
+      "cache": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\llm_entities\\outputs\\true_blind_llm_entities.jsonl",
+      "cache_rows_available": 72,
+      "dataset": "true_blind_R6",
+      "empty_llm_adaptive": 42,
+      "empty_llm_open": 54,
+      "parse_failed": 5,
+      "prediction": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\llm_real_route\\predictions\\true_blind_R6__llm_real_route.csv",
+      "rows": 72,
+      "source": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\true_blind_natural_language\\predictions\\R6_true_blind_predictions.csv"
+    },
+    {
+      "cache": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\llm_entities\\outputs\\dev_llm_entities.jsonl",
+      "cache_rows_available": 80,
+      "dataset": "dev",
+      "empty_llm_adaptive": 10,
+      "empty_llm_open": 53,
+      "parse_failed": 8,
+      "prediction": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\full_extraction_experiments\\llm_real_route\\predictions\\dev__llm_real_route.csv",
+      "rows": 80,
+      "source": "C:\\dev\\RouteMap\\routemap_eval_harness\\routemap_eval_harness\\data\\v1\\gold\\heldout_full_extraction_pred_v2.csv"
+    }
+  ],
+  "experiment": "llm_entities_real_route_build",
+  "g_gate": 1,
+  "offline": true,
+  "t_link_high": 0.85
+}

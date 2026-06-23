@@ -1,0 +1,64 @@
+# RouteMap Evidence Pack
+
+Everything needed for a third party to reproduce the headline numbers cold. The goal is to move from
+"the build reports it works" to "anyone can run it and get the same tables."
+
+## 1. Repo state — commit this first
+- Base commit: `d82272a` (branch `main`). **The RouteMap work is currently in the working tree, untracked.**
+- **Action before sharing:** `git add -A && git commit -m "RouteMap route-and-validate stack (slices 01-16)"` so there
+  is a single reproducible commit hash. Record that hash here once committed.
+
+## 2. Environment
+- Python 3.11 (verified on 3.10/3.11). `numpy` only for six of the seven packages.
+- Matrix layer (`routemap_matrix`) only: `torch` + `transformers>=4.44` (+ `accelerate`). The GPU run needs
+  Ampere-class hardware; the Maxwell GTX 980M result is a characterized negative (see `src/routemap_matrix/HANDOFF.md`).
+- Run everything with `src` on the path: from the harness root, `set PYTHONPATH=src` (PowerShell: `$env:PYTHONPATH='src'`).
+
+## 3. Install
+```
+# core (validators, digital, bench, token, embedding, controller): python + numpy
+pip install numpy
+# matrix layer only:
+pip install "transformers>=4.44" accelerate   # + a torch build for your GPU (Maxwell: torch 2.5.1+cu124)
+```
+
+## 4. One command to reproduce
+```
+cd routemap_eval_harness/routemap_eval_harness
+python run_evidence.py
+```
+Runs the seven test suites and the offline benchmarks, then writes `EVIDENCE/RESULTS.md` with pass/fail and
+captured log tails. Offline steps need only Python + numpy; the matrix self-check needs torch; the live-ollama
+and GPU numbers are environment-gated (noted in the output).
+
+## 5. Headline results (verified) and how each reproduces
+| Lane | Verified headline | Reproduce |
+| --- | --- | --- |
+| Sound validators | Practical false-positive rate 0.000 across arithmetic/code/JSON on real wrapped output (N=30); JSON-schema: 60% of outputs violated their schema, all caught; repair 0.60 -> 0.33; zero pass-but-wrong | `rv_test_validator_package.py`; `python -m routemap_validators.run_regression`; scale numbers in `data/v1/digital_route/slice_05_scale/` + `slice_06_repair/` (ollama-gated) |
+| Digital engine | 8/8 tests; pow/fib-via-cycle == Python exact over 3,000 random ~1e8 exponents; CRT round-trip exact below M, ambiguous above; off-by-M -> NOT_RULED_OUT (sound) | `rd_test_digital_engine.py`; `python -m routemap_digital check "7^1000000 mod 9"` |
+| HugeArithmeticRouteBench | catch 1.000, false-reject 0.000, oracle-verifier agreement 1.000 (75/75), 0 silent misses, 0 false-correct; ground truth independent of the engine (0/73 mismatches) | `rb_test_bench.py`; `python -m routemap_bench run` |
+| Token-importance routing | ~34% token reduction at <1% answer-token loss on 99 real gold segments; beats random +0.34, IDF-stopword +0.62; route decisions provably blind to the gold answer | `rt_test_token.py`; `python -m routemap_token run` |
+| Embedding fingerprints | Recall/speed frontier on a 20k-vector synthetic index; no naive fingerprint clears recall@10>0.95 at >=2x (characterized negative, full curve checked) | `re_test_embedding.py`; `python -m routemap_embedding run` |
+| Unified controller | 9/9 tests; route_decide dispatch correct per task type; no-silent-prune invariant holds; every decision a schema-valid `route_decision_v1` record; demo = 7 plans, 1 escalation | `rc_test_controller.py`; `python -m routemap_controller demo` |
+| Matrix / KV routing | route/validate core 9/9 (CPU); GPU peak-VRAM/quality is hardware-gated (research-only) | `rm_test_matrix.py`; `python -m routemap_matrix selfcheck`; GPU run per `src/routemap_matrix/HANDOFF.md` |
+
+## 6. Datasets and frozen seeds
+- Benchmark seed: **7** (all generators; deterministic — same seed gives byte-identical task files).
+- Synthetic: HugeArithmeticRouteBench tasks, TokenRouteQA constructed fallback, embedding distractors, needle-in-haystack — all seeded.
+- Real gold: `data/v1/gold/v1_full_extraction_gold_v1.csv` (99 segments), `data/gold/*.csv`, `data/v1/gold/v1_qa_targets.csv`.
+- Cached model corpora (offline, no model needed to re-score): `data/v1/digital_route/slice_05_scale/corpus.jsonl`, `slice_02_*`, `slice_06_repair/`.
+
+## 7. Audit schemas
+- `configs/validator_audit_schema_v1.json` — `validator_audit_v1` (validator decisions).
+- `src/routemap_controller/audit.py` — `route_decision_v1` (controller decisions; maps to the architecture's §7.1 core schema).
+
+## 8. No-claim list (locked)
+No lossless recovery from any fingerprint (information floor); no digital-root maths on float attention weights;
+no universal speedup (residue verify is slower than recompute at ordinary sizes); the checkers are one-sided —
+they establish wrongness, never correctness; no novel core algorithms (residues/AST/schema/IDF/LSH are standard) —
+the contribution is integration, the audit schema, and the zero-false-positive / no-self-grading discipline.
+Full version: `ROADMAP_BASELINE.md` and the report's "What is not claimed" section.
+
+## 9. Per-slice records and the report
+- `data/v1/digital_route/records/PHASE3_INDEX.md` + `SLICE_01..16_*.md` — dated record of every slice with verified numbers.
+- `RouteMap_Intelligence_Architecture_Report.docx` (repo root / workspace) — the synthesized build & verification report.

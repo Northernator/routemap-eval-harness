@@ -1,0 +1,118 @@
+{
+  "model": "auto",
+  "device": "cuda",
+  "prompt_len": 1408,
+  "context_chars": 8000,
+  "rows": [
+    {
+      "policy": "dense",
+      "budget": 1408,
+      "prompt_len": 1408,
+      "needle_hit": true,
+      "peak_vram_bytes": 5478591488,
+      "final_cache_len": 1419,
+      "guard_triggers": 0,
+      "false_prunes": 0,
+      "answer": "BLUE-MARLIN-42."
+    },
+    {
+      "policy": "recency_window",
+      "budget": 64,
+      "prompt_len": 1408,
+      "needle_hit": false,
+      "peak_vram_bytes": 5478591488,
+      "final_cache_len": 64,
+      "guard_triggers": 1,
+      "false_prunes": 1,
+      "answer": "B\n\n\n\n\n\n\n\n\n:\n"
+    },
+    {
+      "policy": "recency_window",
+      "budget": 128,
+      "prompt_len": 1408,
+      "needle_hit": false,
+      "peak_vram_bytes": 5478591488,
+      "final_cache_len": 128,
+      "guard_triggers": 1,
+      "false_prunes": 2,
+      "answer": "BRI.\n\n\n"
+    },
+    {
+      "policy": "recency_window",
+      "budget": 256,
+      "prompt_len": 1408,
+      "needle_hit": false,
+      "peak_vram_bytes": 5478591488,
+      "final_cache_len": 256,
+      "guard_triggers": 1,
+      "false_prunes": 1,
+      "answer": "BRI.\n\n\n\n\n\n\n\n\n"
+    },
+    {
+      "policy": "h2o",
+      "budget": 64,
+      "prompt_len": 1408,
+      "needle_hit": false,
+      "peak_vram_bytes": 5478591488,
+      "final_cache_len": 64,
+      "guard_triggers": 0,
+      "false_prunes": 0,
+      "answer": "B B B B B B B B B B B B"
+    },
+    {
+      "policy": "h2o",
+      "budget": 128,
+      "prompt_len": 1408,
+      "needle_hit": false,
+      "peak_vram_bytes": 5478591488,
+      "final_cache_len": 128,
+      "guard_triggers": 0,
+      "false_prunes": 0,
+      "answer": "B B B B B B B B B B B B"
+    },
+    {
+      "policy": "h2o",
+      "budget": 256,
+      "prompt_len": 1408,
+      "needle_hit": false,
+      "peak_vram_bytes": 5478591488,
+      "final_cache_len": 256,
+      "guard_triggers": 0,
+      "false_prunes": 0,
+      "answer": "B B B B B B B B B B B B"
+    },
+    {
+      "policy": "routemap",
+      "budget": 64,
+      "prompt_len": 1408,
+      "needle_hit": false,
+      "peak_vram_bytes": 5478591488,
+      "final_cache_len": 64,
+      "guard_triggers": 1,
+      "false_prunes": 0,
+      "answer": "BLUE is not mentioned in the text."
+    },
+    {
+      "policy": "routemap",
+      "budget": 128,
+      "prompt_len": 1408,
+      "needle_hit": false,
+      "peak_vram_bytes": 5478591488,
+      "final_cache_len": 128,
+      "guard_triggers": 0,
+      "false_prunes": 0,
+      "answer": "BLUE LIMARIN is used to access the"
+    },
+    {
+      "policy": "routemap",
+      "budget": 256,
+      "prompt_len": 1408,
+      "needle_hit": false,
+      "peak_vram_bytes": 5478591488,
+      "final_cache_len": 256,
+      "guard_triggers": 0,
+      "false_prunes": 0,
+      "answer": "BLUEMARLIN42 is used to access"
+    }
+  ]
+}

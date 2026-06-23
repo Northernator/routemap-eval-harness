@@ -1,0 +1,7 @@
+valid_id,domain,verdict,reason
+valid_0,arithmetic,NOT_RULED_OUT,no applicable checker ruled out this output
+valid_1,arithmetic,NOT_RULED_OUT,no applicable checker ruled out this output
+valid_2,python_code,NOT_RULED_OUT,no applicable checker ruled out this output
+valid_3,python_code,NOT_RULED_OUT,no applicable checker ruled out this output
+valid_4,json_schema,NOT_RULED_OUT,no applicable checker ruled out this output
+valid_5,json_schema,NOT_RULED_OUT,no applicable checker ruled out this output

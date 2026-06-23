@@ -1,0 +1,5 @@
+{"problem_id": "pow_17_19", "prompt": "Compute 17^19 exactly.", "response": "295,238,911,953"}
+{"problem_id": "pow_97_13", "prompt": "Compute 97^13 exactly.", "response": "1,345,839,953,939,907"}
+{"problem_id": "pow_12345_9", "prompt": "Compute 12345^9 exactly.", "response": "108888694504183521607680"}
+{"problem_id": "pow_99991_7", "prompt": "Compute 99991^7 exactly.", "response": "-1"}
+{"problem_id": "pow_2_256", "prompt": "Compute 2^256 exactly.", "response": "18,446,744,073,709,551,616"}

@@ -1,0 +1,67 @@
+problem_id,family,size_label,corruption_type,is_correct,verdict,disagreeing_moduli,claimed_sign,claimed_digits,claimed_prefix,claimed_suffix
+power_small,power,8-digit exponent,correct,1,NOT_RULED_OUT,,+,9,429981696,429981696
+power_small,power,8-digit exponent,random_offset,0,RULED_OUT_WRONG,7 9 13 37 101,+,9,430831490,430831490
+power_small,power,8-digit exponent,digit_transpose,0,RULED_OUT_WRONG,7 11 13 37 101,+,9,249981696,249981696
+power_small,power,8-digit exponent,off_by_power10,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,9,529981696,529981696
+power_small,power,8-digit exponent,sign_flip,0,RULED_OUT_WRONG,7 11 13 37 101,-,9,429981696,429981696
+power_small,power,8-digit exponent,off_by_multiple_of_9,0,RULED_OUT_WRONG,7 11 13 37 101,+,9,430195365,430195365
+power_medium,power,250 exponent,correct,1,NOT_RULED_OUT,,+,393,1123132557347692,7358493023696249
+power_medium,power,250 exponent,random_offset,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,393,1123132557347692,7358493023892691
+power_medium,power,250 exponent,digit_transpose,0,RULED_OUT_WRONG,7 11 13 37 101,+,393,1213132557347692,7358493023696249
+power_medium,power,250 exponent,off_by_power10,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,393,1123132557347692,7358493023696249
+power_medium,power,250 exponent,sign_flip,0,RULED_OUT_WRONG,7 9 11 13 101,-,393,1123132557347692,7358493023696249
+power_medium,power,250 exponent,off_by_multiple_of_9,0,RULED_OUT_WRONG,7 11 13 37 101,+,393,1123132557347692,7358493024650177
+power_large,power,5000 exponent,correct,1,NOT_RULED_OUT,,+,25458,3789632591199378,0165655176000001
+power_large,power,5000 exponent,random_offset,0,RULED_OUT_WRONG,7 11 13 37 101,+,25458,3789632591199378,0165655176425737
+power_large,power,5000 exponent,digit_transpose,0,RULED_OUT_WRONG,7 11 13 37 101,+,25458,7389632591199378,0165655176000001
+power_large,power,5000 exponent,off_by_power10,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,25458,3789632591199378,0165655176000001
+power_large,power,5000 exponent,sign_flip,0,RULED_OUT_WRONG,7 9 11 13 37 101,-,25458,3789632591199378,0165655176000001
+power_large,power,5000 exponent,off_by_multiple_of_9,0,RULED_OUT_WRONG,7 11 13 37 101,+,25458,3789632591199378,0165655177375831
+factorial_small,factorial,25!,correct,1,NOT_RULED_OUT,,+,26,1551121004333098,3330985984000000
+factorial_small,factorial,25!,random_offset,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,26,1551121004333098,3330985984477388
+factorial_small,factorial,25!,digit_transpose,0,RULED_OUT_WRONG,7 11 13 37 101,+,26,5151121004333098,3330985984000000
+factorial_small,factorial,25!,off_by_power10,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,26,2551121004333098,3330985984000000
+factorial_small,factorial,25!,sign_flip,0,RULED_OUT_WRONG,37 101,-,26,1551121004333098,3330985984000000
+factorial_small,factorial,25!,off_by_multiple_of_9,0,RULED_OUT_WRONG,7 11 13 37 101,+,26,1551121004333098,3330985985172916
+factorial_medium,factorial,75!,correct,1,NOT_RULED_OUT,,+,110,2480914081139539,0000000000000000
+factorial_medium,factorial,75!,random_offset,0,RULED_OUT_WRONG,7 9 11 37 101,+,110,2480914081139539,0000000000598715
+factorial_medium,factorial,75!,digit_transpose,0,RULED_OUT_WRONG,7 11 13 37 101,+,110,4280914081139539,0000000000000000
+factorial_medium,factorial,75!,off_by_power10,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,110,2480914081139539,0000000000000000
+factorial_medium,factorial,75!,sign_flip,0,RULED_OUT_WRONG,101,-,110,2480914081139539,0000000000000000
+factorial_medium,factorial,75!,off_by_multiple_of_9,0,RULED_OUT_WRONG,11 13 37 101,+,110,2480914081139539,0000000002026773
+factorial_edge,factorial,100!,correct,1,NOT_RULED_OUT,,+,158,9332621544394415,0000000000000000
+factorial_edge,factorial,100!,random_offset,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,158,9332621544394415,0000000000614566
+factorial_edge,factorial,100!,digit_transpose,0,RULED_OUT_WRONG,7 11 13 37 101,+,158,3932621544394415,0000000000000000
+factorial_edge,factorial,100!,off_by_power10,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,158,9332621544394415,0000000000000000
+factorial_edge,factorial,100!,sign_flip,0,RULED_OUT_WRONG,101,-,158,9332621544394415,0000000000000000
+factorial_edge,factorial,100!,off_by_multiple_of_9,0,RULED_OUT_WRONG,7 11 13 37 101,+,158,9332621544394415,0000000001654326
+fibonacci_small,fibonacci,F(40),correct,1,NOT_RULED_OUT,,+,9,102334155,102334155
+fibonacci_small,fibonacci,F(40),random_offset,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,9,102369968,102369968
+fibonacci_small,fibonacci,F(40),digit_transpose,0,RULED_OUT_WRONG,7 11 13 37 101,+,8,12334155,12334155
+fibonacci_small,fibonacci,F(40),off_by_power10,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,9,202334155,202334155
+fibonacci_small,fibonacci,F(40),sign_flip,0,RULED_OUT_WRONG,9 13 37 101,-,9,102334155,102334155
+fibonacci_small,fibonacci,F(40),off_by_multiple_of_9,0,RULED_OUT_WRONG,7 11 13 37 101,+,9,103124517,103124517
+fibonacci_medium,fibonacci,F(1000),correct,1,NOT_RULED_OUT,,+,209,4346655768693745,7795166849228875
+fibonacci_medium,fibonacci,F(1000),random_offset,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,209,4346655768693745,7795166849629734
+fibonacci_medium,fibonacci,F(1000),digit_transpose,0,RULED_OUT_WRONG,7 11 13 37 101,+,209,3446655768693745,7795166849228875
+fibonacci_medium,fibonacci,F(1000),off_by_power10,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,209,4346655768693745,7795166849228875
+fibonacci_medium,fibonacci,F(1000),sign_flip,0,RULED_OUT_WRONG,9 13 37,-,209,4346655768693745,7795166849228875
+fibonacci_medium,fibonacci,F(1000),off_by_multiple_of_9,0,RULED_OUT_WRONG,7 13 37 101,+,209,4346655768693745,7795166850528844
+fibonacci_large,fibonacci,F(20000),correct,1,NOT_RULED_OUT,,+,4180,2531162323732361,7683971213093125
+fibonacci_large,fibonacci,F(20000),random_offset,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,4180,2531162323732361,7683971213637453
+fibonacci_large,fibonacci,F(20000),digit_transpose,0,RULED_OUT_WRONG,7 11 13 37 101,+,4180,5231162323732361,7683971213093125
+fibonacci_large,fibonacci,F(20000),off_by_power10,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,4180,2531162323732361,7683971213093125
+fibonacci_large,fibonacci,F(20000),sign_flip,0,RULED_OUT_WRONG,9 13 37,-,4180,2531162323732361,7683971213093125
+fibonacci_large,fibonacci,F(20000),off_by_multiple_of_9,0,RULED_OUT_WRONG,7 11 13 37 101,+,4180,2531162323732361,7683971214803485
+bigsum_medium,bigsum,899 cubic terms,correct,1,NOT_RULED_OUT,,+,24,1587494702309754,0230975415192500
+bigsum_medium,bigsum,899 cubic terms,random_offset,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,24,1587494702309754,0230975415611808
+bigsum_medium,bigsum,899 cubic terms,digit_transpose,0,RULED_OUT_WRONG,7 11 13 37 101,+,24,5187494702309754,0230975415192500
+bigsum_medium,bigsum,899 cubic terms,off_by_power10,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,24,2587494702309754,0230975415192500
+bigsum_medium,bigsum,899 cubic terms,sign_flip,0,RULED_OUT_WRONG,7 9 13 37 101,-,24,1587494702309754,0230975415192500
+bigsum_medium,bigsum,899 cubic terms,off_by_multiple_of_9,0,RULED_OUT_WRONG,7 11 13 37 101,+,24,1587494702309754,0230975416085318
+bigprod_medium,bigprod,259 factors,correct,1,NOT_RULED_OUT,,+,927,1964798642999435,0000000000000000
+bigprod_medium,bigprod,259 factors,random_offset,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,927,1964798642999435,0000000000319857
+bigprod_medium,bigprod,259 factors,digit_transpose,0,RULED_OUT_WRONG,7 11 13 37 101,+,927,9164798642999435,0000000000000000
+bigprod_medium,bigprod,259 factors,off_by_power10,0,RULED_OUT_WRONG,7 9 11 13 37 101,+,927,1964798642999435,0000000000000000
+bigprod_medium,bigprod,259 factors,sign_flip,0,RULED_OUT_WRONG,37,-,927,1964798642999435,0000000000000000
+bigprod_medium,bigprod,259 factors,off_by_multiple_of_9,0,RULED_OUT_WRONG,7 11 13 37 101,+,927,1964798642999435,0000000000907281

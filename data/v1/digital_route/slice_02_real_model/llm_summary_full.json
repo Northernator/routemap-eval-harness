@@ -1,0 +1,21 @@
+{
+  "arithmetic_error_count": 27,
+  "arithmetic_error_rate": 0.84375,
+  "correct_count": 5,
+  "exact_check_seconds_total": 0.0001906,
+  "false_positive_count": 0,
+  "false_positive_rate": 0.0,
+  "missed_error_count": 0,
+  "missed_errors": [],
+  "mode": "full",
+  "model": "llama3.1",
+  "modulus_product": 33666633,
+  "parse_failure_count": 0,
+  "parse_failure_rate": 0.0,
+  "parsed_count": 32,
+  "problem_count": 32,
+  "verified_throughput_ratio_exact_over_residue": 0.09779374037968187,
+  "verifier_catch_rate_on_errors": 1.0,
+  "verifier_caught_error_count": 27,
+  "verifier_seconds_total": 0.0019490000000000002
+}

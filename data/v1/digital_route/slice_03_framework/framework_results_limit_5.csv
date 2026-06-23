@@ -1,0 +1,6 @@
+task_id,domain,verdict,reason,applicable_checkers,parse_failure
+arith_pow_1,arithmetic,RULED_OUT_WRONG,claimed integer disagrees with exact expression residue on moduli: 7 9 11 13 37 101,arithmetic_residue_v1,0
+arith_pow_2,arithmetic,RULED_OUT_WRONG,claimed integer disagrees with exact expression residue on moduli: 7 9 11 13 37,arithmetic_residue_v1,0
+arith_fact_1,arithmetic,RULED_OUT_WRONG,claimed integer disagrees with exact expression residue on moduli: 101,arithmetic_residue_v1,0
+arith_fact_2,arithmetic,RULED_OUT_WRONG,claimed integer disagrees with exact expression residue on moduli: 101,arithmetic_residue_v1,0
+arith_sum_1,arithmetic,RULED_OUT_WRONG,claimed integer disagrees with exact expression residue on moduli: 9 11 13 37 101,arithmetic_residue_v1,0

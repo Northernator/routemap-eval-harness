@@ -1,0 +1,5 @@
+{"task_id": "arith_000", "domain": "arithmetic", "raw_response": "73786976294838206464"}
+{"task_id": "code_000", "domain": "python_code", "raw_response": "```python\ndef f_0(a, b):\n    return a + b\n```"}
+{"task_id": "json_000", "domain": "json_schema", "raw_response": "Here is the JSON object that matches the description:\n```\n{\n  \"id\": \"route-0\",\n  \"score\": 104,\n  \"status\": \"maybe\",\n  \"tags\": []\n}\n```\nI've made sure to include only the required fields and values, without any extra keys."}
+{"task_id": "arith_001", "domain": "arithmetic", "raw_response": "0"}
+{"task_id": "arith_002", "domain": "arithmetic", "raw_response": "13"}
