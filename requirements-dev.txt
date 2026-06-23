@@ -1,0 +1,10 @@
+# Dev / test / offline-benchmark dependencies (Python 3.11; 3.10 also works).
+# The seven route packages and the evidence runner need only numpy + pytest.
+numpy
+pytest
+
+# Only the Phase 1-2 evaluation harness scripts (src/run_*.py) use these:
+pandas
+matplotlib
+
+# The matrix layer (routemap_matrix) additionally needs torch + transformers — see requirements-matrix.txt.

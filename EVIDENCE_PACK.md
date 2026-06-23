@@ -3,10 +3,12 @@
 Everything needed for a third party to reproduce the headline numbers cold. The goal is to move from
 "the build reports it works" to "anyone can run it and get the same tables."
 
-## 1. Repo state — commit this first
-- Base commit: `d82272a` (branch `main`). **The RouteMap work is currently in the working tree, untracked.**
-- **Action before sharing:** `git add -A && git commit -m "RouteMap route-and-validate stack (slices 01-16)"` so there
-  is a single reproducible commit hash. Record that hash here once committed.
+## 1. Repo state
+- Repository: https://github.com/Northernator/routemap-eval-harness
+- Reproduce against commit **`d3b773a`** ("Initial commit: RouteMap - route-and-validate control layer for LLMs").
+  Full hash: `d3b773a74a40b0470f592afa506c61a1a6b4dd95`.
+- Verify your checkout with `git rev-parse HEAD`. Run all commands from the repo root (`src/` and
+  `run_evidence.py` are at the top level), with `src` on `PYTHONPATH`.
 
 ## 2. Environment
 - Python 3.11 (verified on 3.10/3.11). `numpy` only for six of the seven packages.

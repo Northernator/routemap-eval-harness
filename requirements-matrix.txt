@@ -1,0 +1,9 @@
+# Matrix / KV layer only (routemap_matrix). Full run sheet: src/routemap_matrix/HANDOFF.md
+transformers>=4.44
+accelerate
+
+# torch must match your GPU's CUDA and is installed separately, e.g.:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu124
+# Maxwell GPUs (e.g. GTX 9xx): use torch 2.5.1+cu124 — CUDA 12.8+/13 drop Maxwell support.
+# The route/validate core is verified on CPU (rm_test_matrix.py); the peak-VRAM / long-context
+# result needs an Ampere-class GPU and is reported as research-only on Maxwell.

@@ -1,0 +1,45 @@
+name: evidence
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install offline lane (numpy + pytest)
+        run: pip install numpy pytest
+
+      - name: Core test suites
+        env:
+          PYTHONPATH: src
+        run: >
+          python -m pytest
+          rv_test_validator_package.py
+          rd_test_digital_engine.py
+          rb_test_bench.py
+          rt_test_token.py
+          re_test_embedding.py
+          rc_test_controller.py
+          rm_test_matrix.py
+          -q
+
+      - name: Evidence runner (offline; matrix self-check skipped without torch)
+        run: python run_evidence.py
+
+      - name: Upload EVIDENCE/RESULTS.md
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-results
+          path: EVIDENCE/RESULTS.md
+
+  # GPU matrix run (peak-VRAM / long-context) is hardware-gated and not run in CI.
+  # See src/routemap_matrix/HANDOFF.md to run it on an Ampere-class GPU.
