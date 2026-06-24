@@ -32,6 +32,14 @@ def summarize(path: str | Path) -> dict[str, Any]:
     return summary
 
 
+def get_record(decision_id: str, path: str | Path = DEFAULT_AUDIT) -> dict[str, Any] | None:
+    """Return one stored harness audit record by decision_id."""
+    for record in _read_jsonl(Path(path)):
+        if record.get("decision_id") == decision_id:
+            return record
+    return None
+
+
 def summarize_records(records: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
     rows = [dict(record) for record in records]
     total = len(rows)
@@ -183,6 +191,7 @@ def _is_false_accept(record: Mapping[str, Any]) -> bool:
 
 __all__ = [
     "append",
+    "get_record",
     "markdown_table",
     "summarize",
     "summarize_jsonl_records",
