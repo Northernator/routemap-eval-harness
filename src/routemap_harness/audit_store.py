@@ -50,6 +50,15 @@ def tail(path: str | Path = DEFAULT_AUDIT, limit: int = 20) -> list[dict[str, An
 
 def summarize_records(records: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
     rows = [dict(record) for record in records]
+    summary = _summary_for_rows(rows)
+    summary["by_model"] = {
+        model: _summary_for_rows(model_rows)
+        for model, model_rows in sorted(_group_by_model(rows).items())
+    }
+    return summary
+
+
+def _summary_for_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
     total = len(rows)
     final_status = _counts(rows, "final_status")
     repaired = final_status.get("repaired", 0)
@@ -76,6 +85,21 @@ def summarize_records(records: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
             "p95": _percentile(latencies, 0.95),
         },
     }
+
+
+def _group_by_model(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for row in rows:
+        grouped.setdefault(_model_key(row), []).append(row)
+    return grouped
+
+
+def _model_key(row: Mapping[str, Any]) -> str:
+    for key in ("model", "model_ref", "runtime", "provider"):
+        value = row.get(key)
+        if value:
+            return str(value)
+    return "unknown"
 
 
 def markdown_table(summary: Mapping[str, Any]) -> str:

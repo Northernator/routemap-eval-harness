@@ -176,6 +176,59 @@ def test_run_returns_pipeline_fields(tmp_path: Path, monkeypatch: pytest.MonkeyP
         assert key in body
 
 
+def test_summary_endpoint_aggregates(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    app.state.audit_path = str(tmp_path / "audit.jsonl")
+
+    def valid_json(prompt: str, **kwargs: object) -> str:
+        return '{"id":"x","score":88,"status":"pass","tags":["ok"]}'
+
+    monkeypatch.setattr(api, "model_fn", valid_json)
+    client = TestClient(app)
+    spec = {
+        "type": "object",
+        "required": ["id", "score", "status", "tags"],
+        "properties": {
+            "id": {"type": "string"},
+            "score": {"type": "integer", "minimum": 0, "maximum": 100},
+            "status": {"enum": ["pass", "fail"]},
+            "tags": {"type": "array", "minItems": 1},
+        },
+    }
+
+    check_response = client.post(
+        "/check",
+        json={
+            "task": "json_schema",
+            "model": "check-model",
+            "output": '{"id":"x","score":88,"status":"pass","tags":["ok"]}',
+            "spec": spec,
+        },
+    )
+    run_response = client.post(
+        "/run",
+        json={
+            "prompt": "return valid json",
+            "model_ref": "run-model",
+            "runtime": "ollama",
+            "task_hint": "json_schema",
+            "spec": spec,
+        },
+    )
+    summary_response = client.get("/summary")
+
+    assert check_response.status_code == 200
+    assert run_response.status_code == 200
+    assert summary_response.status_code == 200
+    summary = summary_response.json()
+    assert summary["total"] == 2
+    assert summary["counts"]["task_type"]["json_schema"] == 2
+    assert summary["counts"]["final_status"]["accepted"] == 2
+    assert summary["by_model"]["check-model"]["total"] == 1
+    assert summary["by_model"]["run-model"]["total"] == 1
+    assert summary["by_model"]["run-model"]["counts"]["verdict"]["NOT_RULED_OUT"] == 1
+    assert "markdown" in summary
+
+
 def test_compare_runs_each_model(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     app.state.audit_path = str(tmp_path / "audit.jsonl")
 

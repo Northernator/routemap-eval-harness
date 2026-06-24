@@ -43,6 +43,7 @@ def models() -> list[dict[str, Any]]:
 def check(body: dict[str, Any]) -> dict[str, Any]:
     payload = _check_payload(body)
     decision = harness_check(payload, strict=bool(body.get("strict")))
+    decision = _with_model_record(decision, body.get("model"))
     audit_store.append(decision, _audit_path())
     return decision.to_dict()
 
@@ -68,6 +69,7 @@ def _run_once(body: dict[str, Any], *, runtime: str, model_ref: str) -> dict[str
     _LAST_MODEL_METADATA = metadata_dict(model_output)
     payload = _run_payload(body, prompt=prompt, model_output=str(model_output), model_ref=model_ref, runtime=runtime)
     decision = harness_check(payload, strict=bool(body.get("strict")))
+    decision = _with_model_record(decision, model_ref)
     decision = _with_compression_record(decision, compression)
     audit_store.append(decision, _audit_path())
 
@@ -173,6 +175,11 @@ def repair_decision(body: dict[str, Any]) -> dict[str, Any]:
 @app.get("/audit")
 def audit_tail(limit: int = 20) -> list[dict[str, Any]]:
     return audit_store.tail(_audit_path(), limit)
+
+
+@app.get("/summary")
+def summary() -> dict[str, Any]:
+    return audit_store.summarize(_audit_path())
 
 
 @app.get("/audit/{decision_id}")
@@ -384,6 +391,15 @@ def _with_compression_record(decision: HarnessDecision, compression: dict[str, A
             "guard": "kept non-empty and reduction >= 0.15",
         },
     }
+    return HarnessDecision(**data, blocking=decision.is_blocking())
+
+
+def _with_model_record(decision: HarnessDecision, model: Any) -> HarnessDecision:
+    model_name = str(model or "").strip()
+    if not model_name:
+        return decision
+    data = decision.to_dict()
+    data["model"] = model_name
     return HarnessDecision(**data, blocking=decision.is_blocking())
 
 

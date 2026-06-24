@@ -13,7 +13,7 @@ from jsonschema import Draft202012Validator
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from routemap_harness.audit_store import append, summarize, validate_record
+from routemap_harness.audit_store import append, summarize, summarize_records, validate_record
 
 
 def test_append_validates_every_record_and_summarizes(tmp_path: Path) -> None:
@@ -66,6 +66,26 @@ def test_append_raises_on_invalid_record(tmp_path: Path) -> None:
         append(record, tmp_path / "audit.jsonl")
 
 
+def test_summarize_records_has_by_model() -> None:
+    false_accept = _record("accepted", model="model-a")
+    false_accept["validator_record"] = {"schema_version": "route_decision_v1", "known_wrong": True}
+    records = [
+        false_accept,
+        _record("repaired", action="repair", repair_attempt=1, model="model-a"),
+        _record("escalated", action="escalate", verdict="UNCHECKABLE", model="model-b"),
+    ]
+
+    summary = summarize_records(records)
+
+    assert summary["total"] == 3
+    assert summary["by_model"]["model-a"]["total"] == 2
+    assert summary["by_model"]["model-a"]["counts"]["final_status"]["accepted"] == 1
+    assert summary["by_model"]["model-a"]["counts"]["action"]["repair"] == 1
+    assert summary["by_model"]["model-a"]["false_accepts"] == 1
+    assert summary["by_model"]["model-a"]["repair_success_rate"] == 1.0
+    assert summary["by_model"]["model-b"]["counts"]["verdict"]["UNCHECKABLE"] == 1
+
+
 def test_cli_summarize_prints_markdown_table(tmp_path: Path) -> None:
     audit_path = tmp_path / "audit.jsonl"
     append(_record("accepted", action="accept"), audit_path)
@@ -87,8 +107,9 @@ def _record(
     validator: str = "test_validator",
     repair_attempt: int = 0,
     latency_ms: float = 1.0,
+    model: str | None = None,
 ) -> dict[str, object]:
-    return {
+    record: dict[str, object] = {
         "schema_version": "harness_decision_v1",
         "decision_id": f"{final_status}-{repair_attempt}",
         "timestamp": "2026-06-24T00:00:00Z",
@@ -104,6 +125,9 @@ def _record(
         "latency_ms": latency_ms,
         "validator_record": {"schema_version": "route_decision_v1", "known_wrong": False},
     }
+    if model is not None:
+        record["model"] = model
+    return record
 
 
 def _run_cli(*args: str) -> subprocess.CompletedProcess[str]:

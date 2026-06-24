@@ -243,6 +243,32 @@
       border-radius: 999px;
       padding: 3px 8px;
     }
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .kpi {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .kpi .key {
+      display: block;
+      margin-bottom: 4px;
+    }
+    .kpi .value {
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+      align-items: start;
+    }
     .chat-tools {
       display: flex;
       justify-content: flex-end;
@@ -391,7 +417,7 @@
     }
     @media (max-width: 900px) {
       main { width: min(100% - 20px, 760px); padding-top: 18px; }
-      header, .grid { display: block; }
+      header, .grid, .dashboard-grid { display: block; }
       header > * { margin-bottom: 10px; }
       .controls, .chat-form { grid-template-columns: 1fr; }
       .panel { margin-top: 14px; }
@@ -406,6 +432,7 @@
         <button id="mode-check" type="button">Check</button>
         <button id="mode-run" type="button">Run</button>
         <button id="mode-compare" type="button">Compare</button>
+        <button id="mode-dashboard" type="button">Dashboard</button>
         <button id="mode-lab" type="button">Lab</button>
       </div>
       <label>model
@@ -413,6 +440,49 @@
       </label>
       <div class="pill">harness on</div>
     </header>
+
+    <section id="dashboard-panel" class="hidden">
+      <section class="panel">
+        <div class="prompt-head">
+          <h2>dashboard</h2>
+          <button id="dashboard-refresh" class="secondary" type="button">refresh</button>
+        </div>
+        <div id="dashboard-kpis" class="kpi-row"></div>
+        <div id="dashboard-status" class="status"></div>
+      </section>
+      <div class="dashboard-grid">
+        <section class="panel">
+          <h2>failures by type</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>group</th>
+                <th>type</th>
+                <th>count</th>
+              </tr>
+            </thead>
+            <tbody id="failure-body"></tbody>
+          </table>
+        </section>
+        <section class="panel">
+          <h2>by model</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>model</th>
+                <th>total</th>
+                <th>accepted</th>
+                <th>escalated</th>
+                <th>false_accepts</th>
+                <th>repair_success</th>
+                <th>p95(ms)</th>
+              </tr>
+            </thead>
+            <tbody id="by-model-body"></tbody>
+          </table>
+        </section>
+      </div>
+    </section>
 
     <section id="check-panel">
       <div class="grid">
@@ -585,7 +655,9 @@
     const modeCheck = document.querySelector("#mode-check");
     const modeRun = document.querySelector("#mode-run");
     const modeCompare = document.querySelector("#mode-compare");
+    const modeDashboard = document.querySelector("#mode-dashboard");
     const modeLab = document.querySelector("#mode-lab");
+    const dashboardPanel = document.querySelector("#dashboard-panel");
     const checkPanel = document.querySelector("#check-panel");
     const runPanel = document.querySelector("#run-panel");
     const comparePanel = document.querySelector("#compare-panel");
@@ -620,6 +692,11 @@
     const compareModels = document.querySelector("#compare-models");
     const compareStatus = document.querySelector("#compare-status");
     const compareResults = document.querySelector("#compare-results");
+    const dashboardKpis = document.querySelector("#dashboard-kpis");
+    const dashboardStatus = document.querySelector("#dashboard-status");
+    const dashboardRefresh = document.querySelector("#dashboard-refresh");
+    const failureBody = document.querySelector("#failure-body");
+    const byModelBody = document.querySelector("#by-model-body");
     let lastDecisionId = "";
 
     async function request(path, options) {
@@ -630,16 +707,19 @@
 
     function setMode(mode) {
       const requested = mode === "chat" ? "run" : mode;
-      const selected = ["check", "run", "compare", "lab"].includes(requested) ? requested : "check";
+      const selected = ["check", "run", "compare", "dashboard", "lab"].includes(requested) ? requested : "check";
       modeCheck.classList.toggle("active", selected === "check");
       modeRun.classList.toggle("active", selected === "run");
       modeCompare.classList.toggle("active", selected === "compare");
+      modeDashboard.classList.toggle("active", selected === "dashboard");
       modeLab.classList.toggle("active", selected === "lab");
+      dashboardPanel.classList.toggle("hidden", selected !== "dashboard");
       checkPanel.classList.toggle("hidden", selected !== "check");
       runPanel.classList.toggle("hidden", selected !== "run");
       comparePanel.classList.toggle("hidden", selected !== "compare");
       labPanel.classList.toggle("hidden", selected !== "lab");
       localStorage.setItem("routemap.mode", selected);
+      if (selected === "dashboard") loadDashboard().catch((error) => { dashboardStatus.textContent = error.message; });
     }
 
     function parseSpec() {
@@ -699,6 +779,60 @@
           <td>${escapeHtml(record.final_status || "")}</td>
         </tr>
       `).join("");
+    }
+
+    function renderDashboard(summary) {
+      const latency = summary.latency_ms || {};
+      const kpis = [
+        ["total", summary.total],
+        ["acceptance_rate", formatRate(summary.acceptance_rate)],
+        ["escalation_rate", formatRate(summary.escalation_rate)],
+        ["repair_success_rate", formatRate(summary.repair_success_rate)],
+        ["false_accepts", summary.false_accepts],
+        ["latency p50/p95", `${formatNumber(latency.p50)} / ${formatNumber(latency.p95)}`]
+      ];
+      dashboardKpis.innerHTML = kpis.map(([key, value]) => (
+        `<div class="kpi"><span class="key">${escapeHtml(key)}</span><span class="value">${escapeHtml(value)}</span></div>`
+      )).join("");
+      renderFailures(summary.counts || {});
+      renderByModel(summary.by_model || {});
+    }
+
+    function renderFailures(counts) {
+      const rows = [
+        ...countRows("verdict", counts.verdict || {}),
+        ...countRows("action", counts.action || {})
+      ];
+      failureBody.innerHTML = rows.length
+        ? rows.map(([group, key, count]) => `<tr><td>${escapeHtml(group)}</td><td>${escapeHtml(key)}</td><td>${escapeHtml(count)}</td></tr>`).join("")
+        : `<tr><td colspan="3" class="status">No failure counts yet.</td></tr>`;
+    }
+
+    function renderByModel(byModel) {
+      const rows = Object.entries(byModel).sort(([left], [right]) => left.localeCompare(right));
+      if (!rows.length) {
+        byModelBody.innerHTML = `<tr><td colspan="7" class="status">No model records yet.</td></tr>`;
+        return;
+      }
+      byModelBody.innerHTML = rows.map(([model, summary]) => {
+        const finalStatus = (summary.counts && summary.counts.final_status) || {};
+        const latency = summary.latency_ms || {};
+        return `<tr>
+          <td>${escapeHtml(model)}</td>
+          <td>${escapeHtml(summary.total || 0)}</td>
+          <td>${escapeHtml(finalStatus.accepted || 0)}</td>
+          <td>${escapeHtml(finalStatus.escalated || 0)}</td>
+          <td>${escapeHtml(summary.false_accepts || 0)}</td>
+          <td>${escapeHtml(formatRate(summary.repair_success_rate))}</td>
+          <td>${escapeHtml(formatNumber(latency.p95))}</td>
+        </tr>`;
+      }).join("");
+    }
+
+    function countRows(group, counts) {
+      return Object.entries(counts)
+        .sort(([left], [right]) => left.localeCompare(right))
+        .map(([key, count]) => [group, key, count]);
     }
 
     function addBubble(kind, text, run) {
@@ -840,6 +974,16 @@
       }).join("");
     }
 
+    function formatRate(value) {
+      return `${Math.round((Number(value) || 0) * 1000) / 10}%`;
+    }
+
+    function formatNumber(value) {
+      const number = Number(value);
+      if (!Number.isFinite(number)) return "0";
+      return number >= 10 ? String(Math.round(number)) : number.toFixed(3).replace(/0+$/, "").replace(/\.$/, "");
+    }
+
     function escapeHtml(value) {
       return String(value)
         .replaceAll("&", "&amp;")
@@ -868,10 +1012,19 @@
       renderAudit(await request("/audit?limit=20"));
     }
 
+    async function loadDashboard() {
+      dashboardStatus.textContent = "loading...";
+      const summary = await request("/summary");
+      renderDashboard(summary);
+      dashboardStatus.textContent = "loaded";
+    }
+
     modeCheck.addEventListener("click", () => setMode("check"));
     modeRun.addEventListener("click", () => setMode("run"));
     modeCompare.addEventListener("click", () => setMode("compare"));
+    modeDashboard.addEventListener("click", () => setMode("dashboard"));
     modeLab.addEventListener("click", () => setMode("lab"));
+    dashboardRefresh.addEventListener("click", () => loadDashboard().catch((error) => { dashboardStatus.textContent = error.message; }));
     taskSelect.addEventListener("change", syncTaskFields);
     modelSelect.addEventListener("change", () => localStorage.setItem("routemap.model", modelSelect.value));
     compressField.checked = localStorage.getItem("routemap.compress") === "true";
