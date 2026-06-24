@@ -6,6 +6,7 @@ import json
 import re
 from dataclasses import dataclass
 from pathlib import Path
+from time import perf_counter
 from typing import Any, Callable, Mapping
 
 from dr_repair_wrapper_v1 import build_repair_prompt
@@ -13,9 +14,10 @@ from routemap_bench.tasks import exact_value_feasible
 from routemap_digital import parse_expression
 from routemap_validators.verdicts import NOT_RULED_OUT, RULED_OUT_WRONG, UNCHECKABLE
 
+from .adapters import DEFAULT_MODEL_REF, ModelCallMetadata, metadata_from_response
 from .core import HarnessDecision, append_audit_record, harness_check
 
-ModelFn = Callable[[Mapping[str, Any]], Any]
+ModelFn = Callable[..., Any]
 
 REPAIRABLE_TASKS = {"arithmetic", "json_schema", "python_code"}
 ESCALATION_TARGETS = {"full_compute", "deterministic_tool", "stronger_model", "human_review"}
@@ -111,27 +113,25 @@ def repair(
     last_decision = decision
     for attempt in range(1, max_retries + 1):
         prompt = build_repair_prompt(_flagged(decision, original_payload), attempt)
-        model_output = model_fn(
-            {
-                "prompt": prompt,
-                "round": attempt,
-                "decision": last_decision.to_dict(),
-                "payload": dict(original_payload),
-            }
-        )
+        model_output, model_metadata = _call_model_fn(model_fn, prompt, attempt, last_decision, original_payload)
         candidate_payload = _candidate_payload(original_payload, model_output, decision.task_type)
         candidate_payload["repair_attempt"] = attempt
         repaired = harness_check(candidate_payload)
+        model_record = model_metadata.to_dict()
         repaired = _clone_decision(
             repaired,
             decision_id=f"{decision.input_hash[:16]}-{attempt}",
             input_hash=decision.input_hash,
             action="repair",
             final_status="repaired" if repaired.verdict == NOT_RULED_OUT else "escalated",
+            model=model_metadata.model_ref,
+            tokens=model_metadata.tokens,
+            cost_usd=model_metadata.cost_usd,
             validator_record={
                 **dict(repaired.validator_record or {}),
                 "repair_prompt": prompt,
                 "repair_attempt": attempt,
+                "model_call": model_record,
             },
         )
         guarded = _apply_anti_hallucination_guard(decision, original_payload, candidate_payload, repaired)
@@ -203,6 +203,46 @@ def _candidate_payload(original_payload: Mapping[str, Any], model_output: Any, t
     else:
         candidate["raw"] = output
     return candidate
+
+
+def _call_model_fn(
+    model_fn: ModelFn,
+    prompt: str,
+    attempt: int,
+    decision: HarnessDecision,
+    original_payload: Mapping[str, Any],
+) -> tuple[Any, ModelCallMetadata]:
+    start = perf_counter()
+    try:
+        output = model_fn(
+            prompt,
+            model_ref=str(original_payload.get("model_ref", DEFAULT_MODEL_REF)),
+            runtime=str(original_payload.get("runtime", "ollama")),
+            auth_mode=str(original_payload.get("auth_mode", "local")),
+            timeout=int(original_payload.get("timeout", 60)),
+            strict_model=bool(original_payload.get("strict_model", False)),
+            fallbacks=original_payload.get("fallbacks") if isinstance(original_payload.get("fallbacks"), list) else None,
+        )
+    except TypeError:
+        output = model_fn(
+            {
+                "prompt": prompt,
+                "round": attempt,
+                "decision": decision.to_dict(),
+                "payload": dict(original_payload),
+            }
+        )
+    metadata = metadata_from_response(output)
+    if metadata is None:
+        metadata = ModelCallMetadata(
+            provider="custom",
+            model_ref=str(original_payload.get("model_ref", "custom")),
+            runtime="callable",
+            auth_mode="in_process",
+            fallback_used=None,
+            latency_ms=(perf_counter() - start) * 1000.0,
+        )
+    return output, metadata
 
 
 def _model_text(model_output: Any) -> str:
