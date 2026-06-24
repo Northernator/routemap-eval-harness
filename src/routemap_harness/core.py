@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from hashlib import sha256
 from pathlib import Path
 from time import perf_counter
-from typing import Any, Mapping
+from typing import Any, Callable, Mapping
 
 from routemap_controller import route_decide
 from routemap_token import route_passage
@@ -90,6 +90,8 @@ def harness_check(
     risk: str = "low",
     router_mode: str | None = None,
     strict: bool = False,
+    model_fn: Callable[[Mapping[str, Any]], Any] | None = None,
+    max_retries: int = 2,
 ) -> HarnessDecision:
     """Route and validate a payload with the existing RouteMap controller."""
     input_hash = _input_hash(payload)
@@ -109,7 +111,7 @@ def harness_check(
     if not validator and action == "escalate" and task_type != "unknown":
         validator = "explicit_escalation"
 
-    return HarnessDecision(
+    decision = HarnessDecision(
         schema_version=SCHEMA_VERSION,
         decision_id=f"{input_hash[:16]}-{repair_attempt}",
         timestamp=str(plan.record.get("timestamp") or _utc_now()),
@@ -126,6 +128,11 @@ def harness_check(
         validator_record=dict(plan.record),
         blocking=blocking,
     )
+    if model_fn is not None and decision.verdict != NOT_RULED_OUT and risk != "high":
+        from .policy import repair
+
+        return repair(decision, payload, model_fn, max_retries=max_retries).final_decision
+    return decision
 
 
 def append_audit_record(path: str | Path, decision: HarnessDecision) -> dict[str, Any]:

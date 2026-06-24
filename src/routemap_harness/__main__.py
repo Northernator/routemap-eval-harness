@@ -6,10 +6,10 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any, Mapping, Sequence
 
 from .core import append_audit_record, harness_check, route_tokens, validate_config
-from .policy import repair_stub, summarize_stub
+from .policy import repair, repair_stub, summarize_stub
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -24,8 +24,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.command == "check":
             return _cmd_check(args)
         if args.command == "repair":
-            print(_json(repair_stub(args.decision_id)))
-            return 0
+            return _cmd_repair(args)
         if args.command == "route":
             return _cmd_route(args)
         if args.command == "summarize":
@@ -54,6 +53,10 @@ def _build_parser() -> argparse.ArgumentParser:
 
     repair = subcommands.add_parser("repair")
     repair.add_argument("--decision-id", required=True)
+    repair.add_argument("--input")
+    repair.add_argument("--audit", default=str(DEFAULT_AUDIT))
+    repair.add_argument("--max-retries", type=int, default=2)
+    repair.add_argument("--model-output", action="append", default=[])
 
     route = subcommands.add_parser("route")
     route.add_argument("--passage", required=True)
@@ -76,6 +79,27 @@ def _cmd_check(args: argparse.Namespace) -> int:
     append_audit_record(args.audit, decision)
     print(decision.to_json())
     return 1 if decision.is_blocking() else 0
+
+
+def _cmd_repair(args: argparse.Namespace) -> int:
+    if not args.input:
+        print(_json(repair_stub(args.decision_id)))
+        return 0
+    payload = _load_payload(args.input)
+    outputs = list(args.model_output)
+    if not outputs:
+        raise ValueError("repair requires at least one --model-output in offline CLI mode")
+
+    def model_fn(_request: Mapping[str, Any]) -> str:
+        index = min(len(calls), len(outputs) - 1)
+        calls.append(index)
+        return outputs[index]
+
+    calls: list[int] = []
+    decision = harness_check(payload)
+    result = repair(decision, payload, model_fn, max_retries=args.max_retries, audit_path=args.audit)
+    print(_json(result.to_dict()))
+    return 1 if result.final_decision.is_blocking() else 0
 
 
 def _cmd_route(args: argparse.Namespace) -> int:
@@ -105,7 +129,7 @@ def _load_json_file(path: str) -> Any:
 
 
 def _json(value: Any) -> str:
-    return json.dumps(value, ensure_ascii=True, sort_keys=True)
+    return json.dumps(value, ensure_ascii=True, sort_keys=True, default=str)
 
 
 if __name__ == "__main__":

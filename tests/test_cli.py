@@ -61,6 +61,49 @@ def test_cli_validate_config_passes() -> None:
     assert payload["lanes"]["extraction"] == "explicit_escalation"
 
 
+def test_cli_repair_runs_offline_model_output(tmp_path: Path) -> None:
+    payload_path = tmp_path / "payload.json"
+    audit_path = tmp_path / "audit.jsonl"
+    payload_path.write_text(
+        json.dumps(
+            {
+                "task_type": "json_schema",
+                "raw": '{"id":"x","score":104,"status":"maybe","tags":[]}',
+                "schema": {
+                    "type": "object",
+                    "required": ["id", "score", "status", "tags"],
+                    "properties": {
+                        "id": {"type": "string"},
+                        "score": {"type": "integer", "minimum": 0, "maximum": 100},
+                        "status": {"enum": ["pass", "fail"]},
+                        "tags": {"type": "array", "minItems": 1},
+                    },
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = _run_cli(
+        "repair",
+        "--decision-id",
+        "demo",
+        "--input",
+        str(payload_path),
+        "--audit",
+        str(audit_path),
+        "--model-output",
+        '{"id":"x","score":88,"status":"pass","tags":["ok"]}',
+    )
+
+    assert result.returncode == 0, result.stderr
+    payload = json.loads(result.stdout)
+    assert payload["final_decision"]["action"] == "repair"
+    assert payload["final_decision"]["final_status"] == "repaired"
+    assert len(payload["attempts"]) == 1
+    assert len(audit_path.read_text(encoding="utf-8").splitlines()) == 1
+
+
 def _run_cli(*args: str) -> subprocess.CompletedProcess[str]:
     env = os.environ.copy()
     env["PYTHONPATH"] = str(ROOT / "src")
