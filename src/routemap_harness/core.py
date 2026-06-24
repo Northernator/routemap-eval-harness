@@ -138,12 +138,9 @@ def harness_check(
 
 
 def append_audit_record(path: str | Path, decision: HarnessDecision) -> dict[str, Any]:
-    audit_path = Path(path)
-    audit_path.parent.mkdir(parents=True, exist_ok=True)
-    record = decision.to_dict()
-    with audit_path.open("a", encoding="utf-8") as handle:
-        handle.write(json.dumps(record, ensure_ascii=True, sort_keys=True, default=str) + "\n")
-    return record
+    from .audit_store import append
+
+    return append(decision, path)
 
 
 def route_tokens(passage: str, question: str, *, router: str = "element") -> dict[str, Any]:

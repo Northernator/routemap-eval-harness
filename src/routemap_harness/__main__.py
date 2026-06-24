@@ -8,8 +8,9 @@ import sys
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from .audit_store import summarize
 from .core import append_audit_record, harness_check, route_tokens, validate_config
-from .policy import repair, repair_stub, summarize_stub
+from .policy import repair, repair_stub
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -28,7 +29,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.command == "route":
             return _cmd_route(args)
         if args.command == "summarize":
-            print(_json(summarize_stub(args.audit)))
+            print(summarize(args.audit)["markdown"])
             return 0
         if args.command == "validate-config":
             return _cmd_validate_config(args)
