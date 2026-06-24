@@ -79,9 +79,82 @@ def test_run_wrong_arithmetic_attaches_exact_correction(
 
     assert response.status_code == 200
     body = response.json()
-    assert body["decision"]["verdict"] == "RULED_OUT_WRONG"
+    assert body["decision"]["verdict"] == "ruled_out_wrong"
     assert body["exact_correction"] == 5
     assert body["final_output"] == 5
+
+
+def test_run_compresses_long_passage_and_records_audit_reduction(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    api.app.state.audit_path = str(tmp_path / "audit.jsonl")
+    prompts: list[str] = []
+
+    def answer(prompt: str, **kwargs: object) -> str:
+        prompts.append(prompt)
+        return "compressed answer"
+
+    monkeypatch.setattr(api, "model_fn", answer)
+    client = TestClient(api.app)
+    passage = " ".join(
+        ["the and of in to from by with"] * 45
+        + ["RouteMap residue verifier keeps exact arithmetic claims before release"]
+    )
+
+    response = client.post(
+        "/run",
+        json={
+            "prompt": "What does the verifier keep?",
+            "passage": passage,
+            "question": "What does the verifier keep?",
+            "model_ref": "unit-test",
+            "runtime": "ollama",
+            "compress_context": True,
+        },
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["compressed"] is True
+    assert body["tokens_after"] < body["tokens_before"]
+    assert prompts and len(prompts[0].split()) < len(passage.split())
+
+    audit_response = client.get("/audit")
+    record = audit_response.json()[0]
+    compression = record["validator_record"]["input_compression"]
+    assert compression["router"] == "routemap_token.route_passage"
+    assert compression["route_family"] == "token_element"
+    assert compression["reduction"] == body["reduction"]
+
+
+def test_run_skips_compression_for_short_prompt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    api.app.state.audit_path = str(tmp_path / "audit.jsonl")
+
+    def answer(prompt: str, **kwargs: object) -> str:
+        return "short answer"
+
+    monkeypatch.setattr(api, "model_fn", answer)
+    client = TestClient(api.app)
+
+    response = client.post(
+        "/run",
+        json={
+            "prompt": "hello",
+            "model_ref": "unit-test",
+            "runtime": "ollama",
+            "compress_context": True,
+        },
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["compressed"] is False
+    assert body["tokens_after"] == body["tokens_before"]
+    assert body["route_note"] == "short input -> full context"
 
 
 def test_audit_tail_returns_list(tmp_path: Path) -> None:

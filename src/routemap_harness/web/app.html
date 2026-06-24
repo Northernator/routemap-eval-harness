@@ -243,6 +243,11 @@
       border-radius: 999px;
       padding: 3px 8px;
     }
+    .chat-tools {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
     .chat-form {
       display: grid;
       grid-template-columns: minmax(0, 1fr) 120px;
@@ -348,6 +353,12 @@
 
     <section id="chat-panel" class="hidden">
       <div class="panel">
+        <div class="chat-tools">
+          <label class="toggle">
+            <input id="compress-context" type="checkbox">
+            compress long context
+          </label>
+        </div>
         <div id="thread" class="thread"></div>
         <form id="chat-form" class="chat-form">
           <textarea id="prompt" placeholder="Message the selected model..." spellcheck="true"></textarea>
@@ -375,6 +386,7 @@
     const auditBody = document.querySelector("#audit-body");
     const chatForm = document.querySelector("#chat-form");
     const promptField = document.querySelector("#prompt");
+    const compressField = document.querySelector("#compress-context");
     const thread = document.querySelector("#thread");
     const chatStatus = document.querySelector("#chat-status");
     let lastDecisionId = "";
@@ -420,7 +432,7 @@
         ["decision_id", decision.decision_id]
       ];
       decisionEl.innerHTML = fields.map(([key, value]) => {
-        const cls = key === "verdict" ? verdictClass(value) : "";
+        const cls = key === "verdict" ? verdictClass(value) : (key === "final_status" && value === "repaired" ? "status-repaired" : "");
         return `<div class="kv"><div class="key">${key}</div><div class="value ${cls}">${escapeHtml(value ?? "")}</div></div>`;
       }).join("");
     }
@@ -453,12 +465,21 @@
           `<span class="${verdictClass(decision.verdict)}">${escapeHtml(decision.verdict || "")}</span>`,
           `<span>${escapeHtml(decision.action || "")}</span>`,
           `<span class="${decision.final_status === "repaired" ? "status-repaired" : ""}">${escapeHtml(decision.final_status || "")}</span>`,
-          run.exact_correction !== null && run.exact_correction !== undefined ? `<span>corrected: ${escapeHtml(run.exact_correction)}</span>` : ""
+          run.exact_correction !== null && run.exact_correction !== undefined ? `<span>corrected: ${escapeHtml(run.exact_correction)}</span>` : "",
+          run.final_output !== undefined && run.final_output !== run.model_output && run.exact_correction === null ? `<span>repaired: ${escapeHtml(run.final_output)}</span>` : ""
         ].join("");
         bubble.appendChild(strip);
       }
       thread.appendChild(bubble);
       thread.scrollTop = thread.scrollHeight;
+    }
+
+    function addCompressionChip(run) {
+      if (!run || !run.compressed) return;
+      const chip = document.createElement("div");
+      chip.className = "strip user";
+      chip.innerHTML = `<span>compressed ${escapeHtml(run.tokens_before)}-&gt;${escapeHtml(run.tokens_after)} tokens (lossy)</span>`;
+      thread.appendChild(chip);
     }
 
     function escapeHtml(value) {
@@ -491,6 +512,8 @@
     modeCheck.addEventListener("click", () => setMode("check"));
     modeChat.addEventListener("click", () => setMode("chat"));
     modelSelect.addEventListener("change", () => localStorage.setItem("routemap.model", modelSelect.value));
+    compressField.checked = localStorage.getItem("routemap.compress") === "true";
+    compressField.addEventListener("change", () => localStorage.setItem("routemap.compress", String(compressField.checked)));
 
     checkForm.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -547,9 +570,11 @@
             prompt,
             model_ref: modelSelect.value,
             runtime: option ? option.dataset.runtime : "ollama",
-            strict: strictField.checked
+            strict: strictField.checked,
+            compress_context: compressField.checked
           })
         });
+        addCompressionChip(run);
         addBubble("assistant", run.model_output, run);
         await loadAudit();
         chatStatus.textContent = "checked";

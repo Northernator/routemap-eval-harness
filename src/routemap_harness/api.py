@@ -15,6 +15,7 @@ from .core import HarnessDecision, harness_check
 from .policy import repair, repair_stub
 from routemap_bench.tasks import exact_value_feasible
 from routemap_digital.parser import parse_expression
+from routemap_token import route_passage
 
 
 app = FastAPI(title="RouteMap Harness API")
@@ -43,8 +44,9 @@ def run(body: dict[str, Any]) -> dict[str, Any]:
     prompt = str(body.get("prompt", ""))
     model_ref = str(body.get("model_ref") or DEFAULT_MODEL_REF)
     runtime = str(body.get("runtime") or "ollama")
+    compression = _optimize_prompt(body, prompt)
     model_output = model_fn(
-        prompt,
+        str(compression["prompt_sent"]),
         model_ref=model_ref,
         runtime=runtime,
         auth_mode=_auth_mode(runtime),
@@ -52,6 +54,7 @@ def run(body: dict[str, Any]) -> dict[str, Any]:
     )
     payload = _run_payload(body, prompt=prompt, model_output=str(model_output), model_ref=model_ref, runtime=runtime)
     decision = harness_check(payload, strict=bool(body.get("strict")))
+    decision = _with_compression_record(decision, compression)
     audit_store.append(decision, _audit_path())
 
     final_decision = decision
@@ -69,10 +72,16 @@ def run(body: dict[str, Any]) -> dict[str, Any]:
 
     return {
         "prompt": prompt,
+        "prompt_sent": compression["prompt_sent"],
         "model_output": str(model_output),
         "final_output": final_output,
-        "decision": final_decision.to_dict(),
+        "decision": _api_decision(final_decision),
         "repair_attempts": repair_attempts,
+        "compressed": compression["compressed"],
+        "tokens_before": compression["tokens_before"],
+        "tokens_after": compression["tokens_after"],
+        "reduction": compression["reduction"],
+        "route_note": compression["route_note"],
         "audit_id": final_decision.decision_id,
         "exact_correction": exact_correction,
     }
@@ -173,12 +182,10 @@ def _run_payload(
         payload["task_type"] = str(task_hint)
     if body.get("spec") is not None:
         payload["schema"] = body.get("spec")
-    if payload.get("task_type") == "arithmetic" or (not task_hint and _is_arithmetic_prompt(prompt)):
+    if payload.get("task_type") == "arithmetic":
         payload["task_type"] = "arithmetic"
         payload["expr"] = prompt
         payload["claimed_answer"] = _first_int(model_output)
-    elif not task_hint and "```" not in model_output:
-        payload["task_type"] = "unknown"
     return payload
 
 
@@ -206,14 +213,6 @@ def _exact_correction(payload: dict[str, Any], decision: HarnessDecision) -> Any
         return None
 
 
-def _is_arithmetic_prompt(prompt: str) -> bool:
-    try:
-        parse_expression(prompt)
-        return True
-    except ValueError:
-        return False
-
-
 def _first_int(text: str) -> int:
     import re
 
@@ -223,6 +222,83 @@ def _first_int(text: str) -> int:
 
 def _auth_mode(runtime: str) -> str:
     return "api_key" if runtime in {"openai", "anthropic"} else "local"
+
+
+def _optimize_prompt(body: dict[str, Any], prompt: str) -> dict[str, Any]:
+    passage = str(body.get("passage") or "")
+    question = str(body.get("question") or "")
+    source_text = passage or prompt
+    rough_tokens = source_text.split()
+    if not bool(body.get("compress_context")):
+        return _compression_result(prompt, False, len(rough_tokens), len(rough_tokens), 0.0, "compression disabled")
+    if not passage and len(rough_tokens) <= 200:
+        return _compression_result(prompt, False, len(rough_tokens), len(rough_tokens), 0.0, "short input -> full context")
+    rows = route_passage(source_text, question)
+    kept = [str(row["token"]) for row in rows if row.get("route_action") == "keep"]
+    tokens_before = len(rows)
+    tokens_after = len(kept)
+    reduction = 0.0 if tokens_before == 0 else 1.0 - (tokens_after / tokens_before)
+    if not kept or reduction < 0.15 or str(body.get("risk", "low")) == "high":
+        return _compression_result(prompt, False, tokens_before, tokens_before, 0.0, "weak keep-set -> full context")
+    compressed_text = " ".join(kept)
+    return _compression_result(
+        _compressed_prompt(prompt, passage, question, compressed_text),
+        True,
+        tokens_before,
+        tokens_after,
+        reduction,
+        "element router compressed input context",
+    )
+
+
+def _compression_result(
+    prompt_sent: str,
+    compressed: bool,
+    tokens_before: int,
+    tokens_after: int,
+    reduction: float,
+    route_note: str,
+) -> dict[str, Any]:
+    return {
+        "prompt_sent": prompt_sent,
+        "compressed": compressed,
+        "tokens_before": tokens_before,
+        "tokens_after": tokens_after,
+        "reduction": reduction,
+        "route_note": route_note,
+    }
+
+
+def _compressed_prompt(prompt: str, passage: str, question: str, compressed_text: str) -> str:
+    if passage:
+        task = question or prompt
+        return f"{task}\n\nCompressed passage:\n{compressed_text}"
+    return compressed_text
+
+
+def _with_compression_record(decision: HarnessDecision, compression: dict[str, Any]) -> HarnessDecision:
+    if not compression["compressed"]:
+        return decision
+    data = decision.to_dict()
+    data["validator_record"] = {
+        **dict(decision.validator_record or {}),
+        "input_compression": {
+            "router": "routemap_token.route_passage",
+            "router_mode": "element",
+            "route_family": "token_element",
+            "tokens_before": compression["tokens_before"],
+            "tokens_after": compression["tokens_after"],
+            "reduction": compression["reduction"],
+            "guard": "kept non-empty and reduction >= 0.15",
+        },
+    }
+    return HarnessDecision(**data, blocking=decision.is_blocking())
+
+
+def _api_decision(decision: HarnessDecision) -> dict[str, Any]:
+    data = decision.to_dict()
+    data["verdict"] = str(data["verdict"]).lower()
+    return data
 
 
 __all__ = ["app"]
