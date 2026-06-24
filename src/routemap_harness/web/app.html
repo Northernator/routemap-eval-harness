@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RouteMap Harness</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f5f6f2;
+      --panel: #ffffff;
+      --text: #202321;
+      --muted: #68706a;
+      --line: #d9ded7;
+      --accent: #1d6f5f;
+      --accent-2: #2d4f7c;
+      --bad: #b42318;
+      --good: #16794c;
+      --warn: #a16207;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141714;
+        --panel: #20231f;
+        --text: #eef1ed;
+        --muted: #a7aea8;
+        --line: #3b413b;
+        --accent: #70b8a8;
+        --accent-2: #8fafcf;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 40px;
+    }
+    header {
+      display: grid;
+      grid-template-columns: minmax(180px, 1fr) auto minmax(260px, 360px) auto;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    h1, h2 {
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    h1 { font-size: 1.55rem; }
+    h2 { font-size: 1rem; }
+    .segmented {
+      display: inline-grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      min-width: 180px;
+      background: var(--panel);
+    }
+    .segmented button {
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: var(--text);
+    }
+    .segmented button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--good);
+      background: var(--panel);
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      gap: 16px;
+      align-items: start;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    label {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 650;
+    }
+    select, textarea, input, button {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+    }
+    select, input { min-height: 40px; padding: 8px 10px; }
+    textarea {
+      min-height: 230px;
+      resize: vertical;
+      padding: 10px;
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      font-size: 0.9rem;
+    }
+    .schema-field textarea { min-height: 112px; }
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      color: var(--text);
+    }
+    .toggle input { width: 18px; height: 18px; }
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    button {
+      cursor: pointer;
+      min-height: 40px;
+      padding: 8px 12px;
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+      font-weight: 700;
+    }
+    button.secondary {
+      background: transparent;
+      color: var(--accent);
+    }
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+    .decision {
+      display: grid;
+      gap: 10px;
+    }
+    .kv {
+      display: grid;
+      grid-template-columns: 130px minmax(0, 1fr);
+      gap: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+    .kv:last-child { border-bottom: 0; }
+    .key { color: var(--muted); font-size: 0.82rem; }
+    .value {
+      overflow-wrap: anywhere;
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      font-size: 0.88rem;
+    }
+    .verdict-ruled_out_wrong { color: var(--bad); }
+    .verdict-not_ruled_out { color: var(--good); }
+    .verdict-uncheckable { color: var(--warn); }
+    .status-repaired { color: var(--warn); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.88rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      overflow-wrap: anywhere;
+    }
+    th { color: var(--muted); font-size: 0.78rem; }
+    .status {
+      min-height: 24px;
+      color: var(--muted);
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+    .hidden { display: none; }
+    .thread {
+      display: grid;
+      gap: 12px;
+      min-height: 420px;
+      max-height: 56vh;
+      overflow: auto;
+      padding: 4px;
+    }
+    .bubble {
+      max-width: min(760px, 92%);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .user {
+      justify-self: end;
+      background: color-mix(in srgb, var(--accent-2) 12%, transparent);
+    }
+    .assistant {
+      justify-self: start;
+      background: var(--panel);
+    }
+    .strip {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    .strip span {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 8px;
+    }
+    .chat-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 120px;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .chat-form textarea {
+      min-height: 72px;
+      font-family: inherit;
+    }
+    @media (max-width: 900px) {
+      main { width: min(100% - 20px, 760px); padding-top: 18px; }
+      header, .grid { display: block; }
+      header > * { margin-bottom: 10px; }
+      .controls, .chat-form { grid-template-columns: 1fr; }
+      .panel { margin-top: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>RouteMap Harness</h1>
+      <div class="segmented" role="tablist" aria-label="mode">
+        <button id="mode-check" type="button">Check</button>
+        <button id="mode-chat" type="button">Chat</button>
+      </div>
+      <label>model
+        <select id="model"></select>
+      </label>
+      <div class="pill">harness on</div>
+    </header>
+
+    <section id="check-panel">
+      <div class="grid">
+        <form id="check-form" class="panel">
+          <div class="controls">
+            <label>task
+              <select id="task">
+                <option value="">auto-detect</option>
+                <option value="arithmetic">arithmetic</option>
+                <option value="json_schema">json_schema</option>
+                <option value="python_code">python_code</option>
+                <option value="extraction">extraction</option>
+                <option value="long_context_qa">long_context_qa</option>
+                <option value="retrieval">retrieval</option>
+              </select>
+            </label>
+            <label class="toggle">
+              <input id="strict" type="checkbox">
+              strict
+            </label>
+          </div>
+
+          <label>output
+            <textarea id="output" spellcheck="false">{ "id": "x", "score": 104, "status": "maybe", "tags": [] }</textarea>
+          </label>
+
+          <label class="schema-field">optional schema
+            <textarea id="spec" spellcheck="false">{
+  "type": "object",
+  "required": ["id", "score", "status", "tags"],
+  "properties": {
+    "id": { "type": "string" },
+    "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "status": { "enum": ["pass", "fail"] },
+    "tags": { "type": "array", "minItems": 1 }
+  }
+}</textarea>
+          </label>
+
+          <div class="actions">
+            <button id="check-btn" type="submit">check</button>
+            <button id="repair-btn" class="secondary" type="button" disabled>repair</button>
+          </div>
+          <div id="status" class="status"></div>
+        </form>
+
+        <section class="panel">
+          <h2>decision</h2>
+          <div id="decision" class="decision">
+            <div class="status">No decision yet.</div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <h2>recent decisions</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>time</th>
+              <th>task</th>
+              <th>model</th>
+              <th>verdict</th>
+              <th>final_status</th>
+            </tr>
+          </thead>
+          <tbody id="audit-body"></tbody>
+        </table>
+      </section>
+    </section>
+
+    <section id="chat-panel" class="hidden">
+      <div class="panel">
+        <div id="thread" class="thread"></div>
+        <form id="chat-form" class="chat-form">
+          <textarea id="prompt" placeholder="Message the selected model..." spellcheck="true"></textarea>
+          <button type="submit">send</button>
+        </form>
+        <div id="chat-status" class="status"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const modelSelect = document.querySelector("#model");
+    const modeCheck = document.querySelector("#mode-check");
+    const modeChat = document.querySelector("#mode-chat");
+    const checkPanel = document.querySelector("#check-panel");
+    const chatPanel = document.querySelector("#chat-panel");
+    const taskSelect = document.querySelector("#task");
+    const outputField = document.querySelector("#output");
+    const specField = document.querySelector("#spec");
+    const strictField = document.querySelector("#strict");
+    const checkForm = document.querySelector("#check-form");
+    const decisionEl = document.querySelector("#decision");
+    const statusEl = document.querySelector("#status");
+    const repairBtn = document.querySelector("#repair-btn");
+    const auditBody = document.querySelector("#audit-body");
+    const chatForm = document.querySelector("#chat-form");
+    const promptField = document.querySelector("#prompt");
+    const thread = document.querySelector("#thread");
+    const chatStatus = document.querySelector("#chat-status");
+    let lastDecisionId = "";
+
+    async function request(path, options) {
+      const response = await fetch(path, options);
+      if (!response.ok) throw new Error(`${response.status} ${await response.text()}`);
+      return response.json();
+    }
+
+    function setMode(mode) {
+      const chat = mode === "chat";
+      modeCheck.classList.toggle("active", !chat);
+      modeChat.classList.toggle("active", chat);
+      checkPanel.classList.toggle("hidden", chat);
+      chatPanel.classList.toggle("hidden", !chat);
+      localStorage.setItem("routemap.mode", mode);
+    }
+
+    function parseSpec() {
+      const text = specField.value.trim();
+      return text ? JSON.parse(text) : null;
+    }
+
+    function selectedOption() {
+      return modelSelect.selectedOptions[0] || null;
+    }
+
+    function verdictClass(value) {
+      return `verdict-${String(value || "").toLowerCase()}`;
+    }
+
+    function renderDecision(decision) {
+      lastDecisionId = decision.decision_id || lastDecisionId;
+      repairBtn.disabled = !lastDecisionId;
+      const fields = [
+        ["verdict", decision.verdict],
+        ["action", decision.action],
+        ["final_status", decision.final_status],
+        ["validator", decision.validator],
+        ["reason", decision.reason],
+        ["latency_ms", decision.latency_ms],
+        ["decision_id", decision.decision_id]
+      ];
+      decisionEl.innerHTML = fields.map(([key, value]) => {
+        const cls = key === "verdict" ? verdictClass(value) : "";
+        return `<div class="kv"><div class="key">${key}</div><div class="value ${cls}">${escapeHtml(value ?? "")}</div></div>`;
+      }).join("");
+    }
+
+    function renderAudit(records) {
+      if (!records.length) {
+        auditBody.innerHTML = `<tr><td colspan="5" class="status">No audit records found.</td></tr>`;
+        return;
+      }
+      auditBody.innerHTML = records.map((record) => `
+        <tr>
+          <td>${escapeHtml(record.timestamp || "")}</td>
+          <td>${escapeHtml(record.task_type || "")}</td>
+          <td>${escapeHtml(record.model || "")}</td>
+          <td class="${verdictClass(record.verdict)}">${escapeHtml(record.verdict || "")}</td>
+          <td>${escapeHtml(record.final_status || "")}</td>
+        </tr>
+      `).join("");
+    }
+
+    function addBubble(kind, text, run) {
+      const bubble = document.createElement("div");
+      bubble.className = `bubble ${kind}`;
+      bubble.textContent = text;
+      if (run) {
+        const decision = run.decision || {};
+        const strip = document.createElement("div");
+        strip.className = "strip";
+        strip.innerHTML = [
+          `<span class="${verdictClass(decision.verdict)}">${escapeHtml(decision.verdict || "")}</span>`,
+          `<span>${escapeHtml(decision.action || "")}</span>`,
+          `<span class="${decision.final_status === "repaired" ? "status-repaired" : ""}">${escapeHtml(decision.final_status || "")}</span>`,
+          run.exact_correction !== null && run.exact_correction !== undefined ? `<span>corrected: ${escapeHtml(run.exact_correction)}</span>` : ""
+        ].join("");
+        bubble.appendChild(strip);
+      }
+      thread.appendChild(bubble);
+      thread.scrollTop = thread.scrollHeight;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    async function loadModels() {
+      const models = await request("/models");
+      const last = localStorage.getItem("routemap.model");
+      modelSelect.innerHTML = models.map((model) => {
+        const disabled = model.available ? "" : "disabled";
+        const label = `${model.runtime} / ${model.model_ref} - ${model.note}`;
+        return `<option value="${escapeHtml(model.model_ref)}" data-runtime="${escapeHtml(model.runtime)}" ${disabled}>${escapeHtml(label)}</option>`;
+      }).join("");
+      if (last) {
+        const match = Array.from(modelSelect.options).find((option) => option.value === last && !option.disabled);
+        if (match) modelSelect.value = last;
+      }
+    }
+
+    async function loadAudit() {
+      renderAudit(await request("/audit?limit=20"));
+    }
+
+    modeCheck.addEventListener("click", () => setMode("check"));
+    modeChat.addEventListener("click", () => setMode("chat"));
+    modelSelect.addEventListener("change", () => localStorage.setItem("routemap.model", modelSelect.value));
+
+    checkForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      statusEl.textContent = "checking...";
+      try {
+        const decision = await request("/check", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            task: taskSelect.value || null,
+            output: outputField.value,
+            spec: parseSpec(),
+            strict: strictField.checked
+          })
+        });
+        renderDecision(decision);
+        await loadAudit();
+        statusEl.textContent = "checked";
+      } catch (error) {
+        statusEl.textContent = error.message;
+      }
+    });
+
+    repairBtn.addEventListener("click", async () => {
+      if (!lastDecisionId) return;
+      statusEl.textContent = "repairing...";
+      try {
+        const repaired = await request("/repair", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ decision_id: lastDecisionId, model_ref: modelSelect.value })
+        });
+        renderDecision(repaired);
+        await loadAudit();
+        statusEl.textContent = "repair response rendered";
+      } catch (error) {
+        statusEl.textContent = error.message;
+      }
+    });
+
+    chatForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const prompt = promptField.value.trim();
+      if (!prompt) return;
+      const option = selectedOption();
+      promptField.value = "";
+      addBubble("user", prompt);
+      chatStatus.textContent = "running...";
+      try {
+        const run = await request("/run", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            prompt,
+            model_ref: modelSelect.value,
+            runtime: option ? option.dataset.runtime : "ollama",
+            strict: strictField.checked
+          })
+        });
+        addBubble("assistant", run.model_output, run);
+        await loadAudit();
+        chatStatus.textContent = "checked";
+      } catch (error) {
+        chatStatus.textContent = error.message;
+      }
+    });
+
+    setMode(localStorage.getItem("routemap.mode") || "check");
+    loadModels().catch((error) => { statusEl.textContent = error.message; });
+    loadAudit().catch((error) => { statusEl.textContent = error.message; });
+  </script>
+</body>
+</html>
