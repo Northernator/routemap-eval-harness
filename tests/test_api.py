@@ -14,6 +14,7 @@ pytest.importorskip("httpx")
 
 from fastapi.testclient import TestClient
 
+import routemap_harness.api as api
 from routemap_harness.api import app
 
 
@@ -90,3 +91,39 @@ def test_route_endpoint_highlights_tokens(tmp_path: Path) -> None:
     passage_words = {word.lower().strip(".,;:!?") for word in passage.split()}
     compressed_words = {word.lower().strip(".,;:!?") for word in body["compressed_prompt"].split()}
     assert compressed_words <= passage_words
+
+
+def test_run_returns_pipeline_fields(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    app.state.audit_path = str(tmp_path / "audit.jsonl")
+
+    def fixed_answer(prompt: str, **kwargs: object) -> str:
+        return "4"
+
+    monkeypatch.setattr(api, "model_fn", fixed_answer)
+    client = TestClient(app)
+
+    response = client.post(
+        "/run",
+        json={
+            "prompt": "2 + 2",
+            "model_ref": "unit-test",
+            "runtime": "ollama",
+            "task_hint": "arithmetic",
+        },
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    for key in {
+        "prompt",
+        "prompt_sent",
+        "model_output",
+        "final_output",
+        "decision",
+        "repair_attempts",
+        "tokens_before",
+        "tokens_after",
+        "reduction",
+        "audit_id",
+    }:
+        assert key in body

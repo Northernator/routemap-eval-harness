@@ -258,6 +258,30 @@
       min-height: 72px;
       font-family: inherit;
     }
+    .run-detail {
+      margin-top: 12px;
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+      white-space: normal;
+    }
+    .run-detail summary {
+      cursor: pointer;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .run-detail-grid {
+      display: grid;
+      gap: 8px;
+    }
+    .run-final-changed {
+      border-color: var(--warn);
+      color: var(--warn);
+    }
+    .run-detail table {
+      margin-top: 0;
+      font-size: 0.82rem;
+    }
     .lab-form {
       display: grid;
       gap: 12px;
@@ -349,7 +373,7 @@
       <h1>RouteMap Harness</h1>
       <div class="segmented" role="tablist" aria-label="mode">
         <button id="mode-check" type="button">Check</button>
-        <button id="mode-chat" type="button">Chat</button>
+        <button id="mode-run" type="button">Run</button>
         <button id="mode-lab" type="button">Lab</button>
       </div>
       <label>model
@@ -428,7 +452,7 @@
       </section>
     </section>
 
-    <section id="chat-panel" class="hidden">
+    <section id="run-panel" class="hidden">
       <div class="panel">
         <div class="chat-tools">
           <label class="toggle">
@@ -436,7 +460,7 @@
             compress long context
           </label>
         </div>
-        <div id="thread" class="thread"></div>
+        <div id="run-detail-container" class="thread"></div>
         <form id="chat-form" class="chat-form">
           <textarea id="prompt" placeholder="Message the selected model..." spellcheck="true"></textarea>
           <button type="submit">send</button>
@@ -484,10 +508,10 @@
   <script>
     const modelSelect = document.querySelector("#model");
     const modeCheck = document.querySelector("#mode-check");
-    const modeChat = document.querySelector("#mode-chat");
+    const modeRun = document.querySelector("#mode-run");
     const modeLab = document.querySelector("#mode-lab");
     const checkPanel = document.querySelector("#check-panel");
-    const chatPanel = document.querySelector("#chat-panel");
+    const runPanel = document.querySelector("#run-panel");
     const labPanel = document.querySelector("#lab-panel");
     const taskSelect = document.querySelector("#task");
     const outputField = document.querySelector("#output");
@@ -501,7 +525,7 @@
     const chatForm = document.querySelector("#chat-form");
     const promptField = document.querySelector("#prompt");
     const compressField = document.querySelector("#compress-context");
-    const thread = document.querySelector("#thread");
+    const thread = document.querySelector("#run-detail-container");
     const chatStatus = document.querySelector("#chat-status");
     const labForm = document.querySelector("#lab-form");
     const labPassage = document.querySelector("#lab-passage");
@@ -520,12 +544,13 @@
     }
 
     function setMode(mode) {
-      const selected = ["check", "chat", "lab"].includes(mode) ? mode : "check";
+      const requested = mode === "chat" ? "run" : mode;
+      const selected = ["check", "run", "lab"].includes(requested) ? requested : "check";
       modeCheck.classList.toggle("active", selected === "check");
-      modeChat.classList.toggle("active", selected === "chat");
+      modeRun.classList.toggle("active", selected === "run");
       modeLab.classList.toggle("active", selected === "lab");
       checkPanel.classList.toggle("hidden", selected !== "check");
-      chatPanel.classList.toggle("hidden", selected !== "chat");
+      runPanel.classList.toggle("hidden", selected !== "run");
       labPanel.classList.toggle("hidden", selected !== "lab");
       localStorage.setItem("routemap.mode", selected);
     }
@@ -593,6 +618,7 @@
           run.final_output !== undefined && run.final_output !== run.model_output && run.exact_correction === null ? `<span>repaired: ${escapeHtml(run.final_output)}</span>` : ""
         ].join("");
         bubble.appendChild(strip);
+        bubble.appendChild(renderRunDetail(run));
       }
       thread.appendChild(bubble);
       thread.scrollTop = thread.scrollHeight;
@@ -602,8 +628,61 @@
       if (!run || !run.compressed) return;
       const chip = document.createElement("div");
       chip.className = "strip user";
-      chip.innerHTML = `<span>compressed ${escapeHtml(run.tokens_before)}-&gt;${escapeHtml(run.tokens_after)} tokens (lossy)</span>`;
+      chip.innerHTML = `<span>${compressionLabel(run)}</span>`;
       thread.appendChild(chip);
+    }
+
+    function compressionLabel(run) {
+      const pct = Math.round((Number(run.reduction) || 0) * 100);
+      return `compressed ${run.tokens_before} -> ${run.tokens_after} (-${pct}%)`;
+    }
+
+    function runValue(value) {
+      if (value === null || value === undefined) return "";
+      if (typeof value === "string") return value;
+      return JSON.stringify(value);
+    }
+
+    function runKv(key, value, cls = "") {
+      return `<div class="kv"><div class="key">${escapeHtml(key)}</div><div class="value ${cls}">${escapeHtml(runValue(value))}</div></div>`;
+    }
+
+    function renderRunDetail(run) {
+      const decision = run.decision || {};
+      const detail = document.createElement("details");
+      detail.className = "run-detail";
+      detail.open = true;
+      const finalChanged = run.final_output !== undefined && run.final_output !== run.model_output;
+      const repairRows = Array.isArray(run.repair_attempts) && run.repair_attempts.length
+        ? run.repair_attempts.map((attempt, index) => {
+            const attemptDecision = attempt.final_decision || attempt.decision || attempt;
+            return `<tr><td>${index + 1}</td><td class="${verdictClass(attemptDecision.verdict)}">${escapeHtml(attemptDecision.verdict || "")}</td><td>${escapeHtml(attemptDecision.action || "")}</td></tr>`;
+          }).join("")
+        : `<tr><td colspan="3" class="status">No repair attempts.</td></tr>`;
+      detail.innerHTML = `
+        <summary>run detail</summary>
+        <div class="run-detail-grid">
+          ${runKv("prompt", run.prompt)}
+          ${runKv("prompt_sent", run.prompt_sent)}
+          ${run.compressed ? `<div class="strip"><span>${escapeHtml(compressionLabel(run))}</span></div>` : ""}
+          ${runKv("model_output", run.model_output)}
+          ${runKv("final_output", run.final_output, finalChanged ? "run-final-changed" : "")}
+          ${runKv("verdict", decision.verdict, verdictClass(decision.verdict))}
+          ${runKv("action", decision.action)}
+          ${runKv("final_status", decision.final_status, decision.final_status === "repaired" ? "status-repaired" : "")}
+          ${runKv("validator", decision.validator)}
+          ${runKv("latency_ms", decision.latency_ms)}
+          <div class="kv"><div class="key">repair_attempts</div><div class="value">
+            <table>
+              <thead><tr><th>#</th><th>verdict</th><th>action</th></tr></thead>
+              <tbody>${repairRows}</tbody>
+            </table>
+          </div></div>
+          ${runKv("tokens", `${run.tokens_before} -> ${run.tokens_after} (-${Math.round((Number(run.reduction) || 0) * 100)}%)`)}
+          ${runKv("audit_id", run.audit_id)}
+        </div>
+      `;
+      return detail;
     }
 
     function tokenClass(row) {
@@ -651,13 +730,14 @@
     }
 
     modeCheck.addEventListener("click", () => setMode("check"));
-    modeChat.addEventListener("click", () => setMode("chat"));
+    modeRun.addEventListener("click", () => setMode("run"));
     modeLab.addEventListener("click", () => setMode("lab"));
     modelSelect.addEventListener("change", () => localStorage.setItem("routemap.model", modelSelect.value));
     compressField.checked = localStorage.getItem("routemap.compress") === "true";
     compressField.addEventListener("change", () => localStorage.setItem("routemap.compress", String(compressField.checked)));
     labPassage.value = localStorage.getItem("routemap.lab.passage") || labPassage.value;
     labQuestion.value = localStorage.getItem("routemap.lab.question") || labQuestion.value;
+    promptField.value = localStorage.getItem("routemap.run.prompt") || promptField.value;
 
     checkForm.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -703,6 +783,7 @@
       const prompt = promptField.value.trim();
       if (!prompt) return;
       const option = selectedOption();
+      localStorage.setItem("routemap.run.prompt", prompt);
       promptField.value = "";
       addBubble("user", prompt);
       chatStatus.textContent = "running...";

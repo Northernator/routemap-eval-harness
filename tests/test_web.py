@@ -28,7 +28,9 @@ def test_app_page_served(tmp_path: Path) -> None:
     assert response.status_code == 200
     assert response.headers["content-type"].startswith("text/html")
     assert "RouteMap Harness" in response.text
+    assert 'id="mode-run"' in response.text
     assert 'id="mode-lab"' in response.text
+    assert 'id="run-detail-container"' in response.text
 
 
 def test_models_reports_ollama_available() -> None:
