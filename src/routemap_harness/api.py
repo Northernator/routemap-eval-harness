@@ -22,6 +22,7 @@ from .core import HarnessDecision, harness_check
 from .policy import repair, repair_stub
 from routemap_bench.tasks import exact_value_feasible
 from routemap_digital.parser import parse_expression
+from routemap_prompt import optimize_prompt as structure_prompt
 from routemap_token import route_passage, route_passage_detail
 
 
@@ -58,7 +59,9 @@ def run(body: dict[str, Any]) -> dict[str, Any]:
 def _run_once(body: dict[str, Any], *, runtime: str, model_ref: str) -> dict[str, Any]:
     global _LAST_MODEL_METADATA
     prompt = str(body.get("prompt", ""))
-    compression = _optimize_prompt(body, prompt)
+    optimization = _prompt_optimization(body, prompt)
+    prompt_for_model = str(optimization["prompt"])
+    compression = _optimize_prompt(body, prompt_for_model)
     model_output = model_fn(
         str(compression["prompt_sent"]),
         model_ref=model_ref,
@@ -68,7 +71,7 @@ def _run_once(body: dict[str, Any], *, runtime: str, model_ref: str) -> dict[str
     )
     model_metadata = metadata_dict(model_output)
     _LAST_MODEL_METADATA = model_metadata
-    payload = _run_payload(body, prompt=prompt, model_output=str(model_output), model_ref=model_ref, runtime=runtime)
+    payload = _run_payload(body, prompt=prompt_for_model, model_output=str(model_output), model_ref=model_ref, runtime=runtime)
     decision = harness_check(payload, strict=bool(body.get("strict")))
     decision = _with_model_record(decision, model_ref)
     decision = _with_compression_record(decision, compression)
@@ -90,6 +93,9 @@ def _run_once(body: dict[str, Any], *, runtime: str, model_ref: str) -> dict[str
     response = {
         "prompt": prompt,
         "prompt_sent": compression["prompt_sent"],
+        "optimized": optimization["optimized"],
+        "optimized_prompt": optimization["optimized_prompt"],
+        "preserved": optimization["preserved"],
         "model_output": str(model_output),
         "final_output": final_output,
         "decision": _api_decision(final_decision),
@@ -399,6 +405,18 @@ def _compressed_prompt(prompt: str, passage: str, question: str, compressed_text
         task = question or prompt
         return f"{task}\n\nCompressed passage:\n{compressed_text}"
     return compressed_text
+
+
+def _prompt_optimization(body: dict[str, Any], prompt: str) -> dict[str, Any]:
+    if not bool(body.get("optimize_prompt")):
+        return {"prompt": prompt, "optimized": False, "optimized_prompt": "", "preserved": []}
+    result = structure_prompt(prompt, task_hint=body.get("task_hint"))
+    return {
+        "prompt": result["structured"],
+        "optimized": True,
+        "optimized_prompt": result["structured"],
+        "preserved": result["preserved"],
+    }
 
 
 def _with_compression_record(decision: HarnessDecision, compression: dict[str, Any]) -> HarnessDecision:

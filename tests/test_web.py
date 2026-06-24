@@ -35,6 +35,7 @@ def test_app_page_served(tmp_path: Path) -> None:
     assert 'id="run-detail-container"' in response.text
     assert 'id="dashboard-kpis"' in response.text
     assert 'id="replay-modal"' in response.text
+    assert 'id="optimize-prompt"' in response.text
 
 
 def test_models_reports_ollama_available() -> None:

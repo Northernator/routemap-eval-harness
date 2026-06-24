@@ -43,6 +43,7 @@ STEPS = [
     ("pytest: embedding", [sys.executable, "-m", "pytest", "re_test_embedding.py", "-q"], "determinism; recall vs brute force"),
     ("pytest: controller", [sys.executable, "-m", "pytest", "rc_test_controller.py", "-q"], "dispatch; no-silent-prune; schema-valid"),
     ("pytest: harness core+gold", [sys.executable, "-m", "pytest", "tests/test_harness_core.py", "tests/test_harness_gold.py", "-q"], "0 false accepts; FP 0.000"),
+    ("pytest: prompt optimizer", [sys.executable, "-m", "pytest", "tests/test_prompt_optimizer.py", "-q"], "structured prompt prep"),
     ("pytest: api+audit+web", [sys.executable, "-m", "pytest", "tests/test_api.py", "tests/test_audit.py", "tests/test_web.py", "-q"], "route endpoint + audit summaries + web surface"),
     ("pytest: run store + replay", [sys.executable, "-m", "pytest", "tests/test_run_store.py", "-q"], "replay run log"),
     ("pytest: matrix core", [sys.executable, "-m", "pytest", "rm_test_matrix.py", "-q"], "route/validate core (numpy)"),

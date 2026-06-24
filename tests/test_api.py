@@ -211,6 +211,38 @@ def test_run_persists_run_store(tmp_path: Path, monkeypatch: pytest.MonkeyPatch)
     assert replay["run"]["model"]["model_ref"] == "unit-test"
 
 
+def test_run_optimizes_prompt_when_enabled(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    app.state.audit_path = str(tmp_path / "audit.jsonl")
+    app.state.runs_path = str(tmp_path / "runs.jsonl")
+    prompts: list[str] = []
+
+    def fixed_answer(prompt: str, **kwargs: object) -> str:
+        prompts.append(prompt)
+        return "done"
+
+    monkeypatch.setattr(api, "model_fn", fixed_answer)
+    client = TestClient(app)
+
+    response = client.post(
+        "/run",
+        json={
+            "prompt": "Summarize Acme report 42 from 2026 and do not omit [7].",
+            "model_ref": "unit-test",
+            "runtime": "ollama",
+            "task_hint": "extraction",
+            "optimize_prompt": True,
+        },
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["optimized"] is True
+    assert body["optimized_prompt"]
+    assert "Preserve exactly:" in body["optimized_prompt"]
+    assert {"Acme", "42", "2026", "not", "[7]"} <= set(body["preserved"])
+    assert prompts and prompts[0] == body["optimized_prompt"]
+
+
 def test_replay_404_for_unknown_id(tmp_path: Path) -> None:
     app.state.audit_path = str(tmp_path / "audit.jsonl")
     app.state.runs_path = str(tmp_path / "runs.jsonl")

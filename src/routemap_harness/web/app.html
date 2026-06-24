@@ -614,6 +614,10 @@
       <div class="panel">
         <div class="chat-tools">
           <label class="toggle">
+            <input id="optimize-prompt" type="checkbox">
+            structure prompt
+          </label>
+          <label class="toggle">
             <input id="compress-context" type="checkbox">
             compress long context
           </label>
@@ -734,6 +738,7 @@
     const auditBody = document.querySelector("#audit-body");
     const chatForm = document.querySelector("#chat-form");
     const promptField = document.querySelector("#prompt");
+    const optimizeField = document.querySelector("#optimize-prompt");
     const compressField = document.querySelector("#compress-context");
     const thread = document.querySelector("#run-detail-container");
     const chatStatus = document.querySelector("#chat-status");
@@ -1028,6 +1033,8 @@
         <summary>run detail</summary>
         <div class="run-detail-grid">
           ${runKv("prompt", run.prompt)}
+          ${run.optimized ? runKv("optimized_prompt", run.optimized_prompt) : ""}
+          ${run.optimized ? `<div class="strip">${preservedChips(run.preserved || [])}</div>` : ""}
           ${runKv("prompt_sent", run.prompt_sent)}
           ${run.compressed ? `<div class="strip"><span>${escapeHtml(compressionLabel(run))}</span></div>` : ""}
           ${runKv("model_output", run.model_output)}
@@ -1065,6 +1072,11 @@
       promptSummary.textContent = `compressed ${result.tokens} -> ${result.kept} (-${pct}%)`;
       promptSent.textContent = result.compressed_prompt || "";
       promptBlock.classList.remove("hidden");
+    }
+
+    function preservedChips(values) {
+      if (!values.length) return "<span>preserved: none</span>";
+      return values.map((value) => `<span>preserve: ${escapeHtml(value)}</span>`).join("");
     }
 
     function selectedCompareModels() {
@@ -1174,6 +1186,8 @@
     taskSelect.addEventListener("change", syncTaskFields);
     modelSelect.addEventListener("change", () => localStorage.setItem("routemap.model", modelSelect.value));
     compressField.checked = localStorage.getItem("routemap.compress") === "true";
+    optimizeField.checked = localStorage.getItem("routemap.optimize") === "true";
+    optimizeField.addEventListener("change", () => localStorage.setItem("routemap.optimize", String(optimizeField.checked)));
     compressField.addEventListener("change", () => localStorage.setItem("routemap.compress", String(compressField.checked)));
     labPassage.value = localStorage.getItem("routemap.lab.passage") || labPassage.value;
     labQuestion.value = localStorage.getItem("routemap.lab.question") || labQuestion.value;
@@ -1238,6 +1252,7 @@
             model_ref: modelSelect.value,
             runtime: option ? option.dataset.runtime : "ollama",
             strict: strictField.checked,
+            optimize_prompt: optimizeField.checked,
             compress_context: compressField.checked
           })
         });
