@@ -46,6 +46,16 @@ def test_api_check_json_schema_and_audit_lookup(tmp_path: Path) -> None:
     assert decision["schema_version"] == "harness_decision_v1"
     assert decision["task_type"] == "json_schema"
     assert decision["final_status"] == "accepted"
+    assert {
+        "validation_coverage",
+        "hard_failures",
+        "unchecked_claims",
+        "repair_attempts",
+        "escalation_required",
+        "input_compression",
+        "source_grounding",
+        "summary",
+    } <= set(decision["scorecard"])
 
     audit_response = client.get(f"/audit/{decision['decision_id']}")
     assert audit_response.status_code == 200

@@ -20,6 +20,7 @@ from .adapters import (
 )
 from .core import HarnessDecision, harness_check
 from .policy import repair, repair_stub
+from .scorecard import scorecard
 from routemap_bench.tasks import exact_value_feasible
 from routemap_digital.parser import parse_expression
 from routemap_prompt import optimize_prompt as structure_prompt
@@ -46,7 +47,9 @@ def check(body: dict[str, Any]) -> dict[str, Any]:
     decision = harness_check(payload, strict=bool(body.get("strict")))
     decision = _with_model_record(decision, body.get("model"))
     audit_store.append(decision, _audit_path())
-    return decision.to_dict()
+    response = decision.to_dict()
+    response["scorecard"] = scorecard(response)
+    return response
 
 
 @app.post("/run")
@@ -108,6 +111,7 @@ def _run_once(body: dict[str, Any], *, runtime: str, model_ref: str) -> dict[str
         "audit_id": final_decision.decision_id,
         "exact_correction": exact_correction,
     }
+    response["scorecard"] = scorecard(final_decision.to_dict(), run=response)
     run_store.append_run(
         _run_record(
             response,

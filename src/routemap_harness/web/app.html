@@ -189,6 +189,33 @@
     .verdict-not_ruled_out { color: var(--good); }
     .verdict-uncheckable { color: var(--warn); }
     .status-repaired { color: var(--warn); }
+    .scorecard {
+      display: grid;
+      gap: 8px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .coverage-bar {
+      height: 10px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--muted) 18%, transparent);
+    }
+    .coverage-fill {
+      height: 100%;
+      background: var(--accent);
+    }
+    .scorecard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 8px;
+    }
+    .scorecard-caption {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -828,7 +855,7 @@
       decisionEl.innerHTML = fields.map(([key, value]) => {
         const cls = key === "verdict" ? verdictClass(value) : (key === "final_status" && value === "repaired" ? "status-repaired" : "");
         return `<div class="kv"><div class="key">${key}</div><div class="value ${cls}">${escapeHtml(value ?? "")}</div></div>`;
-      }).join("");
+      }).join("") + renderScorecard(decision.scorecard);
     }
 
     function renderAudit(records) {
@@ -1017,6 +1044,27 @@
       return `<div class="kv"><div class="key">${escapeHtml(key)}</div><div class="value ${cls}">${escapeHtml(runValue(value))}</div></div>`;
     }
 
+    function renderScorecard(card) {
+      if (!card) return "";
+      const coverage = Math.max(0, Math.min(1, Number(card.validation_coverage) || 0));
+      const pct = Math.round(coverage * 100);
+      const compression = card.input_compression ? compressionLabelFromRecord(card.input_compression) : "none";
+      return `<div class="scorecard">
+        <div class="scorecard-caption">Coverage, not a correctness score.</div>
+        <div class="value">${escapeHtml(`${pct}% covered by checkable routes`)}</div>
+        <div class="coverage-bar"><div class="coverage-fill" style="width: ${pct}%"></div></div>
+        <div class="scorecard-grid">
+          <div><div class="key">hard failures</div><div class="value">${escapeHtml(card.hard_failures ?? 0)}</div></div>
+          <div><div class="key">unchecked claims</div><div class="value">${escapeHtml(card.unchecked_claims ?? 0)}</div></div>
+          <div><div class="key">repairs</div><div class="value">${escapeHtml(card.repair_attempts ?? 0)}</div></div>
+          <div><div class="key">escalation</div><div class="value">${escapeHtml(card.escalation_required ? "required" : "not required")}</div></div>
+          <div><div class="key">compression</div><div class="value">${escapeHtml(compression)}</div></div>
+          <div><div class="key">grounding</div><div class="value">${escapeHtml(card.source_grounding || "n/a")}</div></div>
+        </div>
+        <div class="status">${escapeHtml(card.summary || "")}</div>
+      </div>`;
+    }
+
     function renderRunDetail(run) {
       const decision = run.decision || {};
       const detail = document.createElement("details");
@@ -1033,6 +1081,7 @@
         <summary>run detail</summary>
         <div class="run-detail-grid">
           ${runKv("prompt", run.prompt)}
+          ${renderScorecard(run.scorecard)}
           ${run.optimized ? runKv("optimized_prompt", run.optimized_prompt) : ""}
           ${run.optimized ? `<div class="strip">${preservedChips(run.preserved || [])}</div>` : ""}
           ${runKv("prompt_sent", run.prompt_sent)}

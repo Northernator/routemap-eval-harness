@@ -36,6 +36,7 @@ def test_app_page_served(tmp_path: Path) -> None:
     assert 'id="dashboard-kpis"' in response.text
     assert 'id="replay-modal"' in response.text
     assert 'id="optimize-prompt"' in response.text
+    assert "Coverage, not a correctness score." in response.text
 
 
 def test_models_reports_ollama_available() -> None:
@@ -63,9 +64,10 @@ def test_check_invalid_json_returns_schema_valid_decision(tmp_path: Path) -> Non
 
     assert response.status_code == 200
     decision = response.json()
+    canonical_decision = {key: value for key, value in decision.items() if key != "scorecard"}
     decision_schema = json.loads((ROOT / "schemas" / "harness_decision_v1.schema.json").read_text(encoding="utf-8"))
     Draft202012Validator.check_schema(decision_schema)
-    Draft202012Validator(decision_schema).validate(decision)
+    Draft202012Validator(decision_schema).validate(canonical_decision)
 
 
 def test_run_wrong_arithmetic_attaches_exact_correction(
