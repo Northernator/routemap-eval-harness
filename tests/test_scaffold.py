@@ -20,4 +20,4 @@ def test_harness_schema_loads_as_valid_json() -> None:
 def test_routemap_harness_package_imports() -> None:
     import routemap_harness
 
-    assert routemap_harness.__all__ == ["Decision", "harness_check"]
+    assert routemap_harness.__all__ == ["HarnessDecision", "harness_check"]

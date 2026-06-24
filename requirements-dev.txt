@@ -2,6 +2,7 @@
 # The seven route packages and the evidence runner need only numpy + pytest.
 numpy
 pytest
+jsonschema
 
 # Only the Phase 1-2 evaluation harness scripts (src/run_*.py) use these:
 pandas

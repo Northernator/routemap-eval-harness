@@ -1,5 +1,5 @@
 """RouteMap harness scaffold."""
 
-from .core import Decision, harness_check
+from .core import HarnessDecision, harness_check
 
-__all__ = ["Decision", "harness_check"]
+__all__ = ["HarnessDecision", "harness_check"]
