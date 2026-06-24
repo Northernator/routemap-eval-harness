@@ -58,11 +58,11 @@
     h2 { font-size: 1rem; }
     .segmented {
       display: inline-grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
       border: 1px solid var(--line);
       border-radius: 8px;
       overflow: hidden;
-      min-width: 180px;
+      min-width: 250px;
       background: var(--panel);
     }
     .segmented button {
@@ -258,6 +258,82 @@
       min-height: 72px;
       font-family: inherit;
     }
+    .lab-form {
+      display: grid;
+      gap: 12px;
+    }
+    .lab-form textarea { min-height: 180px; }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    .legend span, .summary-chip {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 8px;
+    }
+    .token-stream {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+      min-height: 96px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow-wrap: anywhere;
+    }
+    .route-token {
+      border: 1px solid transparent;
+      border-radius: 6px;
+      padding: 2px 5px;
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      font-size: 0.9rem;
+    }
+    .token-cheap {
+      color: var(--muted);
+      background: color-mix(in srgb, var(--muted) 12%, transparent);
+    }
+    .token-protected {
+      border-color: var(--bad);
+      color: var(--bad);
+    }
+    .token-query {
+      border-color: var(--warn);
+      color: var(--warn);
+      background: color-mix(in srgb, var(--warn) 12%, transparent);
+    }
+    .token-keep {
+      border-color: var(--good);
+      color: var(--good);
+      background: color-mix(in srgb, var(--good) 10%, transparent);
+    }
+    .prompt-block {
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .prompt-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .prompt-text {
+      margin: 0;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      font-size: 0.88rem;
+    }
     @media (max-width: 900px) {
       main { width: min(100% - 20px, 760px); padding-top: 18px; }
       header, .grid { display: block; }
@@ -274,6 +350,7 @@
       <div class="segmented" role="tablist" aria-label="mode">
         <button id="mode-check" type="button">Check</button>
         <button id="mode-chat" type="button">Chat</button>
+        <button id="mode-lab" type="button">Lab</button>
       </div>
       <label>model
         <select id="model"></select>
@@ -367,14 +444,51 @@
         <div id="chat-status" class="status"></div>
       </div>
     </section>
+
+    <section id="lab-panel" class="hidden">
+      <div class="grid">
+        <form id="lab-form" class="panel lab-form">
+          <label>passage
+            <textarea id="lab-passage" spellcheck="true">The verifier must not drop negated risk statements before release. The of and to the of and to filler can be routed cheaply.</textarea>
+          </label>
+          <label>question
+            <input id="lab-question" type="text" value="What must the verifier not drop?">
+          </label>
+          <div class="actions">
+            <button type="submit">route</button>
+          </div>
+          <div id="lab-status" class="status"></div>
+        </form>
+
+        <section class="panel">
+          <h2>token route</h2>
+          <div class="legend" aria-label="route legend">
+            <span class="token-cheap">cheap</span>
+            <span class="token-protected">protected keep</span>
+            <span class="token-query">query keep</span>
+            <span class="token-keep">keep</span>
+          </div>
+          <div id="token-stream" class="token-stream"></div>
+          <div id="prompt-block" class="prompt-block hidden">
+            <div class="prompt-head">
+              <h2>prompt sent</h2>
+              <span id="prompt-summary" class="summary-chip"></span>
+            </div>
+            <pre id="prompt-sent" class="prompt-text"></pre>
+          </div>
+        </section>
+      </div>
+    </section>
   </main>
 
   <script>
     const modelSelect = document.querySelector("#model");
     const modeCheck = document.querySelector("#mode-check");
     const modeChat = document.querySelector("#mode-chat");
+    const modeLab = document.querySelector("#mode-lab");
     const checkPanel = document.querySelector("#check-panel");
     const chatPanel = document.querySelector("#chat-panel");
+    const labPanel = document.querySelector("#lab-panel");
     const taskSelect = document.querySelector("#task");
     const outputField = document.querySelector("#output");
     const specField = document.querySelector("#spec");
@@ -389,6 +503,14 @@
     const compressField = document.querySelector("#compress-context");
     const thread = document.querySelector("#thread");
     const chatStatus = document.querySelector("#chat-status");
+    const labForm = document.querySelector("#lab-form");
+    const labPassage = document.querySelector("#lab-passage");
+    const labQuestion = document.querySelector("#lab-question");
+    const labStatus = document.querySelector("#lab-status");
+    const tokenStream = document.querySelector("#token-stream");
+    const promptBlock = document.querySelector("#prompt-block");
+    const promptSummary = document.querySelector("#prompt-summary");
+    const promptSent = document.querySelector("#prompt-sent");
     let lastDecisionId = "";
 
     async function request(path, options) {
@@ -398,12 +520,14 @@
     }
 
     function setMode(mode) {
-      const chat = mode === "chat";
-      modeCheck.classList.toggle("active", !chat);
-      modeChat.classList.toggle("active", chat);
-      checkPanel.classList.toggle("hidden", chat);
-      chatPanel.classList.toggle("hidden", !chat);
-      localStorage.setItem("routemap.mode", mode);
+      const selected = ["check", "chat", "lab"].includes(mode) ? mode : "check";
+      modeCheck.classList.toggle("active", selected === "check");
+      modeChat.classList.toggle("active", selected === "chat");
+      modeLab.classList.toggle("active", selected === "lab");
+      checkPanel.classList.toggle("hidden", selected !== "check");
+      chatPanel.classList.toggle("hidden", selected !== "chat");
+      labPanel.classList.toggle("hidden", selected !== "lab");
+      localStorage.setItem("routemap.mode", selected);
     }
 
     function parseSpec() {
@@ -482,6 +606,23 @@
       thread.appendChild(chip);
     }
 
+    function tokenClass(row) {
+      if (row.route_action === "cheap") return "token-cheap";
+      if (row.protected) return "token-protected";
+      if (row.query_overlap) return "token-query";
+      return "token-keep";
+    }
+
+    function renderRoute(result) {
+      tokenStream.innerHTML = result.rows.map((row) => (
+        `<span class="route-token ${tokenClass(row)}" title="${escapeHtml(row.element)}">${escapeHtml(row.token)}</span>`
+      )).join("");
+      const pct = Math.round((result.reduction || 0) * 100);
+      promptSummary.textContent = `compressed ${result.tokens} -> ${result.kept} (-${pct}%)`;
+      promptSent.textContent = result.compressed_prompt || "";
+      promptBlock.classList.remove("hidden");
+    }
+
     function escapeHtml(value) {
       return String(value)
         .replaceAll("&", "&amp;")
@@ -511,9 +652,12 @@
 
     modeCheck.addEventListener("click", () => setMode("check"));
     modeChat.addEventListener("click", () => setMode("chat"));
+    modeLab.addEventListener("click", () => setMode("lab"));
     modelSelect.addEventListener("change", () => localStorage.setItem("routemap.model", modelSelect.value));
     compressField.checked = localStorage.getItem("routemap.compress") === "true";
     compressField.addEventListener("change", () => localStorage.setItem("routemap.compress", String(compressField.checked)));
+    labPassage.value = localStorage.getItem("routemap.lab.passage") || labPassage.value;
+    labQuestion.value = localStorage.getItem("routemap.lab.question") || labQuestion.value;
 
     checkForm.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -580,6 +724,28 @@
         chatStatus.textContent = "checked";
       } catch (error) {
         chatStatus.textContent = error.message;
+      }
+    });
+
+    labForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      localStorage.setItem("routemap.lab.passage", labPassage.value);
+      localStorage.setItem("routemap.lab.question", labQuestion.value);
+      labStatus.textContent = "routing...";
+      try {
+        const result = await request("/route", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            passage: labPassage.value,
+            question: labQuestion.value,
+            router_mode: "element"
+          })
+        });
+        renderRoute(result);
+        labStatus.textContent = "routed";
+      } catch (error) {
+        labStatus.textContent = error.message;
       }
     });
 

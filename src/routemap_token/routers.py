@@ -128,6 +128,33 @@ def route_passage(passage: str, question: str = "", *, router_mode: str = "eleme
     return [{"token": r["token"], "route_action": r["route_action"], "route_score": r["route_score"]} for r in rows]
 
 
+def route_passage_detail(passage: str, question: str = "", *, router_mode: str = "element",
+                         threshold: float = 0.5) -> list[dict[str, Any]]:
+    """Route a single raw passage with visualizer-safe per-token details."""
+    sample = TokenQASample("passage", passage, question or "", "", "", ())
+    idf_map = build_idf([passage] + ([question] if question else []))
+    rm = _normalize_mode(router_mode)
+    if rm == "token":
+        rows = score_sample(sample, idf_map, threshold)
+    else:
+        mode = "element" if rm == "element" else ("codon_boost" if rm == "codon_boost" else "codon_gate")
+        rows = _score_sample(sample, idf_map, threshold, mode)
+    detailed: list[dict[str, Any]] = []
+    for row in rows:
+        features = dict(row.get("context_features") or {})
+        element = str(features.get("element") or classify_element(str(row.get("token", ""))))
+        query_overlap = bool(features.get("query_overlap"))
+        detailed.append({
+            "token": row["token"],
+            "route_action": row["route_action"],
+            "route_score": row["route_score"],
+            "element": element,
+            "query_overlap": query_overlap,
+            "protected": element in ELEMENT_ALWAYS,
+        })
+    return detailed
+
+
 def _frontier_for_mode(samples, idf_map, mode: str, seed: int):
     curve, rows_by_threshold = [], {}
     for cand in THRESHOLDS:
@@ -155,5 +182,5 @@ def run_comparison(root: str = ".", seed: int = 7) -> dict:
     return out
 
 
-__all__ = ["route_passage", "score_for_mode", "run_comparison", "_score_sample", "MODES",
+__all__ = ["route_passage", "route_passage_detail", "score_for_mode", "run_comparison", "_score_sample", "MODES",
            "ROUTER_MODES", "CODON_LOADBEARING_FLOOR", "classify_element", "ELEMENT_WEIGHT"]

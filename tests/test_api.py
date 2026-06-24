@@ -59,3 +59,34 @@ def test_api_repair_stub(tmp_path: Path) -> None:
 
     assert response.status_code == 200
     assert response.json()["status"] == "needs_input"
+
+
+def test_route_endpoint_highlights_tokens(tmp_path: Path) -> None:
+    app.state.audit_path = str(tmp_path / "audit.jsonl")
+    client = TestClient(app)
+    passage = (
+        "the of and to the of and to "
+        "The verifier must not drop negated risk statements before release. "
+        "the of and to the of and to"
+    )
+
+    response = client.post(
+        "/route",
+        json={
+            "passage": passage,
+            "question": "What must the verifier not drop?",
+            "router_mode": "element",
+        },
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    rows = body["rows"]
+    assert rows
+    assert any(row["route_action"] == "cheap" for row in rows)
+    assert any(row["route_action"] == "keep" for row in rows)
+    not_row = next(row for row in rows if row["token"].lower() == "not")
+    assert not_row["protected"] is True
+    passage_words = {word.lower().strip(".,;:!?") for word in passage.split()}
+    compressed_words = {word.lower().strip(".,;:!?") for word in body["compressed_prompt"].split()}
+    assert compressed_words <= passage_words

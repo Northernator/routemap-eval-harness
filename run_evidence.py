@@ -42,6 +42,7 @@ STEPS = [
     ("pytest: embedding", [sys.executable, "-m", "pytest", "re_test_embedding.py", "-q"], "determinism; recall vs brute force"),
     ("pytest: controller", [sys.executable, "-m", "pytest", "rc_test_controller.py", "-q"], "dispatch; no-silent-prune; schema-valid"),
     ("pytest: harness core+gold", [sys.executable, "-m", "pytest", "tests/test_harness_core.py", "tests/test_harness_gold.py", "-q"], "0 false accepts; FP 0.000"),
+    ("pytest: api+web", [sys.executable, "-m", "pytest", "tests/test_api.py", "tests/test_web.py", "-q"], "route endpoint + web surface"),
     ("pytest: matrix core", [sys.executable, "-m", "pytest", "rm_test_matrix.py", "-q"], "route/validate core (numpy)"),
     ("bench: validators regression", [sys.executable, "-m", "routemap_validators.run_regression"], "FP 0.000; JSON rule-out 0.600 (cached corpus)"),
     ("bench: HugeArithmeticRouteBench", [sys.executable, "-m", "routemap_bench", "run", "--out", str(OUT / "bench_arith")], "catch 1.000; oracle agreement 1.000"),

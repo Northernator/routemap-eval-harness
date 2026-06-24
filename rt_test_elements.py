@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import random
+import inspect
 from pathlib import Path
 
 from routemap_elements.bench_elements import MODES, _score_sample, run_comparison
 from routemap_elements.elements import best_codon_value, classify_element, codon_value
 from routemap_token.bench import load_dataset
 from routemap_token.prior import build_idf, discover_corpus_docs
+from routemap_token.routers import route_passage_detail
 
 ROOT = str(Path(__file__).resolve().parent)
 KNOWN_ELEMENTS = {
@@ -76,3 +78,13 @@ def test_default_router_is_element_and_token_preserved() -> None:
     assert token["router_mode"] == "token"  # baseline preserved, still selectable
     if default.get("dataset_source") == "v1_full_extraction_gold":
         assert default["frontier"]["lt_0_01"]["token_reduction"] >= token["frontier"]["lt_0_01"]["token_reduction"]
+
+
+def test_route_passage_detail_is_deterministic_and_noleak() -> None:
+    passage = "The verifier must not drop negated risk statements before release."
+    question = "What must not be dropped?"
+    assert route_passage_detail(passage, question) == route_passage_detail(passage, question)
+    params = inspect.signature(route_passage_detail).parameters
+    assert "answer" not in params
+    assert "evidence" not in params
+    assert "needed" not in params

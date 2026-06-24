@@ -15,7 +15,7 @@ from .core import HarnessDecision, harness_check
 from .policy import repair, repair_stub
 from routemap_bench.tasks import exact_value_feasible
 from routemap_digital.parser import parse_expression
-from routemap_token import route_passage
+from routemap_token import route_passage, route_passage_detail
 
 
 app = FastAPI(title="RouteMap Harness API")
@@ -84,6 +84,27 @@ def run(body: dict[str, Any]) -> dict[str, Any]:
         "route_note": compression["route_note"],
         "audit_id": final_decision.decision_id,
         "exact_correction": exact_correction,
+    }
+
+
+@app.post("/route")
+def route(body: dict[str, Any]) -> dict[str, Any]:
+    passage = str(body.get("passage") or "")
+    question = str(body.get("question") or "")
+    router_mode = str(body.get("router_mode") or "element")
+    rows = route_passage_detail(passage, question, router_mode=router_mode)
+    kept = [str(row["token"]) for row in rows if row.get("route_action") == "keep"]
+    token_count = len(rows)
+    kept_count = len(kept)
+    cheap_count = sum(1 for row in rows if row.get("route_action") == "cheap")
+    return {
+        "router_mode": router_mode,
+        "tokens": token_count,
+        "kept": kept_count,
+        "cheap": cheap_count,
+        "reduction": 0.0 if token_count == 0 else 1.0 - (kept_count / token_count),
+        "compressed_prompt": " ".join(kept),
+        "rows": rows,
     }
 
 
