@@ -34,6 +34,7 @@ def test_app_page_served(tmp_path: Path) -> None:
     assert 'id="mode-lab"' in response.text
     assert 'id="run-detail-container"' in response.text
     assert 'id="dashboard-kpis"' in response.text
+    assert 'id="replay-modal"' in response.text
 
 
 def test_models_reports_ollama_available() -> None:
@@ -71,6 +72,7 @@ def test_run_wrong_arithmetic_attaches_exact_correction(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     api.app.state.audit_path = str(tmp_path / "audit.jsonl")
+    api.app.state.runs_path = str(tmp_path / "runs.jsonl")
 
     def wrong_answer(prompt: str, **kwargs: object) -> str:
         return "6"
@@ -95,6 +97,7 @@ def test_run_compresses_long_passage_and_records_audit_reduction(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     api.app.state.audit_path = str(tmp_path / "audit.jsonl")
+    api.app.state.runs_path = str(tmp_path / "runs.jsonl")
     prompts: list[str] = []
 
     def answer(prompt: str, **kwargs: object) -> str:
@@ -139,6 +142,7 @@ def test_run_skips_compression_for_short_prompt(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     api.app.state.audit_path = str(tmp_path / "audit.jsonl")
+    api.app.state.runs_path = str(tmp_path / "runs.jsonl")
 
     def answer(prompt: str, **kwargs: object) -> str:
         return "short answer"

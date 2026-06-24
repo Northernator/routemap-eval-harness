@@ -44,6 +44,7 @@ STEPS = [
     ("pytest: controller", [sys.executable, "-m", "pytest", "rc_test_controller.py", "-q"], "dispatch; no-silent-prune; schema-valid"),
     ("pytest: harness core+gold", [sys.executable, "-m", "pytest", "tests/test_harness_core.py", "tests/test_harness_gold.py", "-q"], "0 false accepts; FP 0.000"),
     ("pytest: api+audit+web", [sys.executable, "-m", "pytest", "tests/test_api.py", "tests/test_audit.py", "tests/test_web.py", "-q"], "route endpoint + audit summaries + web surface"),
+    ("pytest: run store + replay", [sys.executable, "-m", "pytest", "tests/test_run_store.py", "-q"], "replay run log"),
     ("pytest: matrix core", [sys.executable, "-m", "pytest", "rm_test_matrix.py", "-q"], "route/validate core (numpy)"),
     ("bench: validators regression", [sys.executable, "-m", "routemap_validators.run_regression"], "FP 0.000; JSON rule-out 0.600 (cached corpus)"),
     ("bench: HugeArithmeticRouteBench", [sys.executable, "-m", "routemap_bench", "run", "--out", str(OUT / "bench_arith")], "catch 1.000; oracle agreement 1.000"),

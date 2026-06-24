@@ -9,7 +9,7 @@ from typing import Any
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 
-from . import audit_store
+from . import audit_store, run_store
 from .adapters import (
     DEFAULT_MODEL_REF,
     EXPERIMENTAL_CLI_RUNTIMES,
@@ -66,7 +66,8 @@ def _run_once(body: dict[str, Any], *, runtime: str, model_ref: str) -> dict[str
         auth_mode=_auth_mode(runtime),
         strict_model=bool(body.get("strict")),
     )
-    _LAST_MODEL_METADATA = metadata_dict(model_output)
+    model_metadata = metadata_dict(model_output)
+    _LAST_MODEL_METADATA = model_metadata
     payload = _run_payload(body, prompt=prompt, model_output=str(model_output), model_ref=model_ref, runtime=runtime)
     decision = harness_check(payload, strict=bool(body.get("strict")))
     decision = _with_model_record(decision, model_ref)
@@ -86,7 +87,7 @@ def _run_once(body: dict[str, Any], *, runtime: str, model_ref: str) -> dict[str
     if exact_correction is not None:
         final_output = exact_correction
 
-    return {
+    response = {
         "prompt": prompt,
         "prompt_sent": compression["prompt_sent"],
         "model_output": str(model_output),
@@ -101,6 +102,18 @@ def _run_once(body: dict[str, Any], *, runtime: str, model_ref: str) -> dict[str
         "audit_id": final_decision.decision_id,
         "exact_correction": exact_correction,
     }
+    run_store.append_run(
+        _run_record(
+            response,
+            final_decision,
+            compression=compression,
+            model_metadata=model_metadata,
+            runtime=runtime,
+            model_ref=model_ref,
+        ),
+        _runs_path(),
+    )
+    return response
 
 
 @app.post("/compare")
@@ -182,6 +195,15 @@ def summary() -> dict[str, Any]:
     return audit_store.summarize(_audit_path())
 
 
+@app.get("/replay/{decision_id}")
+def replay(decision_id: str) -> dict[str, Any]:
+    decision = audit_store.get_record(decision_id, _audit_path())
+    run_record = run_store.get_run(decision_id, _runs_path())
+    if decision is None and run_record is None:
+        raise HTTPException(status_code=404, detail="replay not found")
+    return {"decision": decision, "run": run_record}
+
+
 @app.get("/audit/{decision_id}")
 def audit_record(decision_id: str) -> dict[str, Any]:
     record = audit_store.get_record(decision_id, _audit_path())
@@ -192,6 +214,10 @@ def audit_record(decision_id: str) -> dict[str, Any]:
 
 def _audit_path() -> str:
     return str(getattr(app.state, "audit_path", audit_store.DEFAULT_AUDIT))
+
+
+def _runs_path() -> str:
+    return str(getattr(app.state, "runs_path", run_store.DEFAULT_RUNS))
 
 
 def _app_page_path() -> Path:
@@ -401,6 +427,41 @@ def _with_model_record(decision: HarnessDecision, model: Any) -> HarnessDecision
     data = decision.to_dict()
     data["model"] = model_name
     return HarnessDecision(**data, blocking=decision.is_blocking())
+
+
+def _run_record(
+    response: dict[str, Any],
+    decision: HarnessDecision,
+    *,
+    compression: dict[str, Any],
+    model_metadata: dict[str, Any],
+    runtime: str,
+    model_ref: str,
+) -> dict[str, Any]:
+    return {
+        "decision_id": decision.decision_id,
+        "timestamp": decision.timestamp,
+        "prompt": response["prompt"],
+        "prompt_sent": response["prompt_sent"],
+        "model_output": response["model_output"],
+        "final_output": response["final_output"],
+        "repair_attempts": response["repair_attempts"],
+        "compression": {
+            "compressed": compression["compressed"],
+            "tokens_before": compression["tokens_before"],
+            "tokens_after": compression["tokens_after"],
+            "reduction": compression["reduction"],
+            "route_note": compression["route_note"],
+        },
+        "model": {
+            "runtime": model_metadata.get("runtime", runtime),
+            "model_ref": model_metadata.get("model_ref", model_ref),
+            "auth_mode": model_metadata.get("auth_mode", _auth_mode(runtime)),
+            "latency_ms": model_metadata.get("latency_ms"),
+            "cost_usd": model_metadata.get("cost_usd"),
+            "tokens": model_metadata.get("tokens"),
+        },
+    }
 
 
 def _api_decision(decision: HarnessDecision) -> dict[str, Any]:

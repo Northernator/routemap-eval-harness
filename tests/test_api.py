@@ -142,6 +142,7 @@ def test_check_grounded_qa_names_missing_items(tmp_path: Path) -> None:
 
 def test_run_returns_pipeline_fields(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     app.state.audit_path = str(tmp_path / "audit.jsonl")
+    app.state.runs_path = str(tmp_path / "runs.jsonl")
 
     def fixed_answer(prompt: str, **kwargs: object) -> str:
         return "4"
@@ -176,8 +177,53 @@ def test_run_returns_pipeline_fields(tmp_path: Path, monkeypatch: pytest.MonkeyP
         assert key in body
 
 
+def test_run_persists_run_store(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    app.state.audit_path = str(tmp_path / "audit.jsonl")
+    app.state.runs_path = str(tmp_path / "runs.jsonl")
+
+    def fixed_answer(prompt: str, **kwargs: object) -> str:
+        return "4"
+
+    monkeypatch.setattr(api, "model_fn", fixed_answer)
+    client = TestClient(app)
+
+    response = client.post(
+        "/run",
+        json={
+            "prompt": "2 + 2",
+            "model_ref": "unit-test",
+            "runtime": "ollama",
+            "task_hint": "arithmetic",
+        },
+    )
+    assert response.status_code == 200
+    audit_id = response.json()["audit_id"]
+
+    replay_response = client.get(f"/replay/{audit_id}")
+
+    assert replay_response.status_code == 200
+    replay = replay_response.json()
+    assert replay["decision"]["decision_id"] == audit_id
+    assert replay["run"]["decision_id"] == audit_id
+    assert replay["run"]["prompt"] == "2 + 2"
+    assert replay["run"]["model_output"] == "4"
+    assert replay["run"]["compression"]["compressed"] is False
+    assert replay["run"]["model"]["model_ref"] == "unit-test"
+
+
+def test_replay_404_for_unknown_id(tmp_path: Path) -> None:
+    app.state.audit_path = str(tmp_path / "audit.jsonl")
+    app.state.runs_path = str(tmp_path / "runs.jsonl")
+    client = TestClient(app)
+
+    response = client.get("/replay/missing")
+
+    assert response.status_code == 404
+
+
 def test_summary_endpoint_aggregates(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     app.state.audit_path = str(tmp_path / "audit.jsonl")
+    app.state.runs_path = str(tmp_path / "runs.jsonl")
 
     def valid_json(prompt: str, **kwargs: object) -> str:
         return '{"id":"x","score":88,"status":"pass","tags":["ok"]}'
@@ -231,6 +277,7 @@ def test_summary_endpoint_aggregates(tmp_path: Path, monkeypatch: pytest.MonkeyP
 
 def test_compare_runs_each_model(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     app.state.audit_path = str(tmp_path / "audit.jsonl")
+    app.state.runs_path = str(tmp_path / "runs.jsonl")
 
     def echo_model_ref(prompt: str, **kwargs: object) -> str:
         return str(kwargs["model_ref"])
@@ -260,6 +307,7 @@ def test_compare_runs_each_model(tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 
 def test_compare_isolates_model_failure(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     app.state.audit_path = str(tmp_path / "audit.jsonl")
+    app.state.runs_path = str(tmp_path / "runs.jsonl")
 
     def maybe_fail(prompt: str, **kwargs: object) -> str:
         if kwargs["model_ref"] == "bad-model":
