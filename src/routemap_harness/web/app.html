@@ -517,7 +517,10 @@
       <section class="panel">
         <div class="prompt-head">
           <h2>dashboard</h2>
-          <button id="dashboard-refresh" class="secondary" type="button">refresh</button>
+          <div class="actions">
+            <button id="dashboard-export" class="secondary" type="button">Export failures (JSONL)</button>
+            <button id="dashboard-refresh" class="secondary" type="button">refresh</button>
+          </div>
         </div>
         <div id="dashboard-kpis" class="kpi-row"></div>
         <div id="dashboard-status" class="status"></div>
@@ -784,6 +787,7 @@
     const compareResults = document.querySelector("#compare-results");
     const dashboardKpis = document.querySelector("#dashboard-kpis");
     const dashboardStatus = document.querySelector("#dashboard-status");
+    const dashboardExport = document.querySelector("#dashboard-export");
     const dashboardRefresh = document.querySelector("#dashboard-refresh");
     const failureBody = document.querySelector("#failure-body");
     const byModelBody = document.querySelector("#by-model-body");
@@ -796,6 +800,12 @@
       const response = await fetch(path, options);
       if (!response.ok) throw new Error(`${response.status} ${await response.text()}`);
       return response.json();
+    }
+
+    async function requestText(path) {
+      const response = await fetch(path);
+      if (!response.ok) throw new Error(`${response.status} ${await response.text()}`);
+      return response.text();
     }
 
     function setMode(mode) {
@@ -1212,6 +1222,22 @@
       dashboardStatus.textContent = "loaded";
     }
 
+    async function exportFailures() {
+      dashboardStatus.textContent = "exporting...";
+      const text = await requestText("/export/failures");
+      const rows = text.trim() ? text.trim().split(/\r?\n/).length : 0;
+      const blob = new Blob([text], { type: "application/x-ndjson" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "routemap-failures.jsonl";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      dashboardStatus.textContent = `exported ${rows} failure rows`;
+    }
+
     function handleReplayClick(event) {
       const button = event.target.closest("[data-replay-id]");
       if (!button) return;
@@ -1225,6 +1251,7 @@
     modeCompare.addEventListener("click", () => setMode("compare"));
     modeDashboard.addEventListener("click", () => setMode("dashboard"));
     modeLab.addEventListener("click", () => setMode("lab"));
+    dashboardExport.addEventListener("click", () => exportFailures().catch((error) => { dashboardStatus.textContent = error.message; }));
     dashboardRefresh.addEventListener("click", () => loadDashboard().catch((error) => { dashboardStatus.textContent = error.message; }));
     auditBody.addEventListener("click", handleReplayClick);
     thread.addEventListener("click", handleReplayClick);

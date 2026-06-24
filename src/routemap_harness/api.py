@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import json
 import os
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from fastapi.responses import FileResponse
 
 from . import audit_store, run_store
@@ -212,6 +213,15 @@ def replay(decision_id: str) -> dict[str, Any]:
     if decision is None and run_record is None:
         raise HTTPException(status_code=404, detail="replay not found")
     return {"decision": decision, "run": run_record}
+
+
+@app.get("/export/failures")
+def export_failures_endpoint() -> Response:
+    rows = run_store.export_failures(_audit_path(), _runs_path())
+    body = "\n".join(json.dumps(row, ensure_ascii=True, sort_keys=True, default=str) for row in rows)
+    if body:
+        body += "\n"
+    return Response(content=body, media_type="application/x-ndjson")
 
 
 @app.get("/audit/{decision_id}")

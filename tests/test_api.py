@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -261,6 +262,44 @@ def test_replay_404_for_unknown_id(tmp_path: Path) -> None:
     response = client.get("/replay/missing")
 
     assert response.status_code == 404
+
+
+def test_export_failures_returns_ndjson(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    app.state.audit_path = str(tmp_path / "audit.jsonl")
+    app.state.runs_path = str(tmp_path / "runs.jsonl")
+
+    def wrong_answer(prompt: str, **kwargs: object) -> str:
+        return "6"
+
+    monkeypatch.setattr(api, "model_fn", wrong_answer)
+    client = TestClient(app)
+    run_response = client.post(
+        "/run",
+        json={
+            "prompt": "2 + 3",
+            "model_ref": "unit-test",
+            "runtime": "ollama",
+            "task_hint": "arithmetic",
+        },
+    )
+    assert run_response.status_code == 200
+
+    response = client.get("/export/failures")
+
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("application/x-ndjson")
+    lines = [line for line in response.text.splitlines() if line.strip()]
+    rows = [json.loads(line) for line in lines]
+    assert rows
+    assert {
+        "prompt",
+        "model_output",
+        "failure_type",
+        "validator_reason",
+        "repair_prompt",
+        "corrected_output",
+        "final_status",
+    } <= set(rows[0])
 
 
 def test_summary_endpoint_aggregates(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

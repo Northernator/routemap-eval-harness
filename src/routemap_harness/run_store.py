@@ -32,6 +32,68 @@ def get_run(decision_id: str, path: str | Path = DEFAULT_RUNS) -> dict[str, Any]
     return match
 
 
+def export_failures(audit_path: str | Path, runs_path: str | Path) -> list[dict[str, Any]]:
+    """Join audit and run logs into training rows for failed/repaired outcomes."""
+    runs = {
+        str(record.get("decision_id")): record
+        for record in _read_jsonl(Path(runs_path))
+        if record.get("decision_id")
+    }
+    rows: list[dict[str, Any]] = []
+    for decision in _read_jsonl(Path(audit_path)):
+        if not _is_failure(decision):
+            continue
+        run = runs.get(str(decision.get("decision_id")))
+        if run is None:
+            continue
+        rows.append(_failure_row(decision, run))
+    return rows
+
+
+def _is_failure(decision: Mapping[str, Any]) -> bool:
+    return (
+        decision.get("final_status") in {"rejected", "escalated", "repaired"}
+        or decision.get("verdict") == "RULED_OUT_WRONG"
+    )
+
+
+def _failure_row(decision: Mapping[str, Any], run: Mapping[str, Any]) -> dict[str, Any]:
+    model_output = run.get("model_output")
+    final_output = run.get("final_output")
+    return {
+        "prompt": run.get("prompt"),
+        "model_output": model_output,
+        "failure_type": f"{decision.get('task_type')}:{_failure_detail(decision)}",
+        "validator_reason": decision.get("reason"),
+        "repair_prompt": _repair_prompt(run),
+        "corrected_output": final_output if final_output != model_output else None,
+        "final_status": decision.get("final_status"),
+    }
+
+
+def _failure_detail(decision: Mapping[str, Any]) -> str:
+    record = decision.get("validator_record")
+    checks = record.get("checks") if isinstance(record, Mapping) else None
+    if isinstance(checks, list):
+        for check in checks:
+            if isinstance(check, Mapping) and check.get("verdict") == "RULED_OUT_WRONG":
+                return str(check.get("checker") or decision.get("verdict"))
+    return str(decision.get("verdict"))
+
+
+def _repair_prompt(run: Mapping[str, Any]) -> Any:
+    attempts = run.get("repair_attempts")
+    if not isinstance(attempts, list):
+        return None
+    for attempt in attempts:
+        if not isinstance(attempt, Mapping):
+            continue
+        record = attempt.get("validator_record")
+        if isinstance(record, Mapping) and record.get("repair_prompt"):
+            return record.get("repair_prompt")
+    return None
+
+
 def _read_jsonl(path: Path) -> Iterable[dict[str, Any]]:
     if not path.exists():
         return []
@@ -39,4 +101,4 @@ def _read_jsonl(path: Path) -> Iterable[dict[str, Any]]:
         return [json.loads(line) for line in handle if line.strip()]
 
 
-__all__ = ["DEFAULT_RUNS", "append_run", "get_run"]
+__all__ = ["DEFAULT_RUNS", "append_run", "export_failures", "get_run"]
