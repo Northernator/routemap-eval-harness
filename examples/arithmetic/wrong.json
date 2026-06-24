@@ -1,0 +1,6 @@
+{
+  "task_type": "arithmetic",
+  "expr": "2 + 3",
+  "claimed_answer": 6,
+  "known_wrong": true
+}

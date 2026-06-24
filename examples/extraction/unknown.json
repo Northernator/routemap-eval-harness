@@ -1,0 +1,5 @@
+{
+  "task_type": "extraction",
+  "raw": "unstructured extraction output with no supported verifier",
+  "known_wrong": true
+}

@@ -42,7 +42,7 @@ and GPU numbers are environment-gated (noted in the output).
 | Token-importance routing | **default router = element** (~44% reduction @<1% loss; token baseline ~34% via `--router token`). Element validated on synthetic-blind + 2 real human-reviewed held-out sets at 0 recall loss with frozen weights (sha256 c7f0cf9e); no-leak | `rt_test_token.py`; `rt_test_elements.py`; `python -m routemap_token run --router all`; `python -m routemap_elements.blind_validate` |
 | Embedding fingerprints | Recall/speed frontier on a 20k-vector synthetic index; no naive fingerprint clears recall@10>0.95 at >=2x (characterized negative, full curve checked) | `re_test_embedding.py`; `python -m routemap_embedding run` |
 | Unified controller | 9/9 tests; route_decide dispatch correct per task type; no-silent-prune invariant holds; every decision a schema-valid `route_decision_v1` record; demo = 7 plans, 1 escalation | `rc_test_controller.py`; `python -m routemap_controller demo` |
-| Harness core + gold | Canonical `harness_decision_v1` wrapper over the controller; frozen per-lane gold set verifies SHA-256 before scoring; zero false accepts and sound-lane false-positive rate 0.000; CLI emits schema-valid decision + audit JSONL | `tests/test_harness_core.py`; `tests/test_harness_gold.py`; `python -m routemap_harness check --task json_schema --input examples/json_tool_call/harness_cli_payload.json --audit EVIDENCE/harness_cli_audit.jsonl` |
+| Harness core + gold | Canonical `harness_decision_v1` wrapper over the controller; frozen per-lane gold set verifies SHA-256 before scoring; zero false accepts and sound-lane false-positive rate 0.000; CLI/API/demo emit schema-valid decision + audit JSONL | `tests/test_harness_core.py`; `tests/test_harness_gold.py`; `python -m routemap_harness check --task json_schema --input examples/json_tool_call/harness_cli_payload.json --audit EVIDENCE/harness_cli_audit.jsonl`; `python scripts/run_demo_pack.py`; `python scripts/check_acceptance.py` |
 | Matrix / KV routing | route/validate core 9/9 (CPU); GPU peak-VRAM/quality is hardware-gated (research-only) | `rm_test_matrix.py`; `python -m routemap_matrix selfcheck`; GPU run per `src/routemap_matrix/HANDOFF.md` |
 | Blind held-out suite | on fresh data never tuned against: arithmetic + structured-output catch 1.000 / FP 0.000; retrieval route recall@10 0.910; extraction 0.667 (baseline) | `python src/blind/score_blind_v1.py` (verifies SHA-256, scores once); `data/blind/v1/BLIND_RESULTS.md` |
 
@@ -51,6 +51,7 @@ and GPU numbers are environment-gated (noted in the output).
 - Synthetic: HugeArithmeticRouteBench tasks, TokenRouteQA constructed fallback, embedding distractors, needle-in-haystack — all seeded.
 - Real gold: `data/v1/gold/v1_full_extraction_gold_v1.csv` (99 segments), `data/gold/*.csv`, `data/v1/gold/v1_qa_targets.csv`.
 - Harness acceptance gold: `data/harness_gold/cases.jsonl`, locked by `data/harness_gold/SHA256SUMS`, one known-correct and one known-wrong fixture per lane.
+- Harness demos: `examples/json_tool_call/`, `examples/arithmetic/`, `examples/extraction/`, `examples/long_context/`; `scripts/run_demo_pack.py` summarizes these into `EVIDENCE/HARNESS_RESULTS.md`.
 - Cached model corpora (offline, no model needed to re-score): `data/v1/digital_route/slice_05_scale/corpus.jsonl`, `slice_02_*`, `slice_06_repair/`.
 
 ## 7. Audit schemas

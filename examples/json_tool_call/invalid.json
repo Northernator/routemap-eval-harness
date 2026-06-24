@@ -1,0 +1,26 @@
+{
+  "task_type": "json_schema",
+  "raw": "{\"id\":\"x\",\"score\":104,\"status\":\"maybe\",\"tags\":[]}",
+  "schema": {
+    "type": "object",
+    "required": ["id", "score", "status", "tags"],
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "score": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "status": {
+        "enum": ["pass", "fail"]
+      },
+      "tags": {
+        "type": "array",
+        "minItems": 1
+      }
+    }
+  },
+  "known_wrong": true
+}

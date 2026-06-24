@@ -40,6 +40,9 @@ python run_evidence.py                             # runs the suites + offline b
 
 ## Reproduce
 - One command: `python run_evidence.py` -> writes `EVIDENCE/RESULTS.md`.
+- Harness demo pack: `python scripts/run_demo_pack.py` -> writes `EVIDENCE/HARNESS_RESULTS.md` with caught failures, repairs, escalations, audit completeness, and latency p50/p95.
+- Harness model matrix: `python scripts/run_model_matrix.py` -> writes `EVIDENCE/MODEL_MATRIX.md`; Ollama is local, API adapters run only when their env vars are set, and every output is checked by the same harness.
+- Acceptance gate: `python scripts/check_acceptance.py` -> enforces zero false accepts, sound-lane FP 0.000, schema-valid JSONL, default element wording, and no correctness-certification claims.
 - Full manifest (commit, env, seeds, datasets, audit schemas): [`EVIDENCE_PACK.md`](EVIDENCE_PACK.md).
 - External-auditor checklist: [`EXTERNAL_AUDIT_CHECKLIST.md`](EXTERNAL_AUDIT_CHECKLIST.md).
 - Per-slice record of every result: `data/v1/digital_route/records/PHASE3_INDEX.md` + `SLICE_01..16_*.md`.

@@ -1,0 +1,6 @@
+{
+  "task_type": "long_context_qa",
+  "passage": "",
+  "question": "Who approved the manifest?",
+  "known_wrong": true
+}
