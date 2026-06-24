@@ -10,7 +10,14 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 
 from . import audit_store
-from .adapters import DEFAULT_MODEL_REF, EXPERIMENTAL_CLI_RUNTIMES, model_fn
+from .adapters import (
+    DEFAULT_MODEL_REF,
+    EXPERIMENTAL_CLI_RUNTIMES,
+    ModelAdapterError,
+    ModelAdapterUnavailable,
+    metadata_dict,
+    model_fn,
+)
 from .core import HarnessDecision, harness_check
 from .policy import repair, repair_stub
 from routemap_bench.tasks import exact_value_feasible
@@ -19,6 +26,7 @@ from routemap_token import route_passage, route_passage_detail
 
 
 app = FastAPI(title="RouteMap Harness API")
+_LAST_MODEL_METADATA: dict[str, Any] = {}
 
 
 @app.get("/")
@@ -41,9 +49,14 @@ def check(body: dict[str, Any]) -> dict[str, Any]:
 
 @app.post("/run")
 def run(body: dict[str, Any]) -> dict[str, Any]:
-    prompt = str(body.get("prompt", ""))
     model_ref = str(body.get("model_ref") or DEFAULT_MODEL_REF)
     runtime = str(body.get("runtime") or "ollama")
+    return _run_once(body, runtime=runtime, model_ref=model_ref)
+
+
+def _run_once(body: dict[str, Any], *, runtime: str, model_ref: str) -> dict[str, Any]:
+    global _LAST_MODEL_METADATA
+    prompt = str(body.get("prompt", ""))
     compression = _optimize_prompt(body, prompt)
     model_output = model_fn(
         str(compression["prompt_sent"]),
@@ -52,6 +65,7 @@ def run(body: dict[str, Any]) -> dict[str, Any]:
         auth_mode=_auth_mode(runtime),
         strict_model=bool(body.get("strict")),
     )
+    _LAST_MODEL_METADATA = metadata_dict(model_output)
     payload = _run_payload(body, prompt=prompt, model_output=str(model_output), model_ref=model_ref, runtime=runtime)
     decision = harness_check(payload, strict=bool(body.get("strict")))
     decision = _with_compression_record(decision, compression)
@@ -85,6 +99,48 @@ def run(body: dict[str, Any]) -> dict[str, Any]:
         "audit_id": final_decision.decision_id,
         "exact_correction": exact_correction,
     }
+
+
+@app.post("/compare")
+def compare(body: dict[str, Any]) -> dict[str, Any]:
+    prompt = str(body.get("prompt", ""))
+    results: list[dict[str, Any]] = []
+    for model in body.get("models") or []:
+        runtime = str(dict(model).get("runtime") or "ollama")
+        model_ref = str(dict(model).get("model_ref") or DEFAULT_MODEL_REF)
+        run_body = {
+            **body,
+            "prompt": prompt,
+            "runtime": runtime,
+            "model_ref": model_ref,
+        }
+        try:
+            run_result = _run_once(run_body, runtime=runtime, model_ref=model_ref)
+        except (ModelAdapterUnavailable, ModelAdapterError) as exc:
+            results.append({
+                "runtime": runtime,
+                "model_ref": model_ref,
+                "available": False,
+                "error": str(exc),
+            })
+            continue
+        decision = dict(run_result.get("decision") or {})
+        metadata = dict(_LAST_MODEL_METADATA)
+        results.append({
+            "runtime": runtime,
+            "model_ref": model_ref,
+            "available": True,
+            "model_output": run_result["model_output"],
+            "final_output": run_result["final_output"],
+            "decision": run_result["decision"],
+            "repair_attempts": run_result["repair_attempts"],
+            "tokens_before": run_result["tokens_before"],
+            "tokens_after": run_result["tokens_after"],
+            "reduction": run_result["reduction"],
+            "latency_ms": metadata.get("latency_ms", decision.get("latency_ms")),
+            "cost_usd": metadata.get("cost_usd"),
+        })
+    return {"prompt": prompt, "results": results}
 
 
 @app.post("/route")

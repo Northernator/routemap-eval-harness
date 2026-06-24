@@ -62,7 +62,7 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       overflow: hidden;
-      min-width: 250px;
+      min-width: 320px;
       background: var(--panel);
     }
     .segmented button {
@@ -282,6 +282,37 @@
       margin-top: 0;
       font-size: 0.82rem;
     }
+    .compare-form {
+      display: grid;
+      gap: 12px;
+    }
+    .model-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 8px;
+    }
+    .model-choice {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--text);
+    }
+    .model-choice input {
+      width: 18px;
+      height: 18px;
+    }
+    .model-choice.disabled {
+      color: var(--muted);
+      opacity: 0.7;
+    }
+    .compare-output {
+      max-width: 360px;
+      white-space: pre-wrap;
+    }
     .lab-form {
       display: grid;
       gap: 12px;
@@ -374,6 +405,7 @@
       <div class="segmented" role="tablist" aria-label="mode">
         <button id="mode-check" type="button">Check</button>
         <button id="mode-run" type="button">Run</button>
+        <button id="mode-compare" type="button">Compare</button>
         <button id="mode-lab" type="button">Lab</button>
       </div>
       <label>model
@@ -469,6 +501,39 @@
       </div>
     </section>
 
+    <section id="compare-panel" class="hidden">
+      <form id="compare-form" class="panel compare-form">
+        <label>prompt
+          <textarea id="compare-prompt" placeholder="Run the same prompt across selected models..." spellcheck="true"></textarea>
+        </label>
+        <section>
+          <h2>models</h2>
+          <div id="compare-models" class="model-list"></div>
+        </section>
+        <div class="actions">
+          <button type="submit">compare</button>
+        </div>
+        <div id="compare-status" class="status"></div>
+      </form>
+      <section class="panel">
+        <h2>results</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Output</th>
+              <th>Verdict</th>
+              <th>Repair</th>
+              <th>Tokens</th>
+              <th>Cost</th>
+              <th>Time(ms)</th>
+            </tr>
+          </thead>
+          <tbody id="compare-results"></tbody>
+        </table>
+      </section>
+    </section>
+
     <section id="lab-panel" class="hidden">
       <div class="grid">
         <form id="lab-form" class="panel lab-form">
@@ -509,9 +574,11 @@
     const modelSelect = document.querySelector("#model");
     const modeCheck = document.querySelector("#mode-check");
     const modeRun = document.querySelector("#mode-run");
+    const modeCompare = document.querySelector("#mode-compare");
     const modeLab = document.querySelector("#mode-lab");
     const checkPanel = document.querySelector("#check-panel");
     const runPanel = document.querySelector("#run-panel");
+    const comparePanel = document.querySelector("#compare-panel");
     const labPanel = document.querySelector("#lab-panel");
     const taskSelect = document.querySelector("#task");
     const outputField = document.querySelector("#output");
@@ -535,6 +602,11 @@
     const promptBlock = document.querySelector("#prompt-block");
     const promptSummary = document.querySelector("#prompt-summary");
     const promptSent = document.querySelector("#prompt-sent");
+    const compareForm = document.querySelector("#compare-form");
+    const comparePrompt = document.querySelector("#compare-prompt");
+    const compareModels = document.querySelector("#compare-models");
+    const compareStatus = document.querySelector("#compare-status");
+    const compareResults = document.querySelector("#compare-results");
     let lastDecisionId = "";
 
     async function request(path, options) {
@@ -545,12 +617,14 @@
 
     function setMode(mode) {
       const requested = mode === "chat" ? "run" : mode;
-      const selected = ["check", "run", "lab"].includes(requested) ? requested : "check";
+      const selected = ["check", "run", "compare", "lab"].includes(requested) ? requested : "check";
       modeCheck.classList.toggle("active", selected === "check");
       modeRun.classList.toggle("active", selected === "run");
+      modeCompare.classList.toggle("active", selected === "compare");
       modeLab.classList.toggle("active", selected === "lab");
       checkPanel.classList.toggle("hidden", selected !== "check");
       runPanel.classList.toggle("hidden", selected !== "run");
+      comparePanel.classList.toggle("hidden", selected !== "compare");
       labPanel.classList.toggle("hidden", selected !== "lab");
       localStorage.setItem("routemap.mode", selected);
     }
@@ -702,6 +776,45 @@
       promptBlock.classList.remove("hidden");
     }
 
+    function selectedCompareModels() {
+      return Array.from(compareModels.querySelectorAll("input[type='checkbox']:checked"))
+        .map((input) => ({ runtime: input.dataset.runtime, model_ref: input.value }));
+    }
+
+    function renderCompareModels(models) {
+      compareModels.innerHTML = models.map((model, index) => {
+        const disabled = model.available ? "" : "disabled";
+        const checked = model.available && index === models.findIndex((item) => item.available) ? "checked" : "";
+        const cls = model.available ? "model-choice" : "model-choice disabled";
+        const label = `${model.runtime} / ${model.model_ref} - ${model.note}`;
+        return `<label class="${cls}"><input type="checkbox" value="${escapeHtml(model.model_ref)}" data-runtime="${escapeHtml(model.runtime)}" ${checked} ${disabled}>${escapeHtml(label)}</label>`;
+      }).join("");
+    }
+
+    function renderCompareResults(results) {
+      if (!results.length) {
+        compareResults.innerHTML = `<tr><td colspan="7" class="status">No compare results.</td></tr>`;
+        return;
+      }
+      compareResults.innerHTML = results.map((result) => {
+        const decision = result.decision || {};
+        const output = result.available ? result.final_output : result.error;
+        const repair = Array.isArray(result.repair_attempts) ? result.repair_attempts.length : "";
+        const tokens = result.available ? `${result.tokens_before} -> ${result.tokens_after}` : "";
+        const cost = result.cost_usd === null || result.cost_usd === undefined ? "" : result.cost_usd;
+        const latency = result.latency_ms === null || result.latency_ms === undefined ? "" : Math.round(Number(result.latency_ms));
+        return `<tr>
+          <td>${escapeHtml(result.runtime)} / ${escapeHtml(result.model_ref)}</td>
+          <td class="compare-output">${escapeHtml(output || "")}</td>
+          <td class="${verdictClass(decision.verdict)}">${escapeHtml(decision.verdict || (result.available ? "" : "unavailable"))}</td>
+          <td>${escapeHtml(repair)}</td>
+          <td>${escapeHtml(tokens)}</td>
+          <td>${escapeHtml(cost)}</td>
+          <td>${escapeHtml(latency)}</td>
+        </tr>`;
+      }).join("");
+    }
+
     function escapeHtml(value) {
       return String(value)
         .replaceAll("&", "&amp;")
@@ -723,6 +836,7 @@
         const match = Array.from(modelSelect.options).find((option) => option.value === last && !option.disabled);
         if (match) modelSelect.value = last;
       }
+      renderCompareModels(models);
     }
 
     async function loadAudit() {
@@ -731,6 +845,7 @@
 
     modeCheck.addEventListener("click", () => setMode("check"));
     modeRun.addEventListener("click", () => setMode("run"));
+    modeCompare.addEventListener("click", () => setMode("compare"));
     modeLab.addEventListener("click", () => setMode("lab"));
     modelSelect.addEventListener("change", () => localStorage.setItem("routemap.model", modelSelect.value));
     compressField.checked = localStorage.getItem("routemap.compress") === "true";
@@ -807,6 +922,27 @@
         chatStatus.textContent = error.message;
       }
     });
+
+    compareForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const prompt = comparePrompt.value.trim();
+      const models = selectedCompareModels();
+      if (!prompt || !models.length) return;
+      compareStatus.textContent = "comparing...";
+      try {
+        const result = await request("/compare", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt, models })
+        });
+        renderCompareResults(result.results || []);
+        await loadAudit();
+        compareStatus.textContent = "compared";
+      } catch (error) {
+        compareStatus.textContent = error.message;
+      }
+    });
+
 
     labForm.addEventListener("submit", async (event) => {
       event.preventDefault();

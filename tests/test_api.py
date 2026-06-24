@@ -127,3 +127,65 @@ def test_run_returns_pipeline_fields(tmp_path: Path, monkeypatch: pytest.MonkeyP
         "audit_id",
     }:
         assert key in body
+
+
+def test_compare_runs_each_model(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    app.state.audit_path = str(tmp_path / "audit.jsonl")
+
+    def echo_model_ref(prompt: str, **kwargs: object) -> str:
+        return str(kwargs["model_ref"])
+
+    monkeypatch.setattr(api, "model_fn", echo_model_ref)
+    client = TestClient(app)
+
+    response = client.post(
+        "/compare",
+        json={
+            "prompt": "Compare this output.",
+            "task_hint": "extraction",
+            "models": [
+                {"runtime": "ollama", "model_ref": "model-a"},
+                {"runtime": "ollama", "model_ref": "model-b"},
+            ],
+        },
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert len(body["results"]) == 2
+    assert {result["model_output"] for result in body["results"]} == {"model-a", "model-b"}
+    assert all(result["available"] is True for result in body["results"])
+    assert all("decision" in result for result in body["results"])
+
+
+def test_compare_isolates_model_failure(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    app.state.audit_path = str(tmp_path / "audit.jsonl")
+
+    def maybe_fail(prompt: str, **kwargs: object) -> str:
+        if kwargs["model_ref"] == "bad-model":
+            raise api.ModelAdapterUnavailable("bad model unavailable")
+        return "ok"
+
+    monkeypatch.setattr(api, "model_fn", maybe_fail)
+    client = TestClient(app)
+
+    response = client.post(
+        "/compare",
+        json={
+            "prompt": "Compare this output.",
+            "task_hint": "extraction",
+            "models": [
+                {"runtime": "ollama", "model_ref": "bad-model"},
+                {"runtime": "ollama", "model_ref": "good-model"},
+            ],
+        },
+    )
+
+    assert response.status_code == 200
+    results = response.json()["results"]
+    failed = next(result for result in results if result["model_ref"] == "bad-model")
+    ok = next(result for result in results if result["model_ref"] == "good-model")
+    assert failed["available"] is False
+    assert "bad model unavailable" in failed["error"]
+    assert ok["available"] is True
+    assert ok["model_output"] == "ok"
