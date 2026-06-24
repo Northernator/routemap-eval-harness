@@ -10,6 +10,7 @@ from typing import Any
 from fastapi import FastAPI, HTTPException, Response
 from fastapi.responses import FileResponse
 
+from routemap_agent import run_agent
 from . import audit_store, run_store
 from .adapters import (
     DEFAULT_MODEL_REF,
@@ -58,6 +59,24 @@ def run(body: dict[str, Any]) -> dict[str, Any]:
     model_ref = str(body.get("model_ref") or DEFAULT_MODEL_REF)
     runtime = str(body.get("runtime") or "ollama")
     return _run_once(body, runtime=runtime, model_ref=model_ref)
+
+
+@app.post("/agent")
+def agent(body: dict[str, Any]) -> dict[str, Any]:
+    goal = str(body.get("goal") or "")
+    model_ref = str(body.get("model_ref") or DEFAULT_MODEL_REF)
+    runtime = str(body.get("runtime") or "ollama")
+
+    def agent_model(prompt: str) -> Any:
+        return model_fn(
+            prompt,
+            model_ref=model_ref,
+            runtime=runtime,
+            auth_mode=_auth_mode(runtime),
+            strict_model=bool(body.get("strict")),
+        )
+
+    return run_agent(goal, _agent_tools(), agent_model, max_steps=int(body.get("max_steps", 1)), audit_path=_audit_path())
 
 
 def _run_once(body: dict[str, Any], *, runtime: str, model_ref: str) -> dict[str, Any]:
@@ -280,6 +299,47 @@ def _model_statuses() -> list[dict[str, Any]]:
             for runtime in sorted(EXPERIMENTAL_CLI_RUNTIMES)
         ],
     ]
+
+
+def _agent_tools() -> dict[str, dict[str, Any]]:
+    return {
+        "calculate": {
+            "fn": _agent_calculate,
+            "schema": {
+                "type": "object",
+                "required": ["expr"],
+                "properties": {"expr": {"type": "string"}},
+            },
+            "output_schema": {"type": "integer"},
+        },
+        "lookup": {
+            "fn": _agent_lookup,
+            "schema": {
+                "type": "object",
+                "required": ["key"],
+                "properties": {"key": {"type": "string"}},
+            },
+            "output_schema": {
+                "type": "object",
+                "required": ["key", "value"],
+                "properties": {"key": {"type": "string"}, "value": {"type": "string"}},
+            },
+        },
+    }
+
+
+def _agent_calculate(expr: str) -> int:
+    expr_spec, _modulus = parse_expression(str(expr))
+    return int(exact_value_feasible(expr_spec))
+
+
+def _agent_lookup(key: str) -> dict[str, str]:
+    facts = {
+        "route": "RouteMap validates model actions before execution.",
+        "harness": "The harness classifies, validates, repairs, escalates, and audits.",
+    }
+    safe_key = str(key)
+    return {"key": safe_key, "value": facts.get(safe_key, "")}
 
 
 def _check_payload(body: dict[str, Any]) -> dict[str, Any]:

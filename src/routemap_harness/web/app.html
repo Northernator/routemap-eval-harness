@@ -505,6 +505,7 @@
         <button id="mode-run" type="button">Run</button>
         <button id="mode-compare" type="button">Compare</button>
         <button id="mode-dashboard" type="button">Dashboard</button>
+        <button id="mode-agent" type="button">Agent</button>
         <button id="mode-lab" type="button">Lab</button>
       </div>
       <label>model
@@ -729,6 +730,24 @@
       </div>
     </section>
 
+    <section id="agent-panel" class="hidden">
+      <form id="agent-form" class="panel compare-form">
+        <label>goal
+          <textarea id="agent-goal" placeholder="Ask the bounded agent to use one safe tool..." spellcheck="true">Compute 2 + 3.</textarea>
+        </label>
+        <div class="actions">
+          <button type="submit">run agent</button>
+        </div>
+        <div id="agent-status" class="status"></div>
+      </form>
+      <section class="panel">
+        <h2>step trace</h2>
+        <div id="agent-trace" class="decision">
+          <div class="status">No agent run yet.</div>
+        </div>
+      </section>
+    </section>
+
     <div id="replay-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="replay-title">
       <section class="modal-panel">
         <div class="modal-head">
@@ -748,11 +767,13 @@
     const modeRun = document.querySelector("#mode-run");
     const modeCompare = document.querySelector("#mode-compare");
     const modeDashboard = document.querySelector("#mode-dashboard");
+    const modeAgent = document.querySelector("#mode-agent");
     const modeLab = document.querySelector("#mode-lab");
     const dashboardPanel = document.querySelector("#dashboard-panel");
     const checkPanel = document.querySelector("#check-panel");
     const runPanel = document.querySelector("#run-panel");
     const comparePanel = document.querySelector("#compare-panel");
+    const agentPanel = document.querySelector("#agent-panel");
     const labPanel = document.querySelector("#lab-panel");
     const taskSelect = document.querySelector("#task");
     const outputField = document.querySelector("#output");
@@ -794,6 +815,10 @@
     const replayModal = document.querySelector("#replay-modal");
     const replayClose = document.querySelector("#replay-close");
     const replayContent = document.querySelector("#replay-content");
+    const agentForm = document.querySelector("#agent-form");
+    const agentGoal = document.querySelector("#agent-goal");
+    const agentStatus = document.querySelector("#agent-status");
+    const agentTrace = document.querySelector("#agent-trace");
     let lastDecisionId = "";
 
     async function request(path, options) {
@@ -810,16 +835,18 @@
 
     function setMode(mode) {
       const requested = mode === "chat" ? "run" : mode;
-      const selected = ["check", "run", "compare", "dashboard", "lab"].includes(requested) ? requested : "check";
+      const selected = ["check", "run", "compare", "dashboard", "agent", "lab"].includes(requested) ? requested : "check";
       modeCheck.classList.toggle("active", selected === "check");
       modeRun.classList.toggle("active", selected === "run");
       modeCompare.classList.toggle("active", selected === "compare");
       modeDashboard.classList.toggle("active", selected === "dashboard");
+      modeAgent.classList.toggle("active", selected === "agent");
       modeLab.classList.toggle("active", selected === "lab");
       dashboardPanel.classList.toggle("hidden", selected !== "dashboard");
       checkPanel.classList.toggle("hidden", selected !== "check");
       runPanel.classList.toggle("hidden", selected !== "run");
       comparePanel.classList.toggle("hidden", selected !== "compare");
+      agentPanel.classList.toggle("hidden", selected !== "agent");
       labPanel.classList.toggle("hidden", selected !== "lab");
       localStorage.setItem("routemap.mode", selected);
       if (selected === "dashboard") loadDashboard().catch((error) => { dashboardStatus.textContent = error.message; });
@@ -1177,6 +1204,29 @@
       }).join("");
     }
 
+    function renderAgent(result) {
+      const steps = result.steps || [];
+      if (!steps.length) {
+        agentTrace.innerHTML = `<div class="status">${escapeHtml(result.final || "No steps.")}</div>`;
+        return;
+      }
+      agentTrace.innerHTML = steps.map((step, index) => {
+        const firewall = step.tool_firewall || {};
+        const repair = step.repair_firewall || null;
+        const outputCheck = step.output_check || {};
+        return `<section class="scorecard">
+          <div class="scorecard-caption">step ${escapeHtml(step.step || index + 1)}</div>
+          ${runKv("plan", step.plan || "")}
+          ${runKv("tool_call", step.tool_call || "")}
+          ${runKv("firewall", `${firewall.verdict || ""} ${firewall.reason || ""}`, verdictClass(firewall.verdict))}
+          ${repair ? runKv("repair_firewall", `${repair.verdict || ""} ${repair.reason || ""}`, verdictClass(repair.verdict)) : ""}
+          ${runKv("tool_output", step.tool_output === undefined ? "" : step.tool_output)}
+          ${runKv("output_check", `${outputCheck.verdict || ""} ${outputCheck.reason || ""}`, verdictClass(outputCheck.verdict))}
+          ${runKv("final_status", step.final_status || "")}
+        </section>`;
+      }).join("") + `<div class="strip">${(result.audit_ids || []).map((id) => replayButton(id)).join("")}</div>${runKv("final", result.final || "")}`;
+    }
+
     function formatRate(value) {
       return `${Math.round((Number(value) || 0) * 1000) / 10}%`;
     }
@@ -1250,6 +1300,7 @@
     modeRun.addEventListener("click", () => setMode("run"));
     modeCompare.addEventListener("click", () => setMode("compare"));
     modeDashboard.addEventListener("click", () => setMode("dashboard"));
+    modeAgent.addEventListener("click", () => setMode("agent"));
     modeLab.addEventListener("click", () => setMode("lab"));
     dashboardExport.addEventListener("click", () => exportFailures().catch((error) => { dashboardStatus.textContent = error.message; }));
     dashboardRefresh.addEventListener("click", () => loadDashboard().catch((error) => { dashboardStatus.textContent = error.message; }));
@@ -1358,6 +1409,32 @@
         compareStatus.textContent = "compared";
       } catch (error) {
         compareStatus.textContent = error.message;
+      }
+    });
+
+
+    agentForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const goal = agentGoal.value.trim();
+      if (!goal) return;
+      const option = selectedOption();
+      agentStatus.textContent = "running agent...";
+      try {
+        const result = await request("/agent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            goal,
+            model_ref: modelSelect.value,
+            runtime: option ? option.dataset.runtime : "ollama",
+            max_steps: 1
+          })
+        });
+        renderAgent(result);
+        await loadAudit();
+        agentStatus.textContent = "agent finished";
+      } catch (error) {
+        agentStatus.textContent = error.message;
       }
     });
 

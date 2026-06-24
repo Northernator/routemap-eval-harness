@@ -31,12 +31,14 @@ def test_app_page_served(tmp_path: Path) -> None:
     assert 'id="mode-run"' in response.text
     assert 'id="mode-compare"' in response.text
     assert 'id="mode-dashboard"' in response.text
+    assert 'id="mode-agent"' in response.text
     assert 'id="mode-lab"' in response.text
     assert 'id="run-detail-container"' in response.text
     assert 'id="dashboard-kpis"' in response.text
     assert 'id="dashboard-export"' in response.text
     assert 'id="replay-modal"' in response.text
     assert 'id="optimize-prompt"' in response.text
+    assert 'id="agent-trace"' in response.text
     assert "Coverage, not a correctness score." in response.text
 
 
