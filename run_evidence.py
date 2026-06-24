@@ -39,6 +39,7 @@ STEPS = [
     ("pytest: arithmetic bench", [sys.executable, "-m", "pytest", "rb_test_bench.py", "-q"], "oracle-verifier agreement; GT independent"),
     ("pytest: token routing", [sys.executable, "-m", "pytest", "rt_test_token.py", "-q"], "no-leak; GT-derived classification"),
     ("pytest: element routing", [sys.executable, "-m", "pytest", "rt_test_elements.py", "-q"], "element router; no-leak; default router_mode=element"),
+    ("pytest: grounding", [sys.executable, "-m", "pytest", "rt_test_grounding.py", "-q"], "citation/source grounding"),
     ("pytest: embedding", [sys.executable, "-m", "pytest", "re_test_embedding.py", "-q"], "determinism; recall vs brute force"),
     ("pytest: controller", [sys.executable, "-m", "pytest", "rc_test_controller.py", "-q"], "dispatch; no-silent-prune; schema-valid"),
     ("pytest: harness core+gold", [sys.executable, "-m", "pytest", "tests/test_harness_core.py", "tests/test_harness_gold.py", "-q"], "0 false accepts; FP 0.000"),

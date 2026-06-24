@@ -118,6 +118,28 @@ def test_check_tool_call_rejects_unsafe_path(tmp_path: Path) -> None:
     assert "unsafe path" in body["reason"]
 
 
+def test_check_grounded_qa_names_missing_items(tmp_path: Path) -> None:
+    app.state.audit_path = str(tmp_path / "audit.jsonl")
+    client = TestClient(app)
+
+    response = client.post(
+        "/check",
+        json={
+            "task": "grounded_qa",
+            "output": "RouteMap rejected 9 unsafe calls in Paris on 2026-06-24 [S1].",
+            "source": {"S1": "The RouteMap harness rejected 7 unsafe calls in London on 2026-06-24."},
+        },
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["task_type"] == "grounded_qa"
+    assert body["route_family"] == "grounding"
+    assert body["verdict"] == "RULED_OUT_WRONG"
+    assert "Paris" in body["reason"]
+    assert "9" in body["reason"]
+
+
 def test_run_returns_pipeline_fields(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     app.state.audit_path = str(tmp_path / "audit.jsonl")
 

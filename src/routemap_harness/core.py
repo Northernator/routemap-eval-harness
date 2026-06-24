@@ -20,6 +20,7 @@ TASK_TYPES = {
     "arithmetic",
     "json_schema",
     "tool_call",
+    "grounded_qa",
     "python_code",
     "extraction",
     "long_context_qa",
@@ -30,6 +31,7 @@ TASK_TYPES = {
 ROUTE_FAMILY_BY_CONTROLLER = {
     "digital_residue": "digital_residue",
     "sound_checker": "sound_checker",
+    "grounding": "grounding",
     "token_importance": "token_element",
     "embedding_fingerprint": "embedding",
     "full_compute": "full_compute",
@@ -42,6 +44,7 @@ LANE_REGISTRY = {
     "arithmetic": "digital_residue",
     "json_schema": "sound_checker",
     "tool_call": "sound_checker",
+    "grounded_qa": "grounding",
     "python_code": "sound_checker",
     "extraction": "explicit_escalation",
     "long_context_qa": "token_element",

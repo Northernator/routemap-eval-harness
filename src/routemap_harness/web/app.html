@@ -424,6 +424,7 @@
                 <option value="arithmetic">arithmetic</option>
                 <option value="json_schema">json_schema</option>
                 <option value="tool_call">tool_call</option>
+                <option value="grounded_qa">grounded_qa</option>
                 <option value="python_code">python_code</option>
                 <option value="extraction">extraction</option>
                 <option value="long_context_qa">long_context_qa</option>
@@ -455,6 +456,10 @@
 
           <label>allowed tools
             <input id="allowed-tools" type="text" placeholder="search_docs, read_file">
+          </label>
+
+          <label id="source-field" class="schema-field hidden">source
+            <textarea id="source" spellcheck="true"></textarea>
           </label>
 
           <div class="actions">
@@ -589,6 +594,8 @@
     const outputField = document.querySelector("#output");
     const specField = document.querySelector("#spec");
     const allowedToolsField = document.querySelector("#allowed-tools");
+    const sourceField = document.querySelector("#source");
+    const sourceFieldWrap = document.querySelector("#source-field");
     const strictField = document.querySelector("#strict");
     const checkForm = document.querySelector("#check-form");
     const decisionEl = document.querySelector("#decision");
@@ -643,6 +650,10 @@
     function parseAllowedTools() {
       const text = allowedToolsField.value.trim();
       return text ? text.split(",").map((item) => item.trim()).filter(Boolean) : null;
+    }
+
+    function syncTaskFields() {
+      sourceFieldWrap.classList.toggle("hidden", taskSelect.value !== "grounded_qa");
     }
 
     function selectedOption() {
@@ -861,6 +872,7 @@
     modeRun.addEventListener("click", () => setMode("run"));
     modeCompare.addEventListener("click", () => setMode("compare"));
     modeLab.addEventListener("click", () => setMode("lab"));
+    taskSelect.addEventListener("change", syncTaskFields);
     modelSelect.addEventListener("change", () => localStorage.setItem("routemap.model", modelSelect.value));
     compressField.checked = localStorage.getItem("routemap.compress") === "true";
     compressField.addEventListener("change", () => localStorage.setItem("routemap.compress", String(compressField.checked)));
@@ -880,6 +892,7 @@
             output: outputField.value,
             spec: parseSpec(),
             allowed_tools: parseAllowedTools(),
+            source: sourceField.value || null,
             strict: strictField.checked
           })
         });
@@ -982,6 +995,7 @@
     });
 
     setMode(localStorage.getItem("routemap.mode") || "check");
+    syncTaskFields();
     loadModels().catch((error) => { statusEl.textContent = error.message; });
     loadAudit().catch((error) => { statusEl.textContent = error.message; });
   </script>

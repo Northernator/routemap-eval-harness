@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from typing import Any
 
 
-TASK_TYPES = {"arithmetic", "json_schema", "tool_call", "python_code", "long_context_qa", "retrieval", "unknown"}
+TASK_TYPES = {"arithmetic", "json_schema", "tool_call", "grounded_qa", "python_code", "long_context_qa", "retrieval", "unknown"}
 
 
 @dataclass(frozen=True)
@@ -30,6 +30,8 @@ def classify(input: Any, task_hint: str | None = None) -> TaskEnvelope:
             return TaskEnvelope("tool_call", "low", True, "tool_call field")
         if ("name" in input or "tool" in input) and ("arguments" in input or "args" in input):
             return TaskEnvelope("tool_call", "low", True, "tool name plus arguments")
+        if "answer" in input and ("source" in input or "sources" in input):
+            return TaskEnvelope("grounded_qa", "low", True, "answer plus source")
         if "expr" in input and "claimed_answer" in input:
             return TaskEnvelope("arithmetic", "low", True, "expression plus claimed_answer")
         if "raw" in input and "schema" in input:

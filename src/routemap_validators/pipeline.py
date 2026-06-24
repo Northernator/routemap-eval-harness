@@ -81,6 +81,12 @@ def check_output(
         schema = spec.get("schema") if isinstance(spec, dict) and "schema" in spec else spec
         allowed_tools = spec.get("allowed_tools") if isinstance(spec, dict) else None
         return check_tool_call(raw, schema=schema, allowed_tools=allowed_tools, object_id=object_id, model=model)
+    if task_type == "grounded_qa":
+        from .grounding import check_grounding
+
+        source = spec.get("source") if isinstance(spec, dict) else spec
+        require_citation = spec.get("require_citation", True) if isinstance(spec, dict) else True
+        return check_grounding(raw, source, require_citation=bool(require_citation), object_id=object_id, model=model)
     raise ValueError(f"unsupported task_type: {task_type!r}")
 
 

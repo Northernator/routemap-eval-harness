@@ -59,6 +59,15 @@ FIXTURES = [
         id="tool_call",
     ),
     pytest.param(
+        "grounded_qa",
+        {
+            "task_type": "grounded_qa",
+            "answer": "RouteMap rejected 7 unsafe calls in London on 2026-06-24 [S1].",
+            "source": {"S1": "The RouteMap harness rejected 7 unsafe calls in London on 2026-06-24."},
+        },
+        id="grounded_qa",
+    ),
+    pytest.param(
         "python_code",
         {"task_type": "python_code", "code": "def add(a, b):\n    return a + b\n"},
         id="python_code",

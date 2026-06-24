@@ -234,10 +234,14 @@ def _check_payload(body: dict[str, Any]) -> dict[str, Any]:
     task = body.get("task")
     if task:
         payload["task_type"] = task
+    if task == "grounded_qa":
+        payload["answer"] = body.get("output")
     if body.get("spec") is not None:
         payload["schema"] = body.get("spec")
     if body.get("allowed_tools") is not None:
         payload["allowed_tools"] = body.get("allowed_tools")
+    if body.get("source") is not None:
+        payload["source"] = body.get("source")
     return payload
 
 
@@ -263,6 +267,10 @@ def _run_payload(
         payload["schema"] = body.get("spec")
     if body.get("allowed_tools") is not None:
         payload["allowed_tools"] = body.get("allowed_tools")
+    if body.get("source") is not None:
+        payload["source"] = body.get("source")
+    if payload.get("task_type") == "grounded_qa":
+        payload["answer"] = model_output
     if payload.get("task_type") == "arithmetic":
         payload["task_type"] = "arithmetic"
         payload["expr"] = prompt
