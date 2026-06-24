@@ -40,6 +40,14 @@ def get_record(decision_id: str, path: str | Path = DEFAULT_AUDIT) -> dict[str, 
     return None
 
 
+def tail(path: str | Path = DEFAULT_AUDIT, limit: int = 20) -> list[dict[str, Any]]:
+    """Return the last N audit records, newest first."""
+    safe_limit = max(0, int(limit))
+    if safe_limit == 0:
+        return []
+    return list(reversed(list(_read_jsonl(Path(path)))[-safe_limit:]))
+
+
 def summarize_records(records: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
     rows = [dict(record) for record in records]
     total = len(rows)
@@ -196,6 +204,7 @@ __all__ = [
     "summarize",
     "summarize_jsonl_records",
     "summarize_records",
+    "tail",
     "validate_record",
     "write_jsonl_record",
 ]
