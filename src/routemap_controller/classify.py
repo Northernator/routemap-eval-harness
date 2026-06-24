@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from typing import Any
 
 
-TASK_TYPES = {"arithmetic", "json_schema", "python_code", "long_context_qa", "retrieval", "unknown"}
+TASK_TYPES = {"arithmetic", "json_schema", "tool_call", "python_code", "long_context_qa", "retrieval", "unknown"}
 
 
 @dataclass(frozen=True)
@@ -21,11 +21,15 @@ class TaskEnvelope:
 def classify(input: Any, task_hint: str | None = None) -> TaskEnvelope:
     if task_hint:
         task_type = task_hint if task_hint in TASK_TYPES else "unknown"
-        return TaskEnvelope(task_type, "low", task_type in {"arithmetic", "json_schema", "python_code"}, "task hint override")
+        return TaskEnvelope(task_type, "low", task_type in {"arithmetic", "json_schema", "tool_call", "python_code"}, "task hint override")
     if isinstance(input, dict):
         if input.get("task_type") in TASK_TYPES:
             task_type = str(input["task_type"])
-            return TaskEnvelope(task_type, str(input.get("risk", "low")), task_type in {"arithmetic", "json_schema", "python_code"}, "explicit task_type")
+            return TaskEnvelope(task_type, str(input.get("risk", "low")), task_type in {"arithmetic", "json_schema", "tool_call", "python_code"}, "explicit task_type")
+        if "tool_call" in input:
+            return TaskEnvelope("tool_call", "low", True, "tool_call field")
+        if ("name" in input or "tool" in input) and ("arguments" in input or "args" in input):
+            return TaskEnvelope("tool_call", "low", True, "tool name plus arguments")
         if "expr" in input and "claimed_answer" in input:
             return TaskEnvelope("arithmetic", "low", True, "expression plus claimed_answer")
         if "raw" in input and "schema" in input:

@@ -19,6 +19,7 @@ SCHEMA_VERSION = "harness_decision_v1"
 TASK_TYPES = {
     "arithmetic",
     "json_schema",
+    "tool_call",
     "python_code",
     "extraction",
     "long_context_qa",
@@ -40,6 +41,7 @@ VERDICTS = {RULED_OUT_WRONG, NOT_RULED_OUT, UNCHECKABLE}
 LANE_REGISTRY = {
     "arithmetic": "digital_residue",
     "json_schema": "sound_checker",
+    "tool_call": "sound_checker",
     "python_code": "sound_checker",
     "extraction": "explicit_escalation",
     "long_context_qa": "token_element",

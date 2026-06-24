@@ -423,6 +423,7 @@
                 <option value="">auto-detect</option>
                 <option value="arithmetic">arithmetic</option>
                 <option value="json_schema">json_schema</option>
+                <option value="tool_call">tool_call</option>
                 <option value="python_code">python_code</option>
                 <option value="extraction">extraction</option>
                 <option value="long_context_qa">long_context_qa</option>
@@ -450,6 +451,10 @@
     "tags": { "type": "array", "minItems": 1 }
   }
 }</textarea>
+          </label>
+
+          <label>allowed tools
+            <input id="allowed-tools" type="text" placeholder="search_docs, read_file">
           </label>
 
           <div class="actions">
@@ -583,6 +588,7 @@
     const taskSelect = document.querySelector("#task");
     const outputField = document.querySelector("#output");
     const specField = document.querySelector("#spec");
+    const allowedToolsField = document.querySelector("#allowed-tools");
     const strictField = document.querySelector("#strict");
     const checkForm = document.querySelector("#check-form");
     const decisionEl = document.querySelector("#decision");
@@ -634,6 +640,11 @@
       return text ? JSON.parse(text) : null;
     }
 
+    function parseAllowedTools() {
+      const text = allowedToolsField.value.trim();
+      return text ? text.split(",").map((item) => item.trim()).filter(Boolean) : null;
+    }
+
     function selectedOption() {
       return modelSelect.selectedOptions[0] || null;
     }
@@ -645,11 +656,14 @@
     function renderDecision(decision) {
       lastDecisionId = decision.decision_id || lastDecisionId;
       repairBtn.disabled = !lastDecisionId;
+      const checks = (decision.validator_record && decision.validator_record.checks) || [];
+      const failing = checks.find((check) => check.verdict === "RULED_OUT_WRONG") || null;
       const fields = [
         ["verdict", decision.verdict],
         ["action", decision.action],
         ["final_status", decision.final_status],
         ["validator", decision.validator],
+        ["failing_check", failing ? `${failing.checker}: ${failing.reason}` : ""],
         ["reason", decision.reason],
         ["latency_ms", decision.latency_ms],
         ["decision_id", decision.decision_id]
@@ -865,6 +879,7 @@
             task: taskSelect.value || null,
             output: outputField.value,
             spec: parseSpec(),
+            allowed_tools: parseAllowedTools(),
             strict: strictField.checked
           })
         });

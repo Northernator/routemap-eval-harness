@@ -42,6 +42,8 @@ def route_decide(input: Any, task: str | None = None, *, budget: str = "balanced
         return _arithmetic(input, env.reason, budget, risk)
     if env.task_type in {"json_schema", "python_code"}:
         return _sound_checker(input, env.task_type, env.reason, budget, risk)
+    if env.task_type == "tool_call":
+        return _tool_call(input, env.reason, budget, risk)
     if env.task_type == "long_context_qa":
         return _long_context_qa(input, env.reason, budget, risk, router_mode)
     if env.task_type == "retrieval":
@@ -85,6 +87,26 @@ def _sound_checker(input: Any, task_type: str, signal: str, budget: str, risk: s
         ]
     )
     return _plan(task_type, "sound_checker", "verify", "routemap_validators.check_output", decision.checker or "sound_checker", outcome, False, decision.reason, trace, input, budget, risk, route_score=None)
+
+
+def _tool_call(input: Any, signal: str, budget: str, risk: str) -> ActionPlan:
+    data = input if isinstance(input, dict) else {"raw": str(input)}
+    raw = data.get("raw", data.get("tool_call", input))
+    spec = {
+        "schema": data.get("schema") or data.get("spec"),
+        "allowed_tools": data.get("allowed_tools"),
+    }
+    decision = routemap_validators.check_output(raw, "tool_call", spec=spec, object_id=_object_id(input), model="routemap_controller")
+    outcome = str(decision.verdict)
+    trace = "\n".join(
+        [
+            f"classify: {signal} -> tool_call",
+            "route: sound-checker tool-call firewall",
+            f"validator: {decision.checker or 'tool_call_firewall'}",
+            f"decision: action=verify outcome={outcome}; checker reason={decision.reason}",
+        ]
+    )
+    return _plan("tool_call", "sound_checker", "verify", "routemap_validators.check_output", decision.checker or "tool_call_firewall", outcome, False, decision.reason, trace, input, budget, risk, route_score=None)
 
 
 def _long_context_qa(input: Any, signal: str, budget: str, risk: str, router_mode: str | None = None) -> ActionPlan:

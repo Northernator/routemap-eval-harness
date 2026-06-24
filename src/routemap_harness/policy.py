@@ -19,7 +19,7 @@ from .core import HarnessDecision, append_audit_record, harness_check
 
 ModelFn = Callable[..., Any]
 
-REPAIRABLE_TASKS = {"arithmetic", "json_schema", "python_code"}
+REPAIRABLE_TASKS = {"arithmetic", "json_schema", "tool_call", "python_code"}
 ESCALATION_TARGETS = {"full_compute", "deterministic_tool", "stronger_model", "human_review"}
 
 

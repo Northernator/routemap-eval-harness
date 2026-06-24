@@ -42,6 +42,23 @@ FIXTURES = [
         id="json_schema",
     ),
     pytest.param(
+        "tool_call",
+        {
+            "task_type": "tool_call",
+            "raw": '{"name":"search_docs","arguments":"{\\"query\\":\\"route maps\\",\\"limit\\":3}"}',
+            "schema": {
+                "type": "object",
+                "required": ["query", "limit"],
+                "properties": {
+                    "query": {"type": "string"},
+                    "limit": {"type": "integer", "minimum": 0},
+                },
+            },
+            "allowed_tools": ["search_docs"],
+        },
+        id="tool_call",
+    ),
+    pytest.param(
         "python_code",
         {"task_type": "python_code", "code": "def add(a, b):\n    return a + b\n"},
         id="python_code",

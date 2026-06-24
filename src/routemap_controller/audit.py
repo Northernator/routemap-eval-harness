@@ -11,7 +11,7 @@ from typing import Any
 
 
 AUDIT_SCHEMA_VERSION = "route_decision_v1"
-TASK_TYPES = {"arithmetic", "json_schema", "python_code", "long_context_qa", "retrieval", "unknown"}
+TASK_TYPES = {"arithmetic", "json_schema", "tool_call", "python_code", "long_context_qa", "retrieval", "unknown"}
 ACTIONS = {"verify", "cheap_path", "escalate"}
 OUTCOMES = {"RULED_OUT_WRONG", "NOT_RULED_OUT", "UNCHECKABLE", "accept", "FULL_COMPUTE", "FULL_COMPUTE_WITH_VALIDATOR"}
 

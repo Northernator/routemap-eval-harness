@@ -34,7 +34,7 @@ def _have(mod: str) -> bool:
 TORCH = _have("torch")
 
 STEPS = [
-    ("pytest: validators", [sys.executable, "-m", "pytest", "rv_test_validator_package.py", "-q"], "sound checkers; FP 0.000"),
+    ("pytest: validators", [sys.executable, "-m", "pytest", "rv_test_validator_package.py", "-q"], "sound checkers; tool-call firewall; FP 0.000"),
     ("pytest: digital engine", [sys.executable, "-m", "pytest", "rd_test_digital_engine.py", "-q"], "residue/CRT/cycles; off-by-M sound"),
     ("pytest: arithmetic bench", [sys.executable, "-m", "pytest", "rb_test_bench.py", "-q"], "oracle-verifier agreement; GT independent"),
     ("pytest: token routing", [sys.executable, "-m", "pytest", "rt_test_token.py", "-q"], "no-leak; GT-derived classification"),

@@ -35,6 +35,7 @@
       "enum": [
         "arithmetic",
         "json_schema",
+        "tool_call",
         "python_code",
         "extraction",
         "long_context_qa",

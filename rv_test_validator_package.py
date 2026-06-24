@@ -54,3 +54,78 @@ def test_audit_record_validates_and_writes_jsonl(tmp_path: Path) -> None:
 
 def test_existing_dr_and_evaluate_modules_still_import() -> None:
     assert smoke_imports() == []
+
+
+TOOL_CALL_SCHEMA = {
+    "type": "object",
+    "required": ["query", "limit", "start_date"],
+    "properties": {
+        "query": {"type": "string"},
+        "limit": {"type": "integer", "minimum": 0},
+        "start_date": {"type": "string", "format": "date"},
+        "path": {"type": "string"},
+    },
+}
+
+
+def _tool_call(arguments: dict[str, object], name: str = "search_docs") -> str:
+    return json.dumps({"name": name, "arguments": json.dumps(arguments)})
+
+
+def test_tool_call_firewall_valid_call_passes() -> None:
+    decision = check_output(
+        _tool_call({"query": "route maps", "limit": 3, "start_date": "2026-06-24"}),
+        "tool_call",
+        {"schema": TOOL_CALL_SCHEMA, "allowed_tools": ["search_docs"]},
+        object_id="tool_valid",
+    )
+
+    assert decision.verdict == Verdict.NOT_RULED_OUT
+    assert decision.checker == "tool_call_firewall"
+    validate_record(decision.record)
+
+
+def test_tool_call_firewall_missing_required_field_rejected() -> None:
+    decision = check_output(
+        _tool_call({"query": "route maps", "limit": 3}),
+        "tool_call",
+        {"schema": TOOL_CALL_SCHEMA, "allowed_tools": ["search_docs"]},
+    )
+
+    assert decision.verdict == Verdict.RULED_OUT_WRONG
+    assert "schema violation" in decision.reason
+    assert "start_date" in decision.reason
+
+
+def test_tool_call_firewall_unsafe_path_rejected() -> None:
+    decision = check_output(
+        _tool_call({"query": "route maps", "limit": 3, "start_date": "2026-06-24", "path": "../etc/passwd"}),
+        "tool_call",
+        {"schema": TOOL_CALL_SCHEMA, "allowed_tools": ["search_docs"]},
+    )
+
+    assert decision.verdict == Verdict.RULED_OUT_WRONG
+    assert "unsafe path" in decision.reason
+
+
+def test_tool_call_firewall_disallowed_tool_rejected() -> None:
+    decision = check_output(
+        _tool_call({"query": "route maps", "limit": 3, "start_date": "2026-06-24"}, name="delete_file"),
+        "tool_call",
+        {"schema": TOOL_CALL_SCHEMA, "allowed_tools": ["search_docs"]},
+    )
+
+    assert decision.verdict == Verdict.RULED_OUT_WRONG
+    assert "disallowed tool" in decision.reason
+    assert "delete_file" in decision.reason
+
+
+def test_tool_call_firewall_invalid_date_rejected() -> None:
+    decision = check_output(
+        _tool_call({"query": "route maps", "limit": 3, "start_date": "2026-99-99"}),
+        "tool_call",
+        {"schema": TOOL_CALL_SCHEMA, "allowed_tools": ["search_docs"]},
+    )
+
+    assert decision.verdict == Verdict.RULED_OUT_WRONG
+    assert "invalid ISO date" in decision.reason

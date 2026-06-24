@@ -75,6 +75,12 @@ def check_output(
             note,
             {"type": "json_schema", "schema": spec, "output": extracted},
         )
+    if task_type == "tool_call":
+        from .tool_call_firewall import check_tool_call
+
+        schema = spec.get("schema") if isinstance(spec, dict) and "schema" in spec else spec
+        allowed_tools = spec.get("allowed_tools") if isinstance(spec, dict) else None
+        return check_tool_call(raw, schema=schema, allowed_tools=allowed_tools, object_id=object_id, model=model)
     raise ValueError(f"unsupported task_type: {task_type!r}")
 
 

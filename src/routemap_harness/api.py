@@ -236,6 +236,8 @@ def _check_payload(body: dict[str, Any]) -> dict[str, Any]:
         payload["task_type"] = task
     if body.get("spec") is not None:
         payload["schema"] = body.get("spec")
+    if body.get("allowed_tools") is not None:
+        payload["allowed_tools"] = body.get("allowed_tools")
     return payload
 
 
@@ -259,6 +261,8 @@ def _run_payload(
         payload["task_type"] = str(task_hint)
     if body.get("spec") is not None:
         payload["schema"] = body.get("spec")
+    if body.get("allowed_tools") is not None:
+        payload["allowed_tools"] = body.get("allowed_tools")
     if payload.get("task_type") == "arithmetic":
         payload["task_type"] = "arithmetic"
         payload["expr"] = prompt
@@ -267,7 +271,10 @@ def _run_payload(
 
 
 def _should_repair(decision: HarnessDecision) -> bool:
-    return decision.action == "repair" or (decision.task_type == "arithmetic" and decision.verdict == "RULED_OUT_WRONG")
+    return decision.action == "repair" or (
+        decision.verdict == "RULED_OUT_WRONG"
+        and decision.task_type in {"arithmetic", "json_schema", "tool_call", "python_code"}
+    )
 
 
 def _final_output(model_output: str, decision: HarnessDecision) -> Any:

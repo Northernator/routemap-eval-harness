@@ -93,6 +93,31 @@ def test_route_endpoint_highlights_tokens(tmp_path: Path) -> None:
     assert compressed_words <= passage_words
 
 
+def test_check_tool_call_rejects_unsafe_path(tmp_path: Path) -> None:
+    app.state.audit_path = str(tmp_path / "audit.jsonl")
+    client = TestClient(app)
+
+    response = client.post(
+        "/check",
+        json={
+            "task": "tool_call",
+            "output": '{"name":"read_file","arguments":"{\\"path\\":\\"../etc/passwd\\"}"}',
+            "spec": {
+                "type": "object",
+                "required": ["path"],
+                "properties": {"path": {"type": "string"}},
+            },
+            "allowed_tools": ["read_file"],
+        },
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["task_type"] == "tool_call"
+    assert body["verdict"] == "RULED_OUT_WRONG"
+    assert "unsafe path" in body["reason"]
+
+
 def test_run_returns_pipeline_fields(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     app.state.audit_path = str(tmp_path / "audit.jsonl")
 
