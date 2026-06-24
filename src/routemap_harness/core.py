@@ -128,10 +128,12 @@ def harness_check(
         validator_record=dict(plan.record),
         blocking=blocking,
     )
-    if model_fn is not None and decision.verdict != NOT_RULED_OUT and risk != "high":
-        from .policy import repair
+    from .policy import assert_guard_or_escalation_target, repair, with_escalation_target
 
+    if model_fn is not None and decision.verdict != NOT_RULED_OUT and risk != "high":
         return repair(decision, payload, model_fn, max_retries=max_retries).final_decision
+    decision = with_escalation_target(decision, model_fn_configured=model_fn is not None)
+    assert_guard_or_escalation_target(decision)
     return decision
 
 

@@ -18,6 +18,7 @@ from .core import HarnessDecision, append_audit_record, harness_check
 ModelFn = Callable[[Mapping[str, Any]], Any]
 
 REPAIRABLE_TASKS = {"arithmetic", "json_schema", "python_code"}
+ESCALATION_TARGETS = {"full_compute", "deterministic_tool", "stronger_model", "human_review"}
 
 
 @dataclass(frozen=True)
@@ -44,6 +45,48 @@ def choose_policy(decision: Mapping[str, Any]) -> Mapping[str, Any]:
     return {"action": "escalate", "final_status": "escalated"}
 
 
+def decide_escalation(decision: HarnessDecision, *, model_fn_configured: bool = False) -> str:
+    """Choose an escalation target for a harness decision."""
+    risk = _risk(decision)
+    if risk == "high":
+        return "full_compute" if _deterministic_full_compute_covers(decision.task_type) else "human_review"
+    if decision.task_type == "unknown":
+        return "human_review"
+    if decision.task_type == "arithmetic" and decision.verdict == RULED_OUT_WRONG:
+        return "full_compute"
+    if decision.verdict == UNCHECKABLE and decision.task_type in {"extraction", "python_code"}:
+        return "stronger_model" if model_fn_configured else "human_review"
+    if decision.task_type == "long_context_qa" and _route_guard_weak(decision):
+        return "full_compute"
+    if decision.verdict == UNCHECKABLE:
+        return "human_review"
+    return "human_review"
+
+
+def with_escalation_target(decision: HarnessDecision, *, model_fn_configured: bool = False) -> HarnessDecision:
+    """Attach escalation_target to validator_record when policy requires escalation."""
+    if decision.final_status != "escalated" and decision.verdict != UNCHECKABLE and decision.action != "full_compute":
+        return decision
+    target = decide_escalation(decision, model_fn_configured=model_fn_configured)
+    return _clone_decision(
+        decision,
+        validator_record={
+            **dict(decision.validator_record or {}),
+            "escalation_target": target,
+        },
+    )
+
+
+def assert_guard_or_escalation_target(decision: HarnessDecision) -> None:
+    """Enforce no-silent-prune invariant for accepted/repaired/pruned outputs."""
+    if decision.action not in {"accept", "repair"}:
+        return
+    record = dict(decision.validator_record or {})
+    if decision.validator or record.get("escalation_target"):
+        return
+    raise AssertionError("accept/repair/prune decision must name validator or escalation_target")
+
+
 def repair(
     decision: HarnessDecision,
     original_payload: Mapping[str, Any],
@@ -60,6 +103,7 @@ def repair(
             final_status="escalated",
             reason=f"repair unsupported for task_type={decision.task_type}",
         )
+        escalated = with_escalation_target(escalated, model_fn_configured=True)
         _maybe_append(audit_path, escalated)
         return RepairResult(escalated, [escalated], _false_accepts(original_payload, escalated))
 
@@ -91,6 +135,8 @@ def repair(
             },
         )
         guarded = _apply_anti_hallucination_guard(decision, original_payload, candidate_payload, repaired)
+        guarded = with_escalation_target(guarded, model_fn_configured=True)
+        assert_guard_or_escalation_target(guarded)
         attempts.append(guarded)
         _maybe_append(audit_path, guarded)
         last_decision = guarded
@@ -98,7 +144,7 @@ def repair(
             return RepairResult(guarded, attempts, _false_accepts(original_payload, guarded))
 
     if decision.task_type == "arithmetic" and last_decision.verdict == RULED_OUT_WRONG:
-        exact = _arithmetic_exact_decision(decision, original_payload, len(attempts) + 1)
+        exact = with_escalation_target(_arithmetic_exact_decision(decision, original_payload, len(attempts) + 1))
         attempts.append(exact)
         _maybe_append(audit_path, exact)
         return RepairResult(exact, attempts, _false_accepts(original_payload, exact))
@@ -250,6 +296,7 @@ def _arithmetic_exact_decision(
                 "expr_spec": expr_spec,
                 "exact_value": exact_value,
             },
+            "escalation_target": "full_compute",
         },
     )
 
@@ -270,4 +317,31 @@ def _maybe_append(audit_path: str | Path | None, decision: HarnessDecision) -> N
         append_audit_record(audit_path, decision)
 
 
-__all__ = ["RepairResult", "choose_policy", "repair", "repair_stub", "summarize_stub"]
+def _risk(decision: HarnessDecision) -> str:
+    return str(dict(decision.validator_record or {}).get("risk", "low"))
+
+
+def _deterministic_full_compute_covers(task_type: str) -> bool:
+    return task_type in {"arithmetic", "long_context_qa"}
+
+
+def _route_guard_weak(decision: HarnessDecision) -> bool:
+    record = dict(decision.validator_record or {})
+    return (
+        decision.task_type == "long_context_qa"
+        and decision.verdict == UNCHECKABLE
+        and str(record.get("validator", decision.validator)) == "answer_span_recall_guard"
+    )
+
+
+__all__ = [
+    "ESCALATION_TARGETS",
+    "RepairResult",
+    "assert_guard_or_escalation_target",
+    "choose_policy",
+    "decide_escalation",
+    "repair",
+    "repair_stub",
+    "summarize_stub",
+    "with_escalation_target",
+]
