@@ -32,7 +32,7 @@ class ActionPlan:
     record: dict[str, Any]
 
 
-def route_decide(input: Any, task: str | None = None, *, budget: str = "balanced", risk: str = "low") -> ActionPlan:
+def route_decide(input: Any, task: str | None = None, *, budget: str = "balanced", risk: str = "low", router_mode: str | None = None) -> ActionPlan:
     env = classify(input, task)
     if risk == "high":
         return _escalate(env.task_type, input, budget, risk, "risk=high forces FULL_COMPUTE_WITH_VALIDATOR", validator="full_compute_validator", outcome="FULL_COMPUTE_WITH_VALIDATOR")
@@ -43,7 +43,7 @@ def route_decide(input: Any, task: str | None = None, *, budget: str = "balanced
     if env.task_type in {"json_schema", "python_code"}:
         return _sound_checker(input, env.task_type, env.reason, budget, risk)
     if env.task_type == "long_context_qa":
-        return _long_context_qa(input, env.reason, budget, risk)
+        return _long_context_qa(input, env.reason, budget, risk, router_mode)
     if env.task_type == "retrieval":
         return _retrieval(input, env.reason, budget, risk)
     return _escalate("unknown", input, budget, risk, "unknown task has no safe guarded cheap path", validator="", outcome="FULL_COMPUTE")
@@ -87,38 +87,24 @@ def _sound_checker(input: Any, task_type: str, signal: str, budget: str, risk: s
     return _plan(task_type, "sound_checker", "verify", "routemap_validators.check_output", decision.checker or "sound_checker", outcome, False, decision.reason, trace, input, budget, risk, route_score=None)
 
 
-def _long_context_qa(input: Any, signal: str, budget: str, risk: str) -> ActionPlan:
+def _long_context_qa(input: Any, signal: str, budget: str, risk: str, router_mode: str | None = None) -> ActionPlan:
     data = input if isinstance(input, dict) else {"passage": str(input), "question": ""}
     passage = str(data.get("passage", ""))
     question = str(data.get("question", ""))
-    tokens = _tokenize(passage)
-    idf = routemap_token.build_idf([passage, question])
-    question_tokens = {token.lower() for token in _tokenize(question)}
-    rows: list[dict[str, Any]] = []
-    for index, token in enumerate(tokens):
-        left = tokens[index - 1] if index else None
-        right = tokens[index + 1] if index + 1 < len(tokens) else None
-        static = routemap_token.token_prior_score(token, idf)
-        features = routemap_token.contextual_features(
-            token,
-            question_tokens=question_tokens,
-            position_info={"index": index, "sentence_initial": index == 0 or left in {".", "?", "!"}, "after_newline": False, "first_content_token": index == 0},
-            neighbors=(left, right),
-        )
-        contextual = routemap_token.contextual_importance_score(static, features)
-        score = routemap_token.route_score(static, contextual)
-        action = routemap_token.route_action(token, score, threshold=0.5, features=features)
-        rows.append({"token": token, "score": score, "action": action})
-    keep = [row["token"] for row in rows if row["action"] == "keep"]
-    cheap = [row["token"] for row in rows if row["action"] == "cheap"]
+    # Use routemap_token's default router (currently 'element'); allow an override.
+    kwargs = {"router_mode": router_mode} if router_mode else {}
+    rows = routemap_token.route_passage(passage, question, **kwargs)
+    keep = [row["token"] for row in rows if row["route_action"] == "keep"]
+    cheap = [row["token"] for row in rows if row["route_action"] == "cheap"]
     if not keep:
         return _escalate("long_context_qa", input, budget, risk, "token route produced empty keep set", validator="answer_span_recall_guard", outcome="FULL_COMPUTE_WITH_VALIDATOR")
     reduction = len(cheap) / max(1, len(rows))
-    reason = f"token route keeps {len(keep)} tokens and routes {reduction:.3f} cheap"
+    mode_label = router_mode or "element"
+    reason = f"{mode_label} route keeps {len(keep)} tokens and routes {reduction:.3f} cheap"
     trace = "\n".join(
         [
             f"classify: {signal} -> long_context_qa",
-            "route: routemap_token prior/context/policy",
+            f"route: routemap_token.route_passage (router_mode={mode_label})",
             "validator: answer_span_recall_guard",
             f"decision: action=cheap_path kept={len(keep)} cheap={len(cheap)} reduction={reduction:.3f}",
         ]

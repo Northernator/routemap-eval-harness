@@ -23,7 +23,7 @@ python run_evidence.py                             # runs the suites + offline b
 | `routemap_validators` | routed sound checkers (arithmetic/code/JSON), one-sided verdicts, `UNCHECKABLE` fail-safe, locked `validator_audit_v1` schema | practical false-positive rate 0.000 on real wrapped output (N=30); JSON-schema repair 0.60 -> 0.33 |
 | `routemap_digital` | residue/CRT/cycle engine + one-sided verifier + `routemap` CLI | catches real model arithmetic errors at zero false positives; blind spot characterized |
 | `routemap_bench` | model-agnostic HugeArithmeticRouteBench | oracle-verifier agreement 1.000; ground truth generated independently of the engine |
-| `routemap_token` | token-importance routing prior (class + IDF + contextual, leak-safe) | ~34% token reduction at <1% answer-token loss on real gold |
+| `routemap_token` | token-importance routing with `router_mode` (default **element** ~0.44; **token** prior baseline ~0.34; codon-gate), leak-safe | default validated on a synthetic blind set + 2 real human-reviewed held-out sets at 0 recall loss, frozen weights |
 | `routemap_embedding` | SimHash / LSH / PQ route-and-rerank index | recall/speed frontier mapped (characterized negative) |
 | `routemap_controller` | `route_decide()` composing the lanes, guarded cheap path, schema-locked `route_decision_v1` audit | 9/9 tests; no silent pruning |
 | `routemap_matrix` | KV-cache importance-routing prototype | route/validate core verified (CPU); GPU result hardware-gated (research-only) |
@@ -50,8 +50,9 @@ python run_evidence.py                             # runs the suites + offline b
 wrapped model output across arithmetic/code/JSON; structured-output verification is genuinely useful (60% of
 a small model's JSON violated its schema, all caught, repair halves the errors); the arithmetic verifier
 catches 100% of real model arithmetic errors at zero false positives with a precisely characterized,
-shrinkable blind spot; a token-importance prior drops about a third of tokens at near-zero answer-token loss
-on real gold and beats an IDF-stopword baseline by 0.62 in recall.
+shrinkable blind spot; the default element router drops about 44% of tokens (the token-prior baseline drops about a third) at
+near-zero answer-token loss on real gold — validated on a synthetic blind set and two real human-reviewed
+held-out sets with frozen weights — and beats an IDF-stopword baseline by 0.62 in recall.
 
 **Not claimed:** no lossless recovery from a fingerprint (information floor); no digital-root maths on float
 attention weights; no universal speedup (residue verification is slower than recompute at ordinary sizes);

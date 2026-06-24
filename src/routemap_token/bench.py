@@ -95,13 +95,13 @@ def run_benchmark(
     threshold: float = 0.5,
     trace_path: str | Path | None = None,
     seed: int = 7,
-    router: str = "element",
+    router_mode: str = "element",
 ) -> dict[str, Any]:
     samples, dataset_source = load_dataset(root)
     needed_coverage = needed_span_coverage(samples)
     corpus_docs, idf_source = discover_corpus_docs(root)
     idf_map = build_idf(corpus_docs + [sample.context for sample in samples])
-    score_fn = _make_score_fn(router)
+    score_fn = _make_score_fn(router_mode)
     curve: list[dict[str, float]] = []
     rows_by_threshold: dict[float, list[dict[str, Any]]] = {}
     for candidate in THRESHOLDS:
@@ -119,7 +119,7 @@ def run_benchmark(
     minimum = best_02["token_reduction"] >= 0.30 and best_02["recall_loss"] < 0.02
     strong = 0.50 <= best_01["token_reduction"] <= 0.70 and best_01["recall_loss"] < 0.01
     return {
-        "router": router,
+        "router_mode": router_mode,
         "dataset_source": dataset_source,
         "dataset_size": len(samples),
         "needed_span_coverage": needed_coverage["coverage"],
@@ -160,7 +160,7 @@ def card(result: dict[str, Any]) -> str:
     best05 = result["best_recall_loss_lt_05"]
     frontier = result["frontier"]
     lines = [
-        f"# TokenRouteQA (router: {result.get('router', 'token')})",
+        f"# TokenRouteQA (router_mode: {result.get('router_mode', 'token')})",
         "",
         f"Dataset: `{result['dataset_source']}` ({result['dataset_size']} samples)",
         "",
@@ -239,23 +239,16 @@ def _score_dataset(samples: list[TokenQASample], idf_map: dict[str, float], thre
     return rows
 
 
-def _make_score_fn(router: str):
-    """Select the token-routing signal. Default 'token' is the unchanged baseline.
-
-    'element' / 'codon-gate' use the experimental routemap_elements scorers
-    (lazy-imported, so token mode keeps zero dependency on that package).
-    """
-    if router == "token":
+def _make_score_fn(router_mode: str):
+    """Select the token-routing signal. 'token' is the original per-token class prior;
+    'element' / 'codon-gate' use the folded-in element router (routemap_token.routers,
+    lazy-imported to avoid an import cycle)."""
+    if router_mode == "token":
         return lambda samples, idf_map, threshold: _score_dataset(samples, idf_map, threshold)
-    if router in ("element", "codon-gate"):
-        from routemap_elements.bench_elements import _score_sample as _element_score
-        mode = "element" if router == "element" else "codon_gate"
-
-        def score_fn(samples, idf_map, threshold):
-            return [row for sample in samples for row in _element_score(sample, idf_map, threshold, mode)]
-
-        return score_fn
-    raise ValueError(f"unknown router {router!r}; use token|element|codon-gate")
+    if router_mode in ("element", "codon-gate", "codon_gate", "codon-boost", "codon_boost"):
+        from .routers import score_for_mode
+        return lambda samples, idf_map, threshold: score_for_mode(samples, idf_map, threshold, router_mode)
+    raise ValueError(f"unknown router_mode {router_mode!r}; use token|element|codon-gate")
 
 
 def _metrics(rows: list[dict[str, Any]]) -> dict[str, float]:

@@ -38,15 +38,17 @@ STEPS = [
     ("pytest: digital engine", [sys.executable, "-m", "pytest", "rd_test_digital_engine.py", "-q"], "residue/CRT/cycles; off-by-M sound"),
     ("pytest: arithmetic bench", [sys.executable, "-m", "pytest", "rb_test_bench.py", "-q"], "oracle-verifier agreement; GT independent"),
     ("pytest: token routing", [sys.executable, "-m", "pytest", "rt_test_token.py", "-q"], "no-leak; GT-derived classification"),
+    ("pytest: element routing", [sys.executable, "-m", "pytest", "rt_test_elements.py", "-q"], "element router; no-leak; default router_mode=element"),
     ("pytest: embedding", [sys.executable, "-m", "pytest", "re_test_embedding.py", "-q"], "determinism; recall vs brute force"),
     ("pytest: controller", [sys.executable, "-m", "pytest", "rc_test_controller.py", "-q"], "dispatch; no-silent-prune; schema-valid"),
     ("pytest: matrix core", [sys.executable, "-m", "pytest", "rm_test_matrix.py", "-q"], "route/validate core (numpy)"),
     ("bench: validators regression", [sys.executable, "-m", "routemap_validators.run_regression"], "FP 0.000; JSON rule-out 0.600 (cached corpus)"),
     ("bench: HugeArithmeticRouteBench", [sys.executable, "-m", "routemap_bench", "run", "--out", str(OUT / "bench_arith")], "catch 1.000; oracle agreement 1.000"),
-    ("bench: TokenRouteQA", [sys.executable, "-m", "routemap_token", "run"], "real gold; reduction-vs-recall frontier"),
+    ("bench: TokenRouteQA (router comparison)", [sys.executable, "-m", "routemap_token", "run", "--router", "all"], "real gold; default element ~0.44, token baseline ~0.34"),
     ("bench: EmbeddingRouteIndex", [sys.executable, "-m", "routemap_embedding", "run", "--out", str(OUT / "bench_embed")], "recall/speed frontier (synthetic)"),
     ("demo: unified controller", [sys.executable, "-m", "routemap_controller", "demo", "--out", str(OUT / "controller_demo")], "7 plans; schema-valid audit; 1 escalation"),
     ("blind: held-out suite (frozen)", [sys.executable, "src/blind/score_blind_v1.py"], "fresh data never tuned against; verifies SHA-256 then scores once"),
+    ("blind: element router gate (frozen)", [sys.executable, "-m", "routemap_elements.blind_validate"], "frozen-weight OOD gate; element > token at 0 recall loss"),
 ]
 GATED = [
     ("matrix self-check (CPU)", [sys.executable, "-m", "routemap_matrix", "selfcheck"], "torch+transformers"),

@@ -128,3 +128,26 @@ labels the active router; element rows now carry `route_score`+`context_features
 `test_default_router_is_element_and_token_preserved`; fixed `run_comparison` to request `router="token"`
 for its baseline. 16/16 token+element tests pass. (Architecture report §4.4 prose still cites the token-lane
 34% headline — refresh to "default element ~44%, token baseline 34%".)
+
+## Code/report consistency pass — element FOLDED into routemap_token + default confirmed
+Per Chris's spec: (1) **Folded** the element router INTO routemap_token — new `routemap_token/elements.py`
+(tagger) + `routers.py` (scorers, `route_passage`, `score_for_mode`, `run_comparison`). `run_benchmark`
+param renamed `router`→`router_mode`; `_make_score_fn` now uses `.routers` (token mode keeps zero
+dependency on the experimental package; element/codon lazy-imported from within the same package).
+`routemap_elements/{elements,bench_elements}.py` reduced to thin re-export shims (blind_validate,
+run_compare, rt_test_elements unchanged and still pass). (2) **Default `router_mode="element"`** —
+judged comfortable: it passed the pre-registered real-document gate on two human-reviewed sets at 0 recall
+loss; recall-preserving and reversible. `token` preserved via `--router token`. Honest scope caveat: the
+real confirmation sets were governance-adjacent; the only genuinely-different-domain set was synthetic.
+(3) `routemap_controller.route_decide` gains a `router_mode` passthrough; `_long_context_qa` now calls
+`routemap_token.route_passage` (default element); engine label unchanged. (4) `run_evidence.py` adds an
+element pytest step + `--router all` bench + the frozen blind-gate step. (5) README + EVIDENCE_PACK +
+report all state default element ~0.44 / token baseline ~0.34.
+
+Verified in a clean git tree: **pytest rt_test_token + rt_test_elements + rc_test_controller = 25/25**;
+`--router all` → token 0.343 / element 0.437 (default) / codon-gate 0.437; frozen blind gate PASS +0.069
+(config hash c7f0cf9e unchanged); controller default=element and `router_mode="token"` override both work
+with invariants intact; 0 whitespace/conflict issues; routemap_token self-contained; routemap_elements →
+routemap_token (correct dependency direction). To run on the live machine: `git diff --check` and the full
+`python run_evidence.py` (the sandbox git can't read the Windows index, and run_evidence needs the full
+data tree + is ollama/torch-gated).

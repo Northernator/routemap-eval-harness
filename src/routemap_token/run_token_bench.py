@@ -1,9 +1,9 @@
 """CLI for TokenRouteQA.
 
-Router modes (default 'token' is the preserved baseline; 'element' / 'codon-gate'
-are experimental, pending blind validation before any default change):
-    python -m routemap_token run --router token
+router_mode (default 'element', promoted after passing the frozen-weight blind +
+real-document validation gates; 'token' is the preserved baseline):
     python -m routemap_token run --router element
+    python -m routemap_token run --router token
     python -m routemap_token run --router all      # report all three side by side
 """
 
@@ -15,7 +15,7 @@ from pathlib import Path
 
 from .bench import card, run_benchmark
 
-ROUTERS = ("token", "element", "codon-gate")
+ROUTER_MODES = ("token", "element", "codon-gate")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -24,34 +24,34 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", default=".")
     parser.add_argument("--out", default=None)
     parser.add_argument("--seed", type=int, default=7)
-    parser.add_argument("--router", default="element", choices=[*ROUTERS, "all"])
+    parser.add_argument("--router", dest="router_mode", default="element", choices=[*ROUTER_MODES, "all"])
     args = parser.parse_args(argv)
     out = Path(args.out) if args.out else None
 
-    if args.router == "all":
-        results = {r: run_benchmark(root=args.root, seed=args.seed, router=r) for r in ROUTERS}
-        lines = ["# TokenRouteQA — router comparison (default = token)", "",
-                 "| router | reduction @<0.01 | reduction @<0.02 | reduction @<0.05 | recall_loss @<0.01 |",
+    if args.router_mode == "all":
+        results = {r: run_benchmark(root=args.root, seed=args.seed, router_mode=r) for r in ROUTER_MODES}
+        lines = ["# TokenRouteQA — router comparison (default = element)", "",
+                 "| router_mode | reduction @<0.01 | reduction @<0.02 | reduction @<0.05 | recall_loss @<0.01 |",
                  "| --- | ---: | ---: | ---: | ---: |"]
-        for r in ROUTERS:
+        for r in ROUTER_MODES:
             f = results[r]["frontier"]
-            lines.append(f"| {r}{' (default)' if r == 'token' else ''} | "
-                         f"{f['lt_0_01']['token_reduction']:.3f} | {f['lt_0_02']['token_reduction']:.3f} | "
+            tag = " (default)" if r == "element" else (" (baseline)" if r == "token" else "")
+            lines.append(f"| {r}{tag} | {f['lt_0_01']['token_reduction']:.3f} | {f['lt_0_02']['token_reduction']:.3f} | "
                          f"{f['lt_0_05']['token_reduction']:.3f} | {f['lt_0_01']['recall_loss']:.3f} |")
-        lines += ["", "token is the preserved baseline/default; element & codon-gate are experimental "
-                  "(promote only after out-of-domain/blind validation)."]
+        lines += ["", "element is the default (validated on blind + real human-reviewed held-out sets at 0 recall "
+                  "loss with frozen weights); token is the preserved baseline."]
         text = "\n".join(lines)
         print(text)
         if out:
             out.mkdir(parents=True, exist_ok=True)
             (out / "router_comparison.md").write_text(text, encoding="utf-8")
             (out / "router_comparison.json").write_text(json.dumps(
-                {r: {k: results[r]["frontier"][k] for k in ("lt_0_01", "lt_0_02", "lt_0_05")} for r in ROUTERS},
+                {r: {k: results[r]["frontier"][k] for k in ("lt_0_01", "lt_0_02", "lt_0_05")} for r in ROUTER_MODES},
                 indent=2), encoding="utf-8")
         return 0
 
     trace_path = out / "token_importance_traces.jsonl" if out else None
-    result = run_benchmark(root=args.root, trace_path=trace_path, seed=args.seed, router=args.router)
+    result = run_benchmark(root=args.root, trace_path=trace_path, seed=args.seed, router_mode=args.router_mode)
     text = card(result)
     print(text)
     if out:
