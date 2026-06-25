@@ -211,8 +211,38 @@ def route(body: dict[str, Any]) -> dict[str, Any]:
 
 @app.post("/repair")
 def repair_decision(body: dict[str, Any]) -> dict[str, Any]:
-    _repair = repair
-    return dict(repair_stub(str(body.get("decision_id", ""))))
+    payload = _check_payload(body)
+    model_ref = str(body.get("model_ref") or DEFAULT_MODEL_REF)
+    runtime = str(body.get("runtime") or "ollama")
+    payload["model_ref"] = model_ref
+    payload["runtime"] = runtime
+    payload["auth_mode"] = _auth_mode(runtime)
+    base = harness_check(payload, strict=bool(body.get("strict")))
+    base = _with_model_record(base, model_ref)
+    audit_store.append(base, _audit_path())
+    if base.verdict == "NOT_RULED_OUT":
+        out = _api_decision(base)
+        out["scorecard"] = scorecard(base.to_dict())
+        out["attempts"] = []
+        out["repaired"] = False
+        out["note"] = "nothing to repair"
+        out["decision"] = _api_decision(base)
+        return out
+    try:
+        result = repair(base, payload, model_fn, max_retries=2, audit_path=_audit_path())
+    except (ModelAdapterUnavailable, ModelAdapterError) as exc:
+        raise HTTPException(
+            status_code=503,
+            detail=f"repair needs a model (start Ollama or set an API key): {exc}",
+        ) from exc
+    final = _with_model_record(result.final_decision, model_ref)
+    out = _api_decision(final)
+    out["scorecard"] = scorecard(final.to_dict())
+    out["attempts"] = [attempt.to_dict() for attempt in result.attempts]
+    out["repaired"] = final.final_status == "repaired"
+    out["exact_correction"] = _exact_correction(payload, final)
+    out["decision"] = _api_decision(final)
+    return out
 
 
 @app.get("/audit")

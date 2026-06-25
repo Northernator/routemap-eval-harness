@@ -19,6 +19,19 @@ import routemap_harness.api as api
 from routemap_harness.api import app
 
 
+def _demo_schema() -> dict[str, object]:
+    return {
+        "type": "object",
+        "required": ["id", "score", "status", "tags"],
+        "properties": {
+            "id": {"type": "string"},
+            "score": {"type": "integer", "minimum": 0, "maximum": 100},
+            "status": {"enum": ["pass", "fail"]},
+            "tags": {"type": "array", "minItems": 1},
+        },
+    }
+
+
 def test_api_check_json_schema_and_audit_lookup(tmp_path: Path) -> None:
     app.state.audit_path = str(tmp_path / "audit.jsonl")
     client = TestClient(app)
@@ -63,14 +76,52 @@ def test_api_check_json_schema_and_audit_lookup(tmp_path: Path) -> None:
     assert audit_response.json()["decision_id"] == decision["decision_id"]
 
 
-def test_api_repair_stub(tmp_path: Path) -> None:
+def test_api_repair_runs_model_and_repairs(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     app.state.audit_path = str(tmp_path / "audit.jsonl")
+    monkeypatch.setattr(
+        api,
+        "model_fn",
+        lambda prompt, **kw: '{"id":"x","score":88,"status":"pass","tags":["ok"]}',
+    )
     client = TestClient(app)
 
-    response = client.post("/repair", json={"decision_id": "demo", "model_ref": "llama3.1"})
+    response = client.post(
+        "/repair",
+        json={
+            "task": "json_schema",
+            "output": '{"id":"x","score":104,"status":"maybe","tags":[]}',
+            "spec": _demo_schema(),
+            "model_ref": "unit-test",
+        },
+    )
 
     assert response.status_code == 200
-    assert response.json()["status"] == "needs_input"
+    body = response.json()
+    assert body["repaired"] is True
+    assert body["attempts"]
+    assert body["decision"]["final_status"] == "repaired"
+
+
+def test_api_repair_no_model_returns_503(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    app.state.audit_path = str(tmp_path / "audit.jsonl")
+
+    def boom(prompt: str, **kw: object) -> str:
+        raise api.ModelAdapterUnavailable("no model")
+
+    monkeypatch.setattr(api, "model_fn", boom)
+    client = TestClient(app)
+
+    response = client.post(
+        "/repair",
+        json={
+            "task": "json_schema",
+            "output": '{"id":"x","score":104,"status":"maybe","tags":[]}',
+            "spec": _demo_schema(),
+            "model_ref": "unit-test",
+        },
+    )
+
+    assert response.status_code == 503
 
 
 def test_route_endpoint_highlights_tokens(tmp_path: Path) -> None:

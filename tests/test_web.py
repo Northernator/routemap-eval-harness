@@ -39,6 +39,17 @@ def test_app_page_served(tmp_path: Path) -> None:
     assert 'id="replay-modal"' in response.text
     assert 'id="optimize-prompt"' in response.text
     assert 'id="agent-trace"' in response.text
+    assert 'id="demo-bar"' in response.text
+    assert 'data-demo="unsafe-tool"' in response.text
+    assert 'data-demo="broken-json"' in response.text
+    assert 'data-demo="long-context"' in response.text
+    assert 'data-demo="wrong-arith"' in response.text
+    assert "renderRunTimeline" in response.text
+    assert ".timeline-step" in response.text
+    assert "verdictLabel" in response.text
+    assert "Blocked: provably invalid" in response.text
+    assert "No hard failure found" in response.text
+    assert "Needs escalation" in response.text
     assert "Coverage, not a correctness score." in response.text
 
 

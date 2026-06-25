@@ -353,6 +353,47 @@
       margin-top: 0;
       font-size: 0.82rem;
     }
+    .timeline {
+      display: grid;
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .timeline-step {
+      display: grid;
+      grid-template-columns: 14px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--muted);
+      border-radius: 8px;
+    }
+    .timeline-step .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      margin-top: 5px;
+      background: var(--muted);
+    }
+    .timeline-step .step-title { font-weight: 700; }
+    .timeline-step .step-detail {
+      color: var(--muted);
+      font-size: 0.86rem;
+      overflow-wrap: anywhere;
+    }
+    .step-pass { border-left-color: var(--good); }
+    .step-pass .dot { background: var(--good); }
+    .step-block { border-left-color: var(--bad); }
+    .step-block .dot { background: var(--bad); }
+    .step-warn { border-left-color: var(--warn); }
+    .step-warn .dot { background: var(--warn); }
+    .step-info { border-left-color: var(--accent-2); }
+    .step-info .dot { background: var(--accent-2); }
+    .raw-fields {
+      margin-top: 10px;
+      border-top: 1px solid var(--line);
+      padding-top: 8px;
+    }
     .compare-form {
       display: grid;
       gap: 12px;
@@ -490,6 +531,24 @@
     .modal-head button {
       width: auto;
     }
+    .demo-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 16px;
+    }
+    .demo-bar .demo-label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .demo-bar button {
+      width: auto;
+      min-height: 32px;
+      padding: 5px 10px;
+      font-size: 0.82rem;
+    }
     .replay-json {
       margin: 0;
       max-height: 320px;
@@ -527,6 +586,13 @@
     </header>
 
     <div id="tab-help" class="tab-help"></div>
+    <div id="demo-bar" class="demo-bar">
+      <span class="demo-label">Demos:</span>
+      <button type="button" class="secondary" data-demo="unsafe-tool">Unsafe tool call</button>
+      <button type="button" class="secondary" data-demo="broken-json">Broken JSON</button>
+      <button type="button" class="secondary" data-demo="long-context">Long-context compression</button>
+      <button type="button" class="secondary" data-demo="wrong-arith">Wrong arithmetic (needs model)</button>
+    </div>
 
     <section id="dashboard-panel" class="hidden">
       <section class="panel">
@@ -784,6 +850,7 @@
     const modeAgent = document.querySelector("#mode-agent");
     const modeLab = document.querySelector("#mode-lab");
     const tabHelp = document.querySelector("#tab-help");
+    const demoBar = document.querySelector("#demo-bar");
     const dashboardPanel = document.querySelector("#dashboard-panel");
     const checkPanel = document.querySelector("#check-panel");
     const runPanel = document.querySelector("#run-panel");
@@ -899,6 +966,14 @@
       return `verdict-${String(value || "").toLowerCase()}`;
     }
 
+    function verdictLabel(value) {
+      const key = String(value || "").toUpperCase();
+      if (key === "RULED_OUT_WRONG") return "Blocked: provably invalid";
+      if (key === "NOT_RULED_OUT") return "No hard failure found";
+      if (key === "UNCHECKABLE") return "Needs escalation";
+      return String(value || "");
+    }
+
     function renderDecision(decision) {
       lastDecisionId = decision.decision_id || lastDecisionId;
       repairBtn.disabled = !lastDecisionId;
@@ -916,7 +991,8 @@
       ];
       decisionEl.innerHTML = fields.map(([key, value]) => {
         const cls = key === "verdict" ? verdictClass(value) : (key === "final_status" && value === "repaired" ? "status-repaired" : "");
-        return `<div class="kv"><div class="key">${key}</div><div class="value ${cls}">${escapeHtml(value ?? "")}</div></div>`;
+        const display = key === "verdict" ? verdictLabel(value) : value;
+        return `<div class="kv"><div class="key">${key}</div><div class="value ${cls}">${escapeHtml(display ?? "")}</div></div>`;
       }).join("") + renderScorecard(decision.scorecard);
     }
 
@@ -930,7 +1006,7 @@
           <td>${escapeHtml(record.timestamp || "")}</td>
           <td>${escapeHtml(record.task_type || "")}</td>
           <td>${escapeHtml(record.model || "")}</td>
-          <td class="${verdictClass(record.verdict)}">${escapeHtml(record.verdict || "")}</td>
+          <td class="${verdictClass(record.verdict)}">${escapeHtml(verdictLabel(record.verdict))}</td>
           <td>${escapeHtml(record.final_status || "")}</td>
           <td>${replayButton(record.decision_id)}</td>
         </tr>
@@ -978,7 +1054,7 @@
             return `<tr>
               <td>${index + 1}</td>
               <td>${escapeHtml(record.repair_prompt || "")}</td>
-              <td class="${verdictClass(attempt.verdict)}">${escapeHtml(attempt.verdict || "")}</td>
+              <td class="${verdictClass(attempt.verdict)}">${escapeHtml(verdictLabel(attempt.verdict))}</td>
               <td>${escapeHtml(attempt.reason || "")}</td>
             </tr>`;
           }).join("")
@@ -1070,7 +1146,7 @@
         const strip = document.createElement("div");
         strip.className = "strip";
         strip.innerHTML = [
-          `<span class="${verdictClass(decision.verdict)}">${escapeHtml(decision.verdict || "")}</span>`,
+          `<span class="${verdictClass(decision.verdict)}">${escapeHtml(verdictLabel(decision.verdict))}</span>`,
           `<span>${escapeHtml(decision.action || "")}</span>`,
           `<span class="${decision.final_status === "repaired" ? "status-repaired" : ""}">${escapeHtml(decision.final_status || "")}</span>`,
           run.exact_correction !== null && run.exact_correction !== undefined ? `<span>corrected: ${escapeHtml(run.exact_correction)}</span>` : "",
@@ -1127,6 +1203,56 @@
       </div>`;
     }
 
+    function shortText(value, limit = 140) {
+      const text = runValue(value).replace(/\s+/g, " ").trim();
+      return text.length > limit ? `${text.slice(0, limit - 1)}...` : text;
+    }
+
+    function timelineVerdictClass(value) {
+      const key = String(value || "").toUpperCase();
+      if (key === "NOT_RULED_OUT") return "step-pass";
+      if (key === "RULED_OUT_WRONG") return "step-block";
+      if (key === "UNCHECKABLE") return "step-warn";
+      return "step-info";
+    }
+
+    function timelineStatusClass(value) {
+      const key = String(value || "").toLowerCase();
+      if (key === "accepted") return "step-pass";
+      if (key === "repaired") return "step-warn";
+      if (key === "rejected" || key === "escalated") return "step-block";
+      return "step-info";
+    }
+
+    function renderRunTimeline(run) {
+      const decision = run.decision || {};
+      const attempts = Array.isArray(run.repair_attempts) ? run.repair_attempts : [];
+      const finalChanged = run.final_output !== undefined && run.final_output !== run.model_output;
+      const steps = [];
+      const step = (cls, title, detail, rawDetail = false) => {
+        if (detail === null || detail === undefined || detail === "") return;
+        const detailHtml = rawDetail ? String(detail) : escapeHtml(detail);
+        steps.push(`<div class="timeline-step ${cls}"><span class="dot"></span><div><div class="step-title">${escapeHtml(title)}</div><div class="step-detail">${detailHtml}</div></div></div>`);
+      };
+      step("step-info", "Input received", shortText(run.prompt));
+      if (run.optimized) {
+        const preserved = Array.isArray(run.preserved) ? run.preserved.length : 0;
+        step("step-info", "Prompt structured", `${preserved} preserved value(s); structured prompt sent`);
+      }
+      step(run.compressed ? "step-info" : "", run.compressed ? "Context compressed" : "Context kept", run.compressed ? compressionLabel(run) : (run.route_note || "full context"));
+      step("step-info", "Model answered", `${decision.model || "model"} · ${decision.latency_ms ?? ""} ms`);
+      step(timelineVerdictClass(decision.verdict), `Output checked: ${verdictLabel(decision.verdict)}`, `${decision.validator || "validator"}: ${decision.reason || ""}`);
+      if (attempts.length) {
+        const repairOk = String(decision.final_status || "").toLowerCase() === "repaired";
+        const correction = run.exact_correction !== null && run.exact_correction !== undefined ? `, corrected: ${run.exact_correction}` : "";
+        step(repairOk ? "step-pass" : "step-warn", "Repair", `${attempts.length} attempt(s)${correction}`);
+      }
+      const changed = finalChanged ? " (changed from model output)" : "";
+      step(timelineStatusClass(decision.final_status), `Final decision: ${decision.final_status || "unknown"}`, `${shortText(run.final_output)}${changed}`);
+      step("step-info", "Audit saved", `${escapeHtml(run.audit_id || "")} ${replayButton(run.audit_id)}`, true);
+      return `<div class="timeline">${steps.join("")}</div>`;
+    }
+
     function renderRunDetail(run) {
       const decision = run.decision || {};
       const detail = document.createElement("details");
@@ -1136,34 +1262,38 @@
       const repairRows = Array.isArray(run.repair_attempts) && run.repair_attempts.length
         ? run.repair_attempts.map((attempt, index) => {
             const attemptDecision = attempt.final_decision || attempt.decision || attempt;
-            return `<tr><td>${index + 1}</td><td class="${verdictClass(attemptDecision.verdict)}">${escapeHtml(attemptDecision.verdict || "")}</td><td>${escapeHtml(attemptDecision.action || "")}</td></tr>`;
+            return `<tr><td>${index + 1}</td><td class="${verdictClass(attemptDecision.verdict)}">${escapeHtml(verdictLabel(attemptDecision.verdict))}</td><td>${escapeHtml(attemptDecision.action || "")}</td></tr>`;
           }).join("")
         : `<tr><td colspan="3" class="status">No repair attempts.</td></tr>`;
       detail.innerHTML = `
         <summary>run detail</summary>
-        <div class="run-detail-grid">
-          ${runKv("prompt", run.prompt)}
-          ${renderScorecard(run.scorecard)}
-          ${run.optimized ? runKv("optimized_prompt", run.optimized_prompt) : ""}
-          ${run.optimized ? `<div class="strip">${preservedChips(run.preserved || [])}</div>` : ""}
-          ${runKv("prompt_sent", run.prompt_sent)}
-          ${run.compressed ? `<div class="strip"><span>${escapeHtml(compressionLabel(run))}</span></div>` : ""}
-          ${runKv("model_output", run.model_output)}
-          ${runKv("final_output", run.final_output, finalChanged ? "run-final-changed" : "")}
-          ${runKv("verdict", decision.verdict, verdictClass(decision.verdict))}
-          ${runKv("action", decision.action)}
-          ${runKv("final_status", decision.final_status, decision.final_status === "repaired" ? "status-repaired" : "")}
-          ${runKv("validator", decision.validator)}
-          ${runKv("latency_ms", decision.latency_ms)}
-          <div class="kv"><div class="key">repair_attempts</div><div class="value">
-            <table>
-              <thead><tr><th>#</th><th>verdict</th><th>action</th></tr></thead>
-              <tbody>${repairRows}</tbody>
-            </table>
-          </div></div>
-          ${runKv("tokens", `${run.tokens_before} -> ${run.tokens_after} (-${Math.round((Number(run.reduction) || 0) * 100)}%)`)}
-          <div class="kv"><div class="key">audit_id</div><div class="value">${escapeHtml(run.audit_id || "")} ${replayButton(run.audit_id)}</div></div>
-        </div>
+        ${renderScorecard(run.scorecard)}
+        ${renderRunTimeline(run)}
+        <details class="raw-fields">
+          <summary>raw fields</summary>
+          <div class="run-detail-grid">
+            ${runKv("prompt", run.prompt)}
+            ${run.optimized ? runKv("optimized_prompt", run.optimized_prompt) : ""}
+            ${run.optimized ? `<div class="strip">${preservedChips(run.preserved || [])}</div>` : ""}
+            ${runKv("prompt_sent", run.prompt_sent)}
+            ${run.compressed ? `<div class="strip"><span>${escapeHtml(compressionLabel(run))}</span></div>` : ""}
+            ${runKv("model_output", run.model_output)}
+            ${runKv("final_output", run.final_output, finalChanged ? "run-final-changed" : "")}
+            ${runKv("verdict", verdictLabel(decision.verdict), verdictClass(decision.verdict))}
+            ${runKv("action", decision.action)}
+            ${runKv("final_status", decision.final_status, decision.final_status === "repaired" ? "status-repaired" : "")}
+            ${runKv("validator", decision.validator)}
+            ${runKv("latency_ms", decision.latency_ms)}
+            <div class="kv"><div class="key">repair_attempts</div><div class="value">
+              <table>
+                <thead><tr><th>#</th><th>verdict</th><th>action</th></tr></thead>
+                <tbody>${repairRows}</tbody>
+              </table>
+            </div></div>
+            ${runKv("tokens", `${run.tokens_before} -> ${run.tokens_after} (-${Math.round((Number(run.reduction) || 0) * 100)}%)`)}
+            <div class="kv"><div class="key">audit_id</div><div class="value">${escapeHtml(run.audit_id || "")} ${replayButton(run.audit_id)}</div></div>
+          </div>
+        </details>
       `;
       return detail;
     }
@@ -1220,7 +1350,7 @@
         return `<tr>
           <td>${escapeHtml(result.runtime)} / ${escapeHtml(result.model_ref)}</td>
           <td class="compare-output">${escapeHtml(output || "")}</td>
-          <td class="${verdictClass(decision.verdict)}">${escapeHtml(decision.verdict || (result.available ? "" : "unavailable"))}</td>
+          <td class="${verdictClass(decision.verdict)}">${escapeHtml(decision.verdict ? verdictLabel(decision.verdict) : (result.available ? "" : "unavailable"))}</td>
           <td>${escapeHtml(repair)}</td>
           <td>${escapeHtml(tokens)}</td>
           <td>${escapeHtml(cost)}</td>
@@ -1243,10 +1373,10 @@
           <div class="scorecard-caption">step ${escapeHtml(step.step || index + 1)}</div>
           ${runKv("plan", step.plan || "")}
           ${runKv("tool_call", step.tool_call || "")}
-          ${runKv("firewall", `${firewall.verdict || ""} ${firewall.reason || ""}`, verdictClass(firewall.verdict))}
-          ${repair ? runKv("repair_firewall", `${repair.verdict || ""} ${repair.reason || ""}`, verdictClass(repair.verdict)) : ""}
+          ${runKv("firewall", `${verdictLabel(firewall.verdict)} ${firewall.reason || ""}`, verdictClass(firewall.verdict))}
+          ${repair ? runKv("repair_firewall", `${verdictLabel(repair.verdict)} ${repair.reason || ""}`, verdictClass(repair.verdict)) : ""}
           ${runKv("tool_output", step.tool_output === undefined ? "" : step.tool_output)}
-          ${runKv("output_check", `${outputCheck.verdict || ""} ${outputCheck.reason || ""}`, verdictClass(outputCheck.verdict))}
+          ${runKv("output_check", `${verdictLabel(outputCheck.verdict)} ${outputCheck.reason || ""}`, verdictClass(outputCheck.verdict))}
           ${runKv("final_status", step.final_status || "")}
         </section>`;
       }).join("") + `<div class="strip">${(result.audit_ids || []).map((id) => replayButton(id)).join("")}</div>${runKv("final", result.final || "")}`;
@@ -1313,6 +1443,61 @@
       dashboardStatus.textContent = `exported ${rows} failure rows`;
     }
 
+    function defaultSchemaText() {
+      return `{
+  "type": "object",
+  "required": ["id", "score", "status", "tags"],
+  "properties": {
+    "id": { "type": "string" },
+    "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "status": { "enum": ["pass", "fail"] },
+    "tags": { "type": "array", "minItems": 1 }
+  }
+}`;
+    }
+
+    function longContextDemoText() {
+      return "the of and to the of and to these filler tokens should be cheap. " +
+        "The verifier must not drop negated risk statements before release. " +
+        "of the and to in a quiet queue, extra ordinary words keep the passage long enough for routing. " +
+        "the of and to the of and to another filler stretch follows the key sentence.";
+    }
+
+    function loadDemo(name) {
+      if (name === "unsafe-tool") {
+        taskSelect.value = "tool_call";
+        outputField.value = '{"name":"delete_file","arguments":{"path":"../../system32/config"}}';
+        allowedToolsField.value = "read_file, delete_file";
+        specField.value = "";
+        syncTaskFields();
+        setMode("check");
+        checkForm.requestSubmit();
+        return;
+      }
+      if (name === "broken-json") {
+        taskSelect.value = "json_schema";
+        outputField.value = '{ "id": "x", "score": 104, "status": "maybe", "tags": [] }';
+        specField.value = defaultSchemaText();
+        allowedToolsField.value = "";
+        syncTaskFields();
+        setMode("check");
+        checkForm.requestSubmit();
+        return;
+      }
+      if (name === "long-context") {
+        labPassage.value = longContextDemoText();
+        labQuestion.value = "What must the verifier not drop?";
+        setMode("lab");
+        labForm.requestSubmit();
+        return;
+      }
+      if (name === "wrong-arith") {
+        promptField.value = "What is 47 * 89? Reply with the number only.";
+        setMode("run");
+        chatForm.requestSubmit();
+      }
+    }
+
     function handleReplayClick(event) {
       const button = event.target.closest("[data-replay-id]");
       if (!button) return;
@@ -1334,6 +1519,11 @@
     replayClose.addEventListener("click", () => replayModal.classList.add("hidden"));
     replayModal.addEventListener("click", (event) => {
       if (event.target === replayModal) replayModal.classList.add("hidden");
+    });
+    demoBar.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-demo]");
+      if (!button) return;
+      loadDemo(button.dataset.demo);
     });
     taskSelect.addEventListener("change", syncTaskFields);
     modelSelect.addEventListener("change", () => localStorage.setItem("routemap.model", modelSelect.value));
@@ -1373,14 +1563,27 @@
       if (!lastDecisionId) return;
       statusEl.textContent = "repairing...";
       try {
+        const option = selectedOption();
         const repaired = await request("/repair", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ decision_id: lastDecisionId, model_ref: modelSelect.value })
+          body: JSON.stringify({
+            task: taskSelect.value || null,
+            output: outputField.value,
+            spec: parseSpec(),
+            allowed_tools: parseAllowedTools(),
+            source: sourceField.value || null,
+            strict: strictField.checked,
+            model_ref: modelSelect.value,
+            runtime: option ? option.dataset.runtime : "ollama"
+          })
         });
         renderDecision(repaired);
         await loadAudit();
-        statusEl.textContent = "repair response rendered";
+        const attempts = (repaired.attempts || []).length;
+        const summary = repaired.note || (repaired.repaired ? `repaired (${attempts} attempt(s))` : "could not repair - escalated");
+        const correction = repaired.exact_correction !== null && repaired.exact_correction !== undefined ? `, corrected: ${repaired.exact_correction}` : "";
+        statusEl.textContent = `${summary}${correction}`;
       } catch (error) {
         statusEl.textContent = error.message;
       }
