@@ -4,10 +4,14 @@ import json
 import os
 import subprocess
 import sys
+import types
 from pathlib import Path
+
+import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
 
 
 def test_cli_check_json_schema_appends_audit(tmp_path: Path) -> None:
@@ -102,6 +106,28 @@ def test_cli_repair_runs_offline_model_output(tmp_path: Path) -> None:
     assert payload["final_decision"]["final_status"] == "repaired"
     assert len(payload["attempts"]) == 1
     assert len(audit_path.read_text(encoding="utf-8").splitlines()) == 1
+
+
+def test_cli_serve_invokes_uvicorn(monkeypatch: pytest.MonkeyPatch) -> None:
+    captured: dict[str, object] = {}
+    fake_uvicorn = types.ModuleType("uvicorn")
+
+    def _fake_run(app: str, **kwargs: object) -> None:
+        captured["app"] = app
+        captured.update(kwargs)
+
+    fake_uvicorn.run = _fake_run  # type: ignore[attr-defined]
+    monkeypatch.setitem(sys.modules, "uvicorn", fake_uvicorn)
+
+    from routemap_harness.__main__ import main
+
+    rc = main(["serve", "--host", "0.0.0.0", "--port", "9123"])
+
+    assert rc == 0
+    assert captured["app"] == "routemap_harness.api:app"
+    assert captured["host"] == "0.0.0.0"
+    assert captured["port"] == 9123
+    assert captured["reload"] is False
 
 
 def _run_cli(*args: str) -> subprocess.CompletedProcess[str]:

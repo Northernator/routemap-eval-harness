@@ -89,6 +89,18 @@
       font-weight: 700;
       white-space: nowrap;
     }
+    .tab-help {
+      margin: 0 0 16px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+    .tab-help strong { color: var(--text); font-weight: 700; }
     .panel {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -514,6 +526,8 @@
       <div class="pill">harness on</div>
     </header>
 
+    <div id="tab-help" class="tab-help"></div>
+
     <section id="dashboard-panel" class="hidden">
       <section class="panel">
         <div class="prompt-head">
@@ -769,6 +783,7 @@
     const modeDashboard = document.querySelector("#mode-dashboard");
     const modeAgent = document.querySelector("#mode-agent");
     const modeLab = document.querySelector("#mode-lab");
+    const tabHelp = document.querySelector("#tab-help");
     const dashboardPanel = document.querySelector("#dashboard-panel");
     const checkPanel = document.querySelector("#check-panel");
     const runPanel = document.querySelector("#run-panel");
@@ -833,6 +848,15 @@
       return response.text();
     }
 
+    const TAB_HELP = {
+      check: "<strong>Check</strong> — Paste an answer an AI already gave; RouteMap tells you if it's provably wrong — bad maths, broken JSON, an unsafe tool call, or a claim the source doesn't support. No model needed, so it's the quickest way to see RouteMap work.",
+      run: "<strong>Run</strong> — Type a prompt and the chosen model answers, with RouteMap wrapping the whole trip: it can trim the input, then checks the answer, auto-fixes or flags problems, and logs everything. Needs a model (local Ollama or an API key).",
+      compare: "<strong>Compare</strong> — Send one prompt to several models at once and see them side by side: who passed, who got auto-fixed, plus tokens, cost and time. Tick the models below, then press compare.",
+      dashboard: "<strong>Dashboard</strong> — A running scoreboard of everything checked so far: what failed and how often, broken down by model, with a button to export the failures as training data.",
+      agent: "<strong>Agent</strong> — Give a goal and watch an AI take one safe tool step: RouteMap checks the tool call before it runs and the result after, blocking anything unsafe. Needs a model.",
+      lab: "<strong>Lab</strong> — Paste any text to see which words RouteMap keeps or drops to shrink a prompt: green = kept, grey = dropped, red = never drop, yellow = matches your question."
+    };
+
     function setMode(mode) {
       const requested = mode === "chat" ? "run" : mode;
       const selected = ["check", "run", "compare", "dashboard", "agent", "lab"].includes(requested) ? requested : "check";
@@ -848,6 +872,7 @@
       comparePanel.classList.toggle("hidden", selected !== "compare");
       agentPanel.classList.toggle("hidden", selected !== "agent");
       labPanel.classList.toggle("hidden", selected !== "lab");
+      tabHelp.innerHTML = TAB_HELP[selected] || "";
       localStorage.setItem("routemap.mode", selected);
       if (selected === "dashboard") loadDashboard().catch((error) => { dashboardStatus.textContent = error.message; });
     }

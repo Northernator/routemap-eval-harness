@@ -6,7 +6,9 @@ RouteMap applies one control loop at several layers of an LLM system: **fingerpr
 integration, a locked audit schema, and a zero-false-positive / no-self-grading discipline.
 
 > RouteMap began as a semantic route-extraction evaluation harness (Phases 1–2, see *Origins* below). It grew
-> into a verified route-and-validate stack of seven standalone packages (slices 01–16).
+> into a verified route-and-validate stack of seven standalone packages (slices 01–16), now surfaced through a
+> local **cockpit** (Lab Mode) that runs, compresses, verifies, repairs, escalates, compares, and audits any
+> model from the browser.
 
 ## Quick start
 ```powershell
@@ -16,6 +18,42 @@ pip install -r requirements-dev.txt                # python + numpy + pytest
 $env:PYTHONPATH='src'                              # bash/macOS: export PYTHONPATH=src
 python run_evidence.py                             # runs the suites + offline benchmarks -> EVIDENCE/RESULTS.md
 ```
+
+## Cockpit (Lab Mode)
+A local control page — a single-file UI plus a FastAPI surface — makes the route-and-validate loop visible.
+
+```powershell
+pip install -r requirements-api.txt
+python -m routemap_harness serve            # http://127.0.0.1:8000/   (add --reload for dev)
+```
+
+Tabs:
+- **Check** — paste model output (with an optional schema, source, or allowed-tools list); see the verdict, the failing check, and an honest coverage scorecard.
+- **Run** — prompt → model → harness, with optional input compression and prompt structuring; shows the prompt actually sent, raw vs final output, repairs, tokens saved, and latency.
+- **Compare** — one prompt across several models (local Ollama / OpenAI / Anthropic) side by side: verdict, tokens, cost, time.
+- **Lab** — the token visualizer: every token coloured kept / cheap / protected / question-overlap, plus the compressed prompt that would be sent.
+- **Dashboard** — the failure genome: counts by verdict and action, a per-model breakdown, false accepts, latency p50/p95, and a failures-as-JSONL export.
+- **Agent** — a bounded one-step loop: plan → firewalled tool call → output check → final, with every decision audited.
+
+### HTTP API
+| Method + path | Purpose |
+| --- | --- |
+| `GET /` | the control page (single-file UI) |
+| `GET /models` | runtimes and their auth / availability |
+| `POST /check` | validate a finished output; returns a decision + scorecard |
+| `POST /run` | run a model through the full loop (compress → verify → repair → escalate → audit) |
+| `POST /compare` | one prompt across several models |
+| `POST /route` | per-token routing preview for the visualizer (no audit write) |
+| `POST /agent` | bounded, firewalled agent loop |
+| `POST /repair` | repair handle for a prior decision |
+| `GET /summary` | aggregated audit metrics (the dashboard feed) |
+| `GET /audit`, `GET /audit/{id}` | recent decisions / one decision |
+| `GET /replay/{id}` | full run replay (decision + stored model I/O) |
+| `GET /export/failures` | failed / repaired runs as training JSONL |
+
+Run-level I/O (prompts, model output, repairs) is logged to `data/outputs/runs.jsonl` keyed by `decision_id`,
+deliberately **outside** the locked decision schema (`schemas/harness_decision_v1.schema.json`) so replay and
+export never weaken the audit contract.
 
 ## The seven packages
 | Package | What it does | Verified headline |
@@ -69,6 +107,11 @@ verified (every slice re-run and re-derived against source), and a **frozen held
 (`data/blind/v1/`, scored once, never tuned against) shows the arithmetic and structured-output lanes holding
 catch 1.000 / false-positive 0.000 on fresh data. Remaining: cross-model coverage and the hardware-gated GPU
 attention measurement.
+
+## Roadmap
+The cockpit's direction lives in [`docs/ROADMAP_LAB_MODE.md`](docs/ROADMAP_LAB_MODE.md) — the Lab Mode roadmap
+(reframe to an AI reliability cockpit; phased Lab Mode → flagship lanes → diagnostics → prep/export → agent),
+with paste-ready build specs in [`docs/PROMPT_SHEET_LAB_MODE.md`](docs/PROMPT_SHEET_LAB_MODE.md).
 
 ---
 

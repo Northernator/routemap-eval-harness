@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any, Mapping, Sequence
@@ -33,6 +34,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 0
         if args.command == "validate-config":
             return _cmd_validate_config(args)
+        if args.command == "serve":
+            return _cmd_serve(args)
     except ValueError as exc:
         print(str(exc), file=sys.stderr)
         return 2
@@ -68,6 +71,11 @@ def _build_parser() -> argparse.ArgumentParser:
     summarize.add_argument("--audit", default=str(DEFAULT_AUDIT))
 
     subcommands.add_parser("validate-config")
+
+    serve = subcommands.add_parser("serve", help="run the RouteMap cockpit (FastAPI UI + API) via uvicorn")
+    serve.add_argument("--host", default="127.0.0.1")
+    serve.add_argument("--port", type=int, default=8000)
+    serve.add_argument("--reload", action="store_true", help="auto-reload on source changes (dev)")
     return parser
 
 
@@ -113,6 +121,24 @@ def _cmd_validate_config(args: argparse.Namespace) -> int:
     result = validate_config(DEFAULT_SCHEMA)
     print(_json(result))
     return 0 if result["ok"] else 1
+
+
+def _cmd_serve(args: argparse.Namespace) -> int:
+    try:
+        import uvicorn
+    except ModuleNotFoundError:
+        print("serve needs the API extras: pip install -r requirements-api.txt", file=sys.stderr)
+        return 2
+    src = str(ROOT / "src")
+    if src not in sys.path:
+        sys.path.insert(0, src)
+    # let the --reload subprocess import the package without a manual PYTHONPATH
+    pythonpath = os.environ.get("PYTHONPATH", "")
+    if src not in pythonpath.split(os.pathsep):
+        os.environ["PYTHONPATH"] = os.pathsep.join(part for part in (src, pythonpath) if part)
+    print(f"RouteMap cockpit -> http://{args.host}:{args.port}  (Ctrl+C to stop)", file=sys.stderr)
+    uvicorn.run("routemap_harness.api:app", host=args.host, port=int(args.port), reload=bool(args.reload))
+    return 0
 
 
 def _load_payload(path: str) -> dict[str, Any]:
