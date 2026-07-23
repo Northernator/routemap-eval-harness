@@ -3,82 +3,150 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Local reliability cockpit for checking, repairing, comparing, and auditing model output.">
+  <meta name="theme-color" content="#f3f6f4" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1110" media="(prefers-color-scheme: dark)">
   <title>RouteMap Harness</title>
   <style>
     :root {
       color-scheme: light dark;
-      --bg: #f5f6f2;
+      --bg: #f3f6f4;
       --panel: #ffffff;
-      --text: #202321;
-      --muted: #68706a;
-      --line: #d9ded7;
-      --accent: #1d6f5f;
-      --accent-2: #2d4f7c;
-      --bad: #b42318;
-      --good: #16794c;
-      --warn: #a16207;
+      --panel-subtle: #f7f9f8;
+      --text: #17201c;
+      --muted: #5e6b65;
+      --line: #d4dcd7;
+      --line-strong: #b8c4bd;
+      --accent: #176c5b;
+      --accent-hover: #105949;
+      --accent-pressed: #0b473a;
+      --accent-soft: #e3f1ec;
+      --on-accent: #ffffff;
+      --accent-2: #315b88;
+      --bad: #a82a22;
+      --good: #107248;
+      --warn: #8a5700;
+      --focus: #1769d2;
+      --shadow-sm: 0 1px 2px rgba(18, 36, 28, 0.06);
+      --shadow-md: 0 12px 32px rgba(18, 36, 28, 0.1);
+      --radius: 12px;
+      --radius-sm: 9px;
+      --control-height: 44px;
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #141714;
-        --panel: #20231f;
-        --text: #eef1ed;
-        --muted: #a7aea8;
-        --line: #3b413b;
-        --accent: #70b8a8;
-        --accent-2: #8fafcf;
+        --bg: #0d1110;
+        --panel: #151a18;
+        --panel-subtle: #1a211e;
+        --text: #f1f5f2;
+        --muted: #a7b2ac;
+        --line: #303a35;
+        --line-strong: #46554d;
+        --accent: #75c7b1;
+        --accent-hover: #8bd4c0;
+        --accent-pressed: #a0dfcd;
+        --accent-soft: #193c32;
+        --on-accent: #09261f;
+        --accent-2: #9bc5ef;
+        --bad: #ff8f85;
+        --good: #67dca0;
+        --warn: #f6c267;
+        --focus: #8bb8ff;
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 16px 40px rgba(0, 0, 0, 0.35);
       }
     }
     * { box-sizing: border-box; }
+    html { background: var(--bg); }
     body {
       margin: 0;
+      min-height: 100vh;
       background: var(--bg);
       color: var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.45;
+      font-family: "Geist", "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      text-rendering: optimizeLegibility;
     }
+    body.modal-open { overflow: hidden; }
+    ::selection { background: var(--accent-soft); color: var(--text); }
     main {
-      width: min(1180px, calc(100% - 32px));
+      width: min(1240px, calc(100% - 48px));
       margin: 0 auto;
-      padding: 24px 0 40px;
+      padding: 28px 0 48px;
     }
-    header {
+    .app-header {
       display: grid;
-      grid-template-columns: minmax(180px, 1fr) auto minmax(260px, 360px) auto;
-      gap: 14px;
-      align-items: center;
-      margin-bottom: 16px;
+      grid-template-columns: minmax(220px, 1fr) auto;
+      gap: 18px 24px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+    .brand {
+      display: grid;
+      gap: 3px;
+    }
+    .eyebrow {
+      margin: 0;
+      color: var(--accent);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .header-tools {
+      display: flex;
+      align-items: end;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+    .model-picker {
+      width: min(360px, 36vw);
     }
     h1, h2 {
       margin: 0;
       font-weight: 700;
-      letter-spacing: 0;
+      letter-spacing: -0.015em;
     }
-    h1 { font-size: 1.55rem; }
-    h2 { font-size: 1rem; }
+    h1 { font-size: clamp(1.65rem, 2.4vw, 2.15rem); line-height: 1.1; }
+    h2 { font-size: 1.02rem; }
     .segmented {
-      display: inline-grid;
-      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: var(--radius);
       overflow: hidden;
-      min-width: 320px;
+      min-width: 0;
+      width: 100%;
       background: var(--panel);
+      box-shadow: var(--shadow-sm);
     }
     .segmented button {
+      width: 100%;
       border: 0;
       border-radius: 0;
       background: transparent;
       color: var(--text);
+      box-shadow: none;
+    }
+    .segmented button + button {
+      border-left: 1px solid var(--line);
+    }
+    .segmented button:hover:not(:disabled):not(.active) {
+      background: var(--panel-subtle);
+      color: var(--accent);
+      transform: none;
+      box-shadow: none;
     }
     .segmented button.active {
       background: var(--accent);
-      color: #fff;
+      color: var(--on-accent);
     }
     .pill {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 7px;
       min-height: 32px;
       padding: 6px 10px;
       border: 1px solid var(--line);
@@ -89,23 +157,34 @@
       font-weight: 700;
       white-space: nowrap;
     }
+    .pill::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: currentColor;
+      content: "";
+      box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 14%, transparent);
+    }
+    .pill.warning { color: var(--warn); }
     .tab-help {
       margin: 0 0 16px;
-      padding: 10px 14px;
+      padding: 12px 15px;
       border: 1px solid var(--line);
       border-left: 3px solid var(--accent);
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       background: var(--panel);
       color: var(--muted);
       font-size: 0.9rem;
       line-height: 1.45;
+      box-shadow: var(--shadow-sm);
     }
     .tab-help strong { color: var(--text); font-weight: 700; }
     .panel {
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 16px;
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
     }
     .grid {
       display: grid;
@@ -126,19 +205,21 @@
       font-size: 0.82rem;
       font-weight: 650;
     }
-    select, textarea, input, button {
+    select, textarea, input {
       width: 100%;
       border: 1px solid var(--line);
-      border-radius: 6px;
-      background: transparent;
+      border-radius: var(--radius-sm);
+      background: var(--panel-subtle);
       color: var(--text);
       font: inherit;
+      transition: border-color 140ms ease, background-color 140ms ease, box-shadow 140ms ease;
     }
-    select, input { min-height: 40px; padding: 8px 10px; }
+    select:hover, textarea:hover, input:hover { border-color: var(--line-strong); }
+    select, input { min-height: var(--control-height); padding: 9px 11px; }
     textarea {
       min-height: 230px;
       resize: vertical;
-      padding: 10px;
+      padding: 11px 12px;
       font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
       font-size: 0.9rem;
     }
@@ -147,38 +228,86 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      min-height: 40px;
+      min-height: var(--control-height);
       color: var(--text);
     }
-    .toggle input { width: 18px; height: 18px; }
+    .toggle input { width: 19px; height: 19px; accent-color: var(--accent); }
     .actions {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
       margin-top: 12px;
     }
     button {
+      width: auto;
       cursor: pointer;
-      min-height: 40px;
-      padding: 8px 12px;
+      min-height: var(--control-height);
+      padding: 9px 15px;
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-sm);
       background: var(--accent);
       border-color: var(--accent);
-      color: white;
+      color: var(--on-accent);
+      font: inherit;
       font-weight: 700;
+      line-height: 1.2;
+      transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+    }
+    button:hover:not(:disabled) {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+    button:active:not(:disabled) {
+      background: var(--accent-pressed);
+      border-color: var(--accent-pressed);
+      transform: translateY(0);
+      box-shadow: none;
     }
     button.secondary {
-      background: transparent;
+      background: var(--panel);
+      border-color: var(--line-strong);
+      color: var(--text);
+    }
+    button.secondary:hover:not(:disabled) {
+      background: var(--accent-soft);
+      border-color: var(--accent);
       color: var(--accent);
     }
     button:disabled {
       cursor: not-allowed;
-      opacity: 0.55;
+      opacity: 0.5;
+      transform: none;
+      box-shadow: none;
+    }
+    button[aria-busy="true"] {
+      cursor: progress;
+    }
+    button[aria-busy="true"]::after {
+      display: inline-block;
+      width: 0.85em;
+      height: 0.85em;
+      margin-left: 8px;
+      border: 2px solid currentColor;
+      border-right-color: transparent;
+      border-radius: 999px;
+      vertical-align: -0.08em;
+      content: "";
+      animation: spin 700ms linear infinite;
     }
     button.replay-button {
       width: auto;
-      min-height: 32px;
-      padding: 5px 9px;
+      min-height: var(--control-height);
+      padding: 7px 10px;
       font-size: 0.82rem;
     }
+    select:focus-visible, textarea:focus-visible, input:focus-visible, button:focus-visible,
+    summary:focus-visible, .table-scroll:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--focus) 78%, transparent);
+      outline-offset: 2px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
     .decision {
       display: grid;
       gap: 10px;
@@ -204,9 +333,10 @@
     .scorecard {
       display: grid;
       gap: 8px;
-      padding: 10px;
+      padding: 12px;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
+      background: var(--panel-subtle);
     }
     .coverage-bar {
       height: 10px;
@@ -231,39 +361,94 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 10px;
       font-size: 0.88rem;
     }
     th, td {
       text-align: left;
-      padding: 8px 6px;
+      padding: 10px 9px;
       border-bottom: 1px solid var(--line);
       vertical-align: top;
       overflow-wrap: anywhere;
     }
-    th { color: var(--muted); font-size: 0.78rem; }
+    th {
+      color: var(--muted);
+      background: var(--panel-subtle);
+      font-size: 0.75rem;
+      letter-spacing: 0.045em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    tbody tr:hover { background: color-mix(in srgb, var(--accent-soft) 55%, transparent); }
+    .table-scroll {
+      width: 100%;
+      margin-top: 12px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      scrollbar-color: var(--line-strong) transparent;
+    }
+    .table-scroll table { min-width: 720px; }
+    .table-scroll.compact table { min-width: 440px; }
+    .table-scroll.wide table { min-width: 860px; }
+    .table-scroll th:first-child, .table-scroll td:first-child { padding-left: 12px; }
+    .table-scroll th:last-child, .table-scroll td:last-child { padding-right: 12px; }
+    caption.sr-only, .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
     .status {
       min-height: 24px;
       color: var(--muted);
       margin-top: 10px;
       font-size: 0.9rem;
     }
+    .status.error { color: var(--bad); }
+    .status.success { color: var(--good); }
     .hidden { display: none; }
     .thread {
       display: grid;
       gap: 12px;
-      min-height: 420px;
+      min-height: 340px;
       max-height: 56vh;
       overflow: auto;
-      padding: 4px;
+      padding: 6px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--panel-subtle);
+      scrollbar-color: var(--line-strong) transparent;
+    }
+    .empty-state {
+      align-self: center;
+      justify-self: stretch;
+      display: grid;
+      place-items: center;
+      gap: 6px;
+      min-height: 230px;
+      padding: 28px;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      text-align: center;
+    }
+    .empty-state strong {
+      color: var(--text);
+      font-size: 1rem;
     }
     .bubble {
       max-width: min(760px, 92%);
       border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 10px 12px;
+      border-radius: var(--radius);
+      padding: 12px 14px;
       white-space: pre-wrap;
       overflow-wrap: anywhere;
+      box-shadow: var(--shadow-sm);
     }
     .user {
       justify-self: end;
@@ -296,8 +481,9 @@
     }
     .kpi {
       border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      background: var(--panel-subtle);
     }
     .kpi .key {
       display: block;
@@ -316,7 +502,9 @@
     }
     .chat-tools {
       display: flex;
+      flex-wrap: wrap;
       justify-content: flex-end;
+      gap: 14px;
       margin-bottom: 10px;
     }
     .chat-form {
@@ -366,7 +554,8 @@
       padding: 8px 10px;
       border: 1px solid var(--line);
       border-left: 3px solid var(--muted);
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
+      background: var(--panel-subtle);
     }
     .timeline-step .dot {
       width: 10px;
@@ -407,11 +596,18 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      min-height: 40px;
-      padding: 8px 10px;
+      min-height: var(--control-height);
+      padding: 9px 11px;
       border: 1px solid var(--line);
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
       color: var(--text);
+      background: var(--panel-subtle);
+      cursor: pointer;
+      transition: border-color 140ms ease, background-color 140ms ease;
+    }
+    .model-choice:hover:not(.disabled) {
+      border-color: var(--accent);
+      background: var(--accent-soft);
     }
     .model-choice input {
       width: 18px;
@@ -453,7 +649,8 @@
       min-height: 96px;
       padding: 12px;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
+      background: var(--panel-subtle);
       overflow-wrap: anywhere;
     }
     .route-token {
@@ -485,7 +682,8 @@
       margin-top: 12px;
       padding: 12px;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
+      background: var(--panel-subtle);
     }
     .prompt-head {
       display: flex;
@@ -494,6 +692,7 @@
       gap: 10px;
       margin-bottom: 8px;
     }
+    .prompt-head .actions { margin-top: 0; }
     .prompt-text {
       margin: 0;
       white-space: pre-wrap;
@@ -507,7 +706,7 @@
       display: grid;
       place-items: center;
       padding: 18px;
-      background: color-mix(in srgb, var(--bg) 70%, transparent);
+      background: color-mix(in srgb, #000000 54%, transparent);
       z-index: 20;
     }
     .modal.hidden { display: none; }
@@ -517,9 +716,9 @@
       overflow: auto;
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 16px;
-      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.24);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-md);
     }
     .modal-head {
       display: flex;
@@ -545,8 +744,8 @@
     }
     .demo-bar button {
       width: auto;
-      min-height: 32px;
-      padding: 5px 10px;
+      min-height: var(--control-height);
+      padding: 7px 11px;
       font-size: 0.82rem;
     }
     .replay-json {
@@ -559,33 +758,78 @@
       font-size: 0.82rem;
     }
     @media (max-width: 900px) {
-      main { width: min(100% - 20px, 760px); padding-top: 18px; }
-      header, .grid, .dashboard-grid { display: block; }
-      header > * { margin-bottom: 10px; }
+      main { width: min(100% - 32px, 760px); padding-top: 22px; }
+      .app-header { grid-template-columns: 1fr; align-items: stretch; }
+      .header-tools { justify-content: space-between; }
+      .model-picker { width: min(100%, 440px); }
+      .grid, .dashboard-grid { display: block; }
       .controls, .chat-form { grid-template-columns: 1fr; }
       .panel { margin-top: 14px; }
+    }
+    @media (max-width: 640px) {
+      main { width: min(100% - 24px, 560px); padding: 18px 0 32px; }
+      .app-header { gap: 14px; margin-bottom: 14px; }
+      .header-tools { display: grid; grid-template-columns: 1fr; align-items: stretch; }
+      .model-picker { width: 100%; }
+      .pill { justify-self: start; }
+      .segmented { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .segmented button:nth-child(4) { border-left: 0; border-top: 1px solid var(--line); }
+      .segmented button:nth-child(5), .segmented button:nth-child(6) { border-top: 1px solid var(--line); }
+      .tab-help { font-size: 0.86rem; }
+      .demo-bar { align-items: stretch; }
+      .demo-bar .demo-label { flex-basis: 100%; }
+      .demo-bar button { flex: 1 1 150px; }
+      .panel { padding: 15px; }
+      .actions button { flex: 1 1 140px; }
+      .kv { grid-template-columns: 1fr; gap: 3px; }
+      textarea { min-height: 180px; }
+      .thread { min-height: 300px; max-height: none; }
+      .bubble { max-width: 96%; }
+      .prompt-head { align-items: flex-start; flex-direction: column; }
+      .prompt-head .actions { width: 100%; margin-top: 4px; }
+    }
+    @media (max-width: 380px) {
+      .segmented { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .segmented button:nth-child(3), .segmented button:nth-child(5) { border-left: 0; }
+      .segmented button:nth-child(3) { border-top: 1px solid var(--line); }
+      .segmented button:nth-child(4) { border-left: 1px solid var(--line); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
     }
   </style>
 </head>
 <body>
   <main>
-    <header>
-      <h1>RouteMap Harness</h1>
-      <div class="segmented" role="tablist" aria-label="mode">
-        <button id="mode-check" type="button">Check</button>
-        <button id="mode-run" type="button">Run</button>
-        <button id="mode-compare" type="button">Compare</button>
-        <button id="mode-dashboard" type="button">Dashboard</button>
-        <button id="mode-agent" type="button">Agent</button>
-        <button id="mode-lab" type="button">Lab</button>
+    <header class="app-header">
+      <div class="brand">
+        <p class="eyebrow">AI reliability cockpit</p>
+        <h1>RouteMap Harness</h1>
       </div>
-      <label>model
-        <select id="model"></select>
-      </label>
-      <div class="pill">harness on</div>
+      <div class="header-tools">
+        <label class="model-picker">Run / repair model
+          <select id="model"></select>
+        </label>
+        <div id="readiness" class="pill" role="status" aria-live="polite" aria-atomic="true">
+          <span id="readiness-text">Verifier ready</span>
+        </div>
+      </div>
+      <div class="segmented" role="tablist" aria-label="mode">
+        <button id="mode-check" data-mode="check" type="button" role="tab" aria-selected="true" aria-controls="check-panel" tabindex="0">Check</button>
+        <button id="mode-run" data-mode="run" type="button" role="tab" aria-selected="false" aria-controls="run-panel" tabindex="-1">Run</button>
+        <button id="mode-compare" data-mode="compare" type="button" role="tab" aria-selected="false" aria-controls="compare-panel" tabindex="-1">Compare</button>
+        <button id="mode-dashboard" data-mode="dashboard" type="button" role="tab" aria-selected="false" aria-controls="dashboard-panel" tabindex="-1">Dashboard</button>
+        <button id="mode-agent" data-mode="agent" type="button" role="tab" aria-selected="false" aria-controls="agent-panel" tabindex="-1">Agent</button>
+        <button id="mode-lab" data-mode="lab" type="button" role="tab" aria-selected="false" aria-controls="lab-panel" tabindex="-1">Lab</button>
+      </div>
     </header>
 
-    <div id="tab-help" class="tab-help"></div>
+    <div id="tab-help" class="tab-help" aria-live="polite"></div>
     <div id="demo-bar" class="demo-bar">
       <span class="demo-label">Demos:</span>
       <button type="button" class="secondary" data-demo="unsafe-tool">Unsafe tool call</button>
@@ -594,57 +838,63 @@
       <button type="button" class="secondary" data-demo="wrong-arith">Wrong arithmetic (needs model)</button>
     </div>
 
-    <section id="dashboard-panel" class="hidden">
+    <section id="dashboard-panel" class="hidden" role="tabpanel" aria-labelledby="mode-dashboard" tabindex="0" hidden>
       <section class="panel">
         <div class="prompt-head">
-          <h2>dashboard</h2>
+          <h2>Dashboard overview</h2>
           <div class="actions">
             <button id="dashboard-export" class="secondary" type="button">Export failures (JSONL)</button>
-            <button id="dashboard-refresh" class="secondary" type="button">refresh</button>
+            <button id="dashboard-refresh" class="secondary" type="button">Refresh</button>
           </div>
         </div>
         <div id="dashboard-kpis" class="kpi-row"></div>
-        <div id="dashboard-status" class="status"></div>
+        <div id="dashboard-status" class="status" role="status" aria-live="polite" aria-atomic="true"></div>
       </section>
       <div class="dashboard-grid">
         <section class="panel">
-          <h2>failures by type</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>group</th>
-                <th>type</th>
-                <th>count</th>
-              </tr>
-            </thead>
-            <tbody id="failure-body"></tbody>
-          </table>
+          <h2>Failures by type</h2>
+          <div class="table-scroll compact" role="region" aria-label="Failures by type table" tabindex="0">
+            <table>
+              <caption class="sr-only">Failure counts grouped by verdict and action</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Group</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Count</th>
+                </tr>
+              </thead>
+              <tbody id="failure-body"></tbody>
+            </table>
+          </div>
         </section>
         <section class="panel">
-          <h2>by model</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>model</th>
-                <th>total</th>
-                <th>accepted</th>
-                <th>escalated</th>
-                <th>false_accepts</th>
-                <th>repair_success</th>
-                <th>p95(ms)</th>
-              </tr>
-            </thead>
-            <tbody id="by-model-body"></tbody>
-          </table>
+          <h2>Results by model</h2>
+          <div class="table-scroll wide" role="region" aria-label="Results by model table" tabindex="0">
+            <table>
+              <caption class="sr-only">Audit results and latency grouped by model</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Model</th>
+                  <th scope="col">Total</th>
+                  <th scope="col">Accepted</th>
+                  <th scope="col">Escalated</th>
+                  <th scope="col">False accepts</th>
+                  <th scope="col">Repair success</th>
+                  <th scope="col">P95 (ms)</th>
+                </tr>
+              </thead>
+              <tbody id="by-model-body"></tbody>
+            </table>
+          </div>
         </section>
       </div>
     </section>
 
-    <section id="check-panel">
+    <section id="check-panel" role="tabpanel" aria-labelledby="mode-check" tabindex="0">
       <div class="grid">
         <form id="check-form" class="panel">
           <div class="controls">
-            <label>task
+            <label>Task
               <select id="task">
                 <option value="">auto-detect</option>
                 <option value="arithmetic">arithmetic</option>
@@ -659,15 +909,15 @@
             </label>
             <label class="toggle">
               <input id="strict" type="checkbox">
-              strict
+              Strict policy
             </label>
           </div>
 
-          <label>output
-            <textarea id="output" spellcheck="false">{ "id": "x", "score": 104, "status": "maybe", "tags": [] }</textarea>
+          <label>Output
+            <textarea id="output" spellcheck="false" required aria-describedby="status">{ "id": "x", "score": 104, "status": "maybe", "tags": [] }</textarea>
           </label>
 
-          <label class="schema-field">optional schema
+          <label class="schema-field">Optional schema
             <textarea id="spec" spellcheck="false">{
   "type": "object",
   "required": ["id", "score", "status", "tags"],
@@ -680,23 +930,23 @@
 }</textarea>
           </label>
 
-          <label>allowed tools
+          <label>Allowed tools
             <input id="allowed-tools" type="text" placeholder="search_docs, read_file">
           </label>
 
-          <label id="source-field" class="schema-field hidden">source
+          <label id="source-field" class="schema-field hidden">Source
             <textarea id="source" spellcheck="true"></textarea>
           </label>
 
           <div class="actions">
-            <button id="check-btn" type="submit">check</button>
-            <button id="repair-btn" class="secondary" type="button" disabled>repair</button>
+            <button id="check-btn" type="submit">Check output</button>
+            <button id="repair-btn" class="secondary" type="button" disabled>Repair output</button>
           </div>
-          <div id="status" class="status"></div>
+          <div id="status" class="status" role="status" aria-live="polite" aria-atomic="true"></div>
         </form>
 
         <section class="panel">
-          <h2>decision</h2>
+          <h2>Decision</h2>
           <div id="decision" class="decision">
             <div class="status">No decision yet.</div>
           </div>
@@ -704,104 +954,123 @@
       </div>
 
       <section class="panel">
-        <h2>recent decisions</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>time</th>
-              <th>task</th>
-              <th>model</th>
-              <th>verdict</th>
-              <th>final_status</th>
-              <th>replay</th>
-            </tr>
-          </thead>
-          <tbody id="audit-body"></tbody>
-        </table>
+        <h2>Recent decisions</h2>
+        <div class="table-scroll" role="region" aria-label="Recent decisions table" tabindex="0">
+          <table>
+            <caption class="sr-only">Recent audit decisions</caption>
+            <thead>
+              <tr>
+                <th scope="col">Time</th>
+                <th scope="col">Task</th>
+                <th scope="col">Model</th>
+                <th scope="col">Verdict</th>
+                <th scope="col">Final status</th>
+                <th scope="col">Replay</th>
+              </tr>
+            </thead>
+            <tbody id="audit-body"></tbody>
+          </table>
+        </div>
       </section>
     </section>
 
-    <section id="run-panel" class="hidden">
+    <section id="run-panel" class="hidden" role="tabpanel" aria-labelledby="mode-run" tabindex="0" hidden>
       <div class="panel">
         <div class="chat-tools">
           <label class="toggle">
+            <input id="run-strict" type="checkbox">
+            Strict policy
+          </label>
+          <label class="toggle">
             <input id="optimize-prompt" type="checkbox">
-            structure prompt
+            Structure prompt
           </label>
           <label class="toggle">
             <input id="compress-context" type="checkbox">
-            compress long context
+            Compress long context
           </label>
         </div>
-        <div id="run-detail-container" class="thread"></div>
+        <div id="run-detail-container" class="thread" role="log" aria-live="polite" aria-relevant="additions">
+          <div class="empty-state">
+            <strong>Run a model through the reliability loop</strong>
+            <span>Choose a model, enter a prompt, and inspect every check, repair, and audit step.</span>
+          </div>
+        </div>
         <form id="chat-form" class="chat-form">
-          <textarea id="prompt" placeholder="Message the selected model..." spellcheck="true"></textarea>
-          <button type="submit">send</button>
+          <textarea id="prompt" placeholder="Message the selected model..." spellcheck="true" required aria-describedby="chat-status"></textarea>
+          <button id="chat-submit" type="submit">Send prompt</button>
         </form>
-        <div id="chat-status" class="status"></div>
+        <div id="chat-status" class="status" role="status" aria-live="polite" aria-atomic="true"></div>
       </div>
     </section>
 
-    <section id="compare-panel" class="hidden">
+    <section id="compare-panel" class="hidden" role="tabpanel" aria-labelledby="mode-compare" tabindex="0" hidden>
       <form id="compare-form" class="panel compare-form">
-        <label>prompt
-          <textarea id="compare-prompt" placeholder="Run the same prompt across selected models..." spellcheck="true"></textarea>
+        <label>Prompt
+          <textarea id="compare-prompt" placeholder="Run the same prompt across selected models..." spellcheck="true" required aria-describedby="compare-status"></textarea>
         </label>
         <section>
-          <h2>models</h2>
+          <h2>Models</h2>
           <div id="compare-models" class="model-list"></div>
         </section>
         <div class="actions">
-          <button type="submit">compare</button>
+          <button id="compare-submit" type="submit">Compare models</button>
         </div>
-        <div id="compare-status" class="status"></div>
+        <div id="compare-status" class="status" role="status" aria-live="polite" aria-atomic="true"></div>
       </form>
       <section class="panel">
-        <h2>results</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Model</th>
-              <th>Output</th>
-              <th>Verdict</th>
-              <th>Repair</th>
-              <th>Tokens</th>
-              <th>Cost</th>
-              <th>Time(ms)</th>
-            </tr>
-          </thead>
-          <tbody id="compare-results"></tbody>
-        </table>
+        <h2>Results</h2>
+        <div class="table-scroll wide" role="region" aria-label="Model comparison results table" tabindex="0">
+          <table>
+            <caption class="sr-only">Model comparison results</caption>
+            <thead>
+              <tr>
+                <th scope="col">Model</th>
+                <th scope="col">Output</th>
+                <th scope="col">Verdict</th>
+                <th scope="col">Repair</th>
+                <th scope="col">Tokens</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Time (ms)</th>
+              </tr>
+            </thead>
+            <tbody id="compare-results">
+              <tr><td colspan="7" class="status">Run a comparison to see model results.</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
     </section>
 
-    <section id="lab-panel" class="hidden">
+    <section id="lab-panel" class="hidden" role="tabpanel" aria-labelledby="mode-lab" tabindex="0" hidden>
       <div class="grid">
         <form id="lab-form" class="panel lab-form">
-          <label>passage
-            <textarea id="lab-passage" spellcheck="true">The verifier must not drop negated risk statements before release. The of and to the of and to filler can be routed cheaply.</textarea>
+          <label>Passage
+            <textarea id="lab-passage" spellcheck="true" required aria-describedby="lab-status">The verifier must not drop negated risk statements before release. The of and to the of and to filler can be routed cheaply.</textarea>
           </label>
-          <label>question
+          <label>Question
             <input id="lab-question" type="text" value="What must the verifier not drop?">
           </label>
           <div class="actions">
-            <button type="submit">route</button>
+            <button id="lab-submit" type="submit">Route passage</button>
           </div>
-          <div id="lab-status" class="status"></div>
+          <div id="lab-status" class="status" role="status" aria-live="polite" aria-atomic="true"></div>
         </form>
 
         <section class="panel">
-          <h2>token route</h2>
+          <h2>Token route</h2>
           <div class="legend" aria-label="route legend">
             <span class="token-cheap">cheap</span>
             <span class="token-protected">protected keep</span>
             <span class="token-query">query keep</span>
             <span class="token-keep">keep</span>
           </div>
-          <div id="token-stream" class="token-stream"></div>
+          <div id="token-stream" class="token-stream" aria-live="polite">
+            <span class="status">Route a passage to inspect token decisions.</span>
+          </div>
           <div id="prompt-block" class="prompt-block hidden">
             <div class="prompt-head">
-              <h2>prompt sent</h2>
+              <h2>Prompt sent</h2>
               <span id="prompt-summary" class="summary-chip"></span>
             </div>
             <pre id="prompt-sent" class="prompt-text"></pre>
@@ -810,18 +1079,18 @@
       </div>
     </section>
 
-    <section id="agent-panel" class="hidden">
+    <section id="agent-panel" class="hidden" role="tabpanel" aria-labelledby="mode-agent" tabindex="0" hidden>
       <form id="agent-form" class="panel compare-form">
-        <label>goal
-          <textarea id="agent-goal" placeholder="Ask the bounded agent to use one safe tool..." spellcheck="true">Compute 2 + 3.</textarea>
+        <label>Goal
+          <textarea id="agent-goal" placeholder="Ask the bounded agent to use one safe tool..." spellcheck="true" required aria-describedby="agent-status">Compute 2 + 3.</textarea>
         </label>
         <div class="actions">
-          <button type="submit">run agent</button>
+          <button id="agent-submit" type="submit">Run agent</button>
         </div>
-        <div id="agent-status" class="status"></div>
+        <div id="agent-status" class="status" role="status" aria-live="polite" aria-atomic="true"></div>
       </form>
       <section class="panel">
-        <h2>step trace</h2>
+        <h2>Step trace</h2>
         <div id="agent-trace" class="decision">
           <div class="status">No agent run yet.</div>
         </div>
@@ -831,8 +1100,8 @@
     <div id="replay-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="replay-title">
       <section class="modal-panel">
         <div class="modal-head">
-          <h2 id="replay-title">replay</h2>
-          <button id="replay-close" class="secondary" type="button">close</button>
+          <h2 id="replay-title">Decision replay</h2>
+          <button id="replay-close" class="secondary" type="button">Close replay</button>
         </div>
         <div id="replay-content" class="decision">
           <div class="status">No replay loaded.</div>
@@ -843,6 +1112,9 @@
 
   <script>
     const modelSelect = document.querySelector("#model");
+    const readiness = document.querySelector("#readiness");
+    const readinessText = document.querySelector("#readiness-text");
+    const tabList = document.querySelector("[role='tablist']");
     const modeCheck = document.querySelector("#mode-check");
     const modeRun = document.querySelector("#mode-run");
     const modeCompare = document.querySelector("#mode-compare");
@@ -865,6 +1137,7 @@
     const sourceFieldWrap = document.querySelector("#source-field");
     const strictField = document.querySelector("#strict");
     const checkForm = document.querySelector("#check-form");
+    const checkBtn = document.querySelector("#check-btn");
     const decisionEl = document.querySelector("#decision");
     const statusEl = document.querySelector("#status");
     const repairBtn = document.querySelector("#repair-btn");
@@ -873,6 +1146,8 @@
     const promptField = document.querySelector("#prompt");
     const optimizeField = document.querySelector("#optimize-prompt");
     const compressField = document.querySelector("#compress-context");
+    const runStrictField = document.querySelector("#run-strict");
+    const chatSubmit = document.querySelector("#chat-submit");
     const thread = document.querySelector("#run-detail-container");
     const chatStatus = document.querySelector("#chat-status");
     const labForm = document.querySelector("#lab-form");
@@ -883,11 +1158,13 @@
     const promptBlock = document.querySelector("#prompt-block");
     const promptSummary = document.querySelector("#prompt-summary");
     const promptSent = document.querySelector("#prompt-sent");
+    const labSubmit = document.querySelector("#lab-submit");
     const compareForm = document.querySelector("#compare-form");
     const comparePrompt = document.querySelector("#compare-prompt");
     const compareModels = document.querySelector("#compare-models");
     const compareStatus = document.querySelector("#compare-status");
     const compareResults = document.querySelector("#compare-results");
+    const compareSubmit = document.querySelector("#compare-submit");
     const dashboardKpis = document.querySelector("#dashboard-kpis");
     const dashboardStatus = document.querySelector("#dashboard-status");
     const dashboardExport = document.querySelector("#dashboard-export");
@@ -901,7 +1178,19 @@
     const agentGoal = document.querySelector("#agent-goal");
     const agentStatus = document.querySelector("#agent-status");
     const agentTrace = document.querySelector("#agent-trace");
+    const agentSubmit = document.querySelector("#agent-submit");
+    const modeButtons = [modeCheck, modeRun, modeCompare, modeDashboard, modeAgent, modeLab];
+    const modePanels = {
+      check: checkPanel,
+      run: runPanel,
+      compare: comparePanel,
+      dashboard: dashboardPanel,
+      agent: agentPanel,
+      lab: labPanel
+    };
     let lastDecisionId = "";
+    let lastDecisionRepairable = false;
+    let replayReturnFocus = null;
 
     async function request(path, options) {
       const response = await fetch(path, options);
@@ -926,22 +1215,69 @@
 
     function setMode(mode) {
       const requested = mode === "chat" ? "run" : mode;
-      const selected = ["check", "run", "compare", "dashboard", "agent", "lab"].includes(requested) ? requested : "check";
-      modeCheck.classList.toggle("active", selected === "check");
-      modeRun.classList.toggle("active", selected === "run");
-      modeCompare.classList.toggle("active", selected === "compare");
-      modeDashboard.classList.toggle("active", selected === "dashboard");
-      modeAgent.classList.toggle("active", selected === "agent");
-      modeLab.classList.toggle("active", selected === "lab");
-      dashboardPanel.classList.toggle("hidden", selected !== "dashboard");
-      checkPanel.classList.toggle("hidden", selected !== "check");
-      runPanel.classList.toggle("hidden", selected !== "run");
-      comparePanel.classList.toggle("hidden", selected !== "compare");
-      agentPanel.classList.toggle("hidden", selected !== "agent");
-      labPanel.classList.toggle("hidden", selected !== "lab");
+      const selected = Object.hasOwn(modePanels, requested) ? requested : "check";
+      modeButtons.forEach((button) => {
+        const active = button.dataset.mode === selected;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", String(active));
+        button.tabIndex = active ? 0 : -1;
+      });
+      Object.entries(modePanels).forEach(([name, panel]) => {
+        const hidden = name !== selected;
+        panel.classList.toggle("hidden", hidden);
+        panel.hidden = hidden;
+      });
       tabHelp.innerHTML = TAB_HELP[selected] || "";
       localStorage.setItem("routemap.mode", selected);
       if (selected === "dashboard") loadDashboard().catch((error) => { dashboardStatus.textContent = error.message; });
+    }
+
+    function handleTabKeydown(event) {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      const current = modeButtons.indexOf(document.activeElement);
+      if (current < 0) return;
+      event.preventDefault();
+      let next = current;
+      if (event.key === "Home") next = 0;
+      if (event.key === "End") next = modeButtons.length - 1;
+      if (event.key === "ArrowRight") next = (current + 1) % modeButtons.length;
+      if (event.key === "ArrowLeft") next = (current - 1 + modeButtons.length) % modeButtons.length;
+      const button = modeButtons[next];
+      setMode(button.dataset.mode);
+      button.focus();
+    }
+
+    function setStatus(element, message, tone = "") {
+      element.textContent = message;
+      element.classList.toggle("error", tone === "error");
+      element.classList.toggle("success", tone === "success");
+    }
+
+    function setBusy(button, busy, busyLabel) {
+      if (busy) {
+        button.dataset.idleLabel = button.textContent.trim();
+        button.disabled = true;
+        button.setAttribute("aria-busy", "true");
+        if (busyLabel) button.textContent = busyLabel;
+        return;
+      }
+      button.removeAttribute("aria-busy");
+      if (button.dataset.idleLabel) button.textContent = button.dataset.idleLabel;
+      delete button.dataset.idleLabel;
+      button.disabled = false;
+    }
+
+    function setFormBusy(form, busy) {
+      form.setAttribute("aria-busy", String(busy));
+    }
+
+    function isRepairable(decision) {
+      const task = String(decision.task_type || "").toLowerCase();
+      const verdict = String(decision.verdict || "").toUpperCase();
+      return decision.action === "repair" || (
+        verdict === "RULED_OUT_WRONG"
+        && ["arithmetic", "json_schema", "tool_call", "python_code"].includes(task)
+      );
     }
 
     function parseSpec() {
@@ -976,7 +1312,8 @@
 
     function renderDecision(decision) {
       lastDecisionId = decision.decision_id || lastDecisionId;
-      repairBtn.disabled = !lastDecisionId;
+      lastDecisionRepairable = isRepairable(decision);
+      repairBtn.disabled = !lastDecisionId || !lastDecisionRepairable;
       const checks = (decision.validator_record && decision.validator_record.checks) || [];
       const failing = checks.find((check) => check.verdict === "RULED_OUT_WRONG") || null;
       const fields = [
@@ -1020,9 +1357,59 @@
 
     async function openReplay(decisionId) {
       replayContent.innerHTML = `<div class="status">Loading replay...</div>`;
-      replayModal.classList.remove("hidden");
+      openReplayDialog();
       const replay = await request(`/replay/${encodeURIComponent(decisionId)}`);
       renderReplay(replay);
+    }
+
+    function openReplayDialog() {
+      replayReturnFocus = document.activeElement;
+      replayModal.classList.remove("hidden");
+      document.body.classList.add("modal-open");
+      Array.from(document.querySelector("main").children).forEach((element) => {
+        if (element !== replayModal) {
+          element.inert = true;
+          element.setAttribute("aria-hidden", "true");
+        }
+      });
+      replayClose.focus();
+    }
+
+    function closeReplayDialog() {
+      if (replayModal.classList.contains("hidden")) return;
+      replayModal.classList.add("hidden");
+      document.body.classList.remove("modal-open");
+      Array.from(document.querySelector("main").children).forEach((element) => {
+        if (element !== replayModal) {
+          element.inert = false;
+          element.removeAttribute("aria-hidden");
+        }
+      });
+      const returnTarget = replayReturnFocus;
+      replayReturnFocus = null;
+      if (returnTarget && returnTarget.isConnected) returnTarget.focus();
+    }
+
+    function trapReplayFocus(event) {
+      if (replayModal.classList.contains("hidden")) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeReplayDialog();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = Array.from(replayModal.querySelectorAll("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"))
+        .filter((element) => !element.disabled && !element.hidden);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
     function renderReplay(replay) {
@@ -1060,10 +1447,13 @@
           }).join("")
         : `<tr><td colspan="4" class="status">No repair attempts.</td></tr>`;
       return `<div class="kv"><div class="key">repair attempts</div><div class="value">
-        <table>
-          <thead><tr><th>#</th><th>repair prompt</th><th>verdict</th><th>reason</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
+        <div class="table-scroll compact" role="region" aria-label="Replay repair attempts" tabindex="0">
+          <table>
+            <caption class="sr-only">Repair attempts for this replay</caption>
+            <thead><tr><th scope="col">#</th><th scope="col">Repair prompt</th><th scope="col">Verdict</th><th scope="col">Reason</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
       </div></div>`;
     }
 
@@ -1138,6 +1528,8 @@
     }
 
     function addBubble(kind, text, run) {
+      const empty = thread.querySelector(".empty-state");
+      if (empty) empty.remove();
       const bubble = document.createElement("div");
       bubble.className = `bubble ${kind}`;
       bubble.textContent = text;
@@ -1190,7 +1582,9 @@
       return `<div class="scorecard">
         <div class="scorecard-caption">Coverage, not a correctness score.</div>
         <div class="value">${escapeHtml(`${pct}% covered by checkable routes`)}</div>
-        <div class="coverage-bar"><div class="coverage-fill" style="width: ${pct}%"></div></div>
+        <div class="coverage-bar" role="progressbar" aria-label="Validation coverage" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}">
+          <div class="coverage-fill" style="width: ${pct}%"></div>
+        </div>
         <div class="scorecard-grid">
           <div><div class="key">hard failures</div><div class="value">${escapeHtml(card.hard_failures ?? 0)}</div></div>
           <div><div class="key">unchecked claims</div><div class="value">${escapeHtml(card.unchecked_claims ?? 0)}</div></div>
@@ -1285,10 +1679,13 @@
             ${runKv("validator", decision.validator)}
             ${runKv("latency_ms", decision.latency_ms)}
             <div class="kv"><div class="key">repair_attempts</div><div class="value">
-              <table>
-                <thead><tr><th>#</th><th>verdict</th><th>action</th></tr></thead>
-                <tbody>${repairRows}</tbody>
-              </table>
+              <div class="table-scroll compact" role="region" aria-label="Run repair attempts" tabindex="0">
+                <table>
+                  <caption class="sr-only">Repair attempts for this run</caption>
+                  <thead><tr><th scope="col">#</th><th scope="col">Verdict</th><th scope="col">Action</th></tr></thead>
+                  <tbody>${repairRows}</tbody>
+                </table>
+              </div>
             </div></div>
             ${runKv("tokens", `${run.tokens_before} -> ${run.tokens_after} (-${Math.round((Number(run.reduction) || 0) * 100)}%)`)}
             <div class="kv"><div class="key">audit_id</div><div class="value">${escapeHtml(run.audit_id || "")} ${replayButton(run.audit_id)}</div></div>
@@ -1414,6 +1811,11 @@
         if (match) modelSelect.value = last;
       }
       renderCompareModels(models);
+      const available = models.filter((model) => model.available).length;
+      readiness.classList.toggle("warning", available === 0);
+      readinessText.textContent = available
+        ? `Verifier ready · ${available} model${available === 1 ? "" : "s"}`
+        : "Verifier ready · no models";
     }
 
     async function loadAudit() {
@@ -1421,14 +1823,14 @@
     }
 
     async function loadDashboard() {
-      dashboardStatus.textContent = "loading...";
+      setStatus(dashboardStatus, "Loading dashboard...");
       const summary = await request("/summary");
       renderDashboard(summary);
-      dashboardStatus.textContent = "loaded";
+      setStatus(dashboardStatus, "Dashboard updated.", "success");
     }
 
     async function exportFailures() {
-      dashboardStatus.textContent = "exporting...";
+      setStatus(dashboardStatus, "Preparing failure export...");
       const text = await requestText("/export/failures");
       const rows = text.trim() ? text.trim().split(/\r?\n/).length : 0;
       const blob = new Blob([text], { type: "application/x-ndjson" });
@@ -1440,7 +1842,7 @@
       link.click();
       link.remove();
       URL.revokeObjectURL(url);
-      dashboardStatus.textContent = `exported ${rows} failure rows`;
+      setStatus(dashboardStatus, `Exported ${rows} failure row${rows === 1 ? "" : "s"}.`, "success");
     }
 
     function defaultSchemaText() {
@@ -1512,14 +1914,34 @@
     modeDashboard.addEventListener("click", () => setMode("dashboard"));
     modeAgent.addEventListener("click", () => setMode("agent"));
     modeLab.addEventListener("click", () => setMode("lab"));
-    dashboardExport.addEventListener("click", () => exportFailures().catch((error) => { dashboardStatus.textContent = error.message; }));
-    dashboardRefresh.addEventListener("click", () => loadDashboard().catch((error) => { dashboardStatus.textContent = error.message; }));
+    tabList.addEventListener("keydown", handleTabKeydown);
+    dashboardExport.addEventListener("click", async () => {
+      setBusy(dashboardExport, true, "Exporting");
+      try {
+        await exportFailures();
+      } catch (error) {
+        setStatus(dashboardStatus, error.message, "error");
+      } finally {
+        setBusy(dashboardExport, false);
+      }
+    });
+    dashboardRefresh.addEventListener("click", async () => {
+      setBusy(dashboardRefresh, true, "Refreshing");
+      try {
+        await loadDashboard();
+      } catch (error) {
+        setStatus(dashboardStatus, error.message, "error");
+      } finally {
+        setBusy(dashboardRefresh, false);
+      }
+    });
     auditBody.addEventListener("click", handleReplayClick);
     thread.addEventListener("click", handleReplayClick);
-    replayClose.addEventListener("click", () => replayModal.classList.add("hidden"));
+    replayClose.addEventListener("click", closeReplayDialog);
     replayModal.addEventListener("click", (event) => {
-      if (event.target === replayModal) replayModal.classList.add("hidden");
+      if (event.target === replayModal) closeReplayDialog();
     });
+    document.addEventListener("keydown", trapReplayFocus);
     demoBar.addEventListener("click", (event) => {
       const button = event.target.closest("[data-demo]");
       if (!button) return;
@@ -1529,15 +1951,20 @@
     modelSelect.addEventListener("change", () => localStorage.setItem("routemap.model", modelSelect.value));
     compressField.checked = localStorage.getItem("routemap.compress") === "true";
     optimizeField.checked = localStorage.getItem("routemap.optimize") === "true";
+    runStrictField.checked = localStorage.getItem("routemap.run.strict") === "true";
     optimizeField.addEventListener("change", () => localStorage.setItem("routemap.optimize", String(optimizeField.checked)));
     compressField.addEventListener("change", () => localStorage.setItem("routemap.compress", String(compressField.checked)));
+    runStrictField.addEventListener("change", () => localStorage.setItem("routemap.run.strict", String(runStrictField.checked)));
     labPassage.value = localStorage.getItem("routemap.lab.passage") || labPassage.value;
     labQuestion.value = localStorage.getItem("routemap.lab.question") || labQuestion.value;
     promptField.value = localStorage.getItem("routemap.run.prompt") || promptField.value;
 
     checkForm.addEventListener("submit", async (event) => {
       event.preventDefault();
-      statusEl.textContent = "checking...";
+      setFormBusy(checkForm, true);
+      setBusy(checkBtn, true, "Checking");
+      repairBtn.disabled = true;
+      setStatus(statusEl, "Checking output...");
       try {
         const decision = await request("/check", {
           method: "POST",
@@ -1553,15 +1980,21 @@
         });
         renderDecision(decision);
         await loadAudit();
-        statusEl.textContent = "checked";
+        setStatus(statusEl, "Output checked.", "success");
       } catch (error) {
-        statusEl.textContent = error.message;
+        setStatus(statusEl, error.message, "error");
+      } finally {
+        setFormBusy(checkForm, false);
+        setBusy(checkBtn, false);
+        repairBtn.disabled = !lastDecisionId || !lastDecisionRepairable;
       }
     });
 
     repairBtn.addEventListener("click", async () => {
-      if (!lastDecisionId) return;
-      statusEl.textContent = "repairing...";
+      if (!lastDecisionId || !lastDecisionRepairable) return;
+      setFormBusy(checkForm, true);
+      setBusy(repairBtn, true, "Repairing");
+      setStatus(statusEl, "Repairing output...");
       try {
         const option = selectedOption();
         const repaired = await request("/repair", {
@@ -1583,9 +2016,13 @@
         const attempts = (repaired.attempts || []).length;
         const summary = repaired.note || (repaired.repaired ? `repaired (${attempts} attempt(s))` : "could not repair - escalated");
         const correction = repaired.exact_correction !== null && repaired.exact_correction !== undefined ? `, corrected: ${repaired.exact_correction}` : "";
-        statusEl.textContent = `${summary}${correction}`;
+        setStatus(statusEl, `${summary}${correction}`, repaired.repaired ? "success" : "");
       } catch (error) {
-        statusEl.textContent = error.message;
+        setStatus(statusEl, error.message, "error");
+      } finally {
+        setFormBusy(checkForm, false);
+        setBusy(repairBtn, false);
+        repairBtn.disabled = !lastDecisionId || !lastDecisionRepairable;
       }
     });
 
@@ -1595,9 +2032,10 @@
       if (!prompt) return;
       const option = selectedOption();
       localStorage.setItem("routemap.run.prompt", prompt);
-      promptField.value = "";
       addBubble("user", prompt);
-      chatStatus.textContent = "running...";
+      setFormBusy(chatForm, true);
+      setBusy(chatSubmit, true, "Running");
+      setStatus(chatStatus, "Running model and checks...");
       try {
         const run = await request("/run", {
           method: "POST",
@@ -1606,7 +2044,7 @@
             prompt,
             model_ref: modelSelect.value,
             runtime: option ? option.dataset.runtime : "ollama",
-            strict: strictField.checked,
+            strict: runStrictField.checked,
             optimize_prompt: optimizeField.checked,
             compress_context: compressField.checked
           })
@@ -1614,9 +2052,15 @@
         addCompressionChip(run);
         addBubble("assistant", run.model_output, run);
         await loadAudit();
-        chatStatus.textContent = "checked";
+        promptField.value = "";
+        localStorage.removeItem("routemap.run.prompt");
+        setStatus(chatStatus, "Run checked and audited.", "success");
       } catch (error) {
-        chatStatus.textContent = error.message;
+        promptField.value = prompt;
+        setStatus(chatStatus, error.message, "error");
+      } finally {
+        setFormBusy(chatForm, false);
+        setBusy(chatSubmit, false);
       }
     });
 
@@ -1624,8 +2068,16 @@
       event.preventDefault();
       const prompt = comparePrompt.value.trim();
       const models = selectedCompareModels();
-      if (!prompt || !models.length) return;
-      compareStatus.textContent = "comparing...";
+      if (!prompt) return;
+      if (!models.length) {
+        setStatus(compareStatus, "Select at least one available model.", "error");
+        const firstModel = compareModels.querySelector("input:not(:disabled)");
+        if (firstModel) firstModel.focus();
+        return;
+      }
+      setFormBusy(compareForm, true);
+      setBusy(compareSubmit, true, "Comparing");
+      setStatus(compareStatus, "Comparing selected models...");
       try {
         const result = await request("/compare", {
           method: "POST",
@@ -1634,9 +2086,12 @@
         });
         renderCompareResults(result.results || []);
         await loadAudit();
-        compareStatus.textContent = "compared";
+        setStatus(compareStatus, "Comparison complete.", "success");
       } catch (error) {
-        compareStatus.textContent = error.message;
+        setStatus(compareStatus, error.message, "error");
+      } finally {
+        setFormBusy(compareForm, false);
+        setBusy(compareSubmit, false);
       }
     });
 
@@ -1646,7 +2101,9 @@
       const goal = agentGoal.value.trim();
       if (!goal) return;
       const option = selectedOption();
-      agentStatus.textContent = "running agent...";
+      setFormBusy(agentForm, true);
+      setBusy(agentSubmit, true, "Running");
+      setStatus(agentStatus, "Running bounded agent...");
       try {
         const result = await request("/agent", {
           method: "POST",
@@ -1660,9 +2117,12 @@
         });
         renderAgent(result);
         await loadAudit();
-        agentStatus.textContent = "agent finished";
+        setStatus(agentStatus, "Agent finished and audited.", "success");
       } catch (error) {
-        agentStatus.textContent = error.message;
+        setStatus(agentStatus, error.message, "error");
+      } finally {
+        setFormBusy(agentForm, false);
+        setBusy(agentSubmit, false);
       }
     });
 
@@ -1671,7 +2131,9 @@
       event.preventDefault();
       localStorage.setItem("routemap.lab.passage", labPassage.value);
       localStorage.setItem("routemap.lab.question", labQuestion.value);
-      labStatus.textContent = "routing...";
+      setFormBusy(labForm, true);
+      setBusy(labSubmit, true, "Routing");
+      setStatus(labStatus, "Routing passage...");
       try {
         const result = await request("/route", {
           method: "POST",
@@ -1683,16 +2145,23 @@
           })
         });
         renderRoute(result);
-        labStatus.textContent = "routed";
+        setStatus(labStatus, "Passage routed.", "success");
       } catch (error) {
-        labStatus.textContent = error.message;
+        setStatus(labStatus, error.message, "error");
+      } finally {
+        setFormBusy(labForm, false);
+        setBusy(labSubmit, false);
       }
     });
 
     setMode(localStorage.getItem("routemap.mode") || "check");
     syncTaskFields();
-    loadModels().catch((error) => { statusEl.textContent = error.message; });
-    loadAudit().catch((error) => { statusEl.textContent = error.message; });
+    loadModels().catch((error) => {
+      readiness.classList.add("warning");
+      readinessText.textContent = "Verifier ready · model list unavailable";
+      setStatus(statusEl, error.message, "error");
+    });
+    loadAudit().catch((error) => { setStatus(statusEl, error.message, "error"); });
   </script>
 </body>
 </html>

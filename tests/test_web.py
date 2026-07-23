@@ -53,6 +53,26 @@ def test_app_page_served(tmp_path: Path) -> None:
     assert "Coverage, not a correctness score." in response.text
 
 
+def test_app_page_exposes_accessible_interaction_contracts(tmp_path: Path) -> None:
+    api.app.state.audit_path = str(tmp_path / "audit.jsonl")
+    client = TestClient(api.app)
+
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert 'role="tab" aria-selected="true" aria-controls="check-panel" tabindex="0"' in response.text
+    assert 'role="tabpanel" aria-labelledby="mode-run" tabindex="0" hidden' in response.text
+    assert 'id="run-detail-container" class="thread" role="log" aria-live="polite"' in response.text
+    assert 'role="status" aria-live="polite" aria-atomic="true"' in response.text
+    assert 'role="progressbar" aria-label="Validation coverage"' in response.text
+    assert 'id="prompt"' in response.text and "required aria-describedby=\"chat-status\"" in response.text
+    assert 'id="run-strict"' in response.text
+    assert 'class="table-scroll wide" role="region"' in response.text
+    assert "handleTabKeydown" in response.text
+    assert "trapReplayFocus" in response.text
+    assert "setBusy" in response.text
+
+
 def test_models_reports_ollama_available() -> None:
     client = TestClient(api.app)
 
