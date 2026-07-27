@@ -12,3 +12,12 @@
 *.txt text eol=lf
 *.yaml text eol=lf
 *.yml text eol=lf
+
+# Frozen fixture manifests verify exact bytes; never rewrite line endings.
+data/blind/v1/arithmetic_blind_500.jsonl -text
+data/blind/v1/extraction_blind_100.csv -text
+data/blind/v1/retrieval_blind_100.jsonl -text
+data/blind/v1/retrieval_corpus.jsonl -text
+data/blind/v1/schema_outputs_blind_200.jsonl -text
+data/harness_gold/cases.jsonl -text
+data/harness_gold/README.md -text

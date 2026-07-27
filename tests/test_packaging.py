@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import ast
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -80,3 +81,21 @@ def test_package_imports_do_not_depend_on_unshipped_top_level_modules() -> None:
             referenced_modules.update(imported & root_modules)
 
     assert referenced_modules <= shipped_modules
+
+
+def test_frozen_fixture_bytes_are_cross_platform_stable() -> None:
+    blind_root = ROOT / "data" / "blind" / "v1"
+    manifest = json.loads((blind_root / "manifest.json").read_text(encoding="utf-8"))
+    attributes = {
+        line.strip()
+        for line in (ROOT / ".gitattributes").read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.startswith("#")
+    }
+
+    for name, expected in manifest["sha256"].items():
+        path = blind_root / name
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == expected
+        assert f"data/blind/v1/{name} -text" in attributes
+
+    for name in ("cases.jsonl", "README.md"):
+        assert f"data/harness_gold/{name} -text" in attributes
