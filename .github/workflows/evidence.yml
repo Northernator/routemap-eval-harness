@@ -49,15 +49,17 @@ jobs:
             rm_test_matrix.py
 
       - name: Acceptance contract
+        if: ${{ !cancelled() }}
         env:
           PYTHONPATH: src
         run: python scripts/check_acceptance.py
 
       - name: Evidence runner
+        if: ${{ !cancelled() }}
         run: python run_evidence.py
 
       - name: Upload EVIDENCE/RESULTS.md
-        if: always()
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: evidence-results-py${{ matrix.python-version }}
