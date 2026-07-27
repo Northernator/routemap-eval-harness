@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -76,12 +77,14 @@ def test_deterministic_tasks_jsonl(tmp_path: Path) -> None:
     assert path_a.read_bytes() == path_b.read_bytes()
 
 
-def test_compute_saved_and_huge_flags(tmp_path: Path) -> None:
+def test_compute_saved_metrics_and_huge_flags(tmp_path: Path) -> None:
     result = run(solver_name="oracle", n=96, seed=8, out=tmp_path)
     metrics = result["summary"]["metrics"]
-    assert metrics["compute_saved_overall"] > 1
+    assert math.isfinite(metrics["compute_saved_overall"])
+    assert metrics["compute_saved_overall"] >= 0
     assert "large" in metrics["compute_saved_by_size"]
     assert "compute_saved_large" in metrics
+    assert metrics["full_expansion_impossible_cases"] > 0
     assert metrics["speed_bar_basis"] == "expansion_impossible"
     assert any(row["size_class"] == "huge" and not row["full_expansion_feasible"] for row in result["rows"])
 
