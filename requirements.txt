@@ -1,3 +1,2 @@
-pandas
-numpy
-matplotlib
+# Editable core project plus Phase 1-2 offline benchmark tools.
+-e .[benchmark]

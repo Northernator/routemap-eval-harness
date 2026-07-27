@@ -5,11 +5,28 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 .ipynb_checkpoints/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+build/
+dist/
+site/
 
 # Virtual environments
 .venv/
+.venv-*/
 venv/
 env/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
 
 # Data scratch / run outputs (the gold sets, slice records and cached corpora ARE committed)
 data/outputs/
@@ -32,3 +49,6 @@ EVIDENCE/
 Thumbs.db
 .idea/
 .vscode/
+*.log
+*.tmp
+*.swp

@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://routemap.local/schemas/harness_decision_v1.schema.json",
+  "title": "RouteMap Harness Decision v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "decision_id",
+    "timestamp",
+    "task_type",
+    "route_family",
+    "verdict",
+    "action",
+    "final_status",
+    "validator",
+    "reason",
+    "input_hash",
+    "repair_attempt",
+    "latency_ms"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "harness_decision_v1"
+    },
+    "decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_type": {
+      "enum": [
+        "arithmetic",
+        "json_schema",
+        "tool_call",
+        "grounded_qa",
+        "python_code",
+        "extraction",
+        "long_context_qa",
+        "retrieval",
+        "unknown"
+      ]
+    },
+    "route_family": {
+      "enum": [
+        "digital_residue",
+        "sound_checker",
+        "grounding",
+        "token_element",
+        "embedding",
+        "full_compute",
+        "human_review"
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "RULED_OUT_WRONG",
+        "NOT_RULED_OUT",
+        "UNCHECKABLE"
+      ]
+    },
+    "action": {
+      "enum": [
+        "accept",
+        "repair",
+        "retry",
+        "escalate",
+        "reject",
+        "full_compute"
+      ]
+    },
+    "final_status": {
+      "enum": [
+        "accepted",
+        "rejected",
+        "escalated",
+        "repaired",
+        "failed"
+      ]
+    },
+    "validator": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "input_hash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repair_attempt": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "latency_ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "model": {
+      "type": "string"
+    },
+    "tokens": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "cost_usd": {
+      "type": "number",
+      "minimum": 0
+    },
+    "validator_record": {
+      "type": "object"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "validator": {
+            "const": ""
+          }
+        },
+        "required": [
+          "validator"
+        ]
+      },
+      "then": {
+        "properties": {
+          "action": {
+            "const": "escalate"
+          },
+          "task_type": {
+            "const": "unknown"
+          }
+        }
+      }
+    }
+  ]
+}

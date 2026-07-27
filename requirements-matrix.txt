@@ -1,6 +1,5 @@
 # Matrix / KV layer only (routemap_matrix). Full run sheet: src/routemap_matrix/HANDOFF.md
-transformers>=4.44
-accelerate
+-e .[matrix]
 
 # torch must match your GPU's CUDA and is installed separately, e.g.:
 #   pip install torch --index-url https://download.pytorch.org/whl/cu124

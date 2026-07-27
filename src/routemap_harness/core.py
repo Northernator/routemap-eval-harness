@@ -14,6 +14,8 @@ from routemap_controller import route_decide
 from routemap_token import route_passage
 from routemap_validators.verdicts import NOT_RULED_OUT, RULED_OUT_WRONG, UNCHECKABLE
 
+from .schema import load_decision_schema
+
 SCHEMA_VERSION = "harness_decision_v1"
 
 TASK_TYPES = {
@@ -164,11 +166,14 @@ def route_tokens(passage: str, question: str, *, router: str = "element") -> dic
     }
 
 
-def validate_config(schema_path: str | Path) -> dict[str, Any]:
+def validate_config(schema_path: str | Path | None = None) -> dict[str, Any]:
     errors: list[str] = []
-    path = Path(schema_path)
     try:
-        schema = json.loads(path.read_text(encoding="utf-8"))
+        schema = (
+            load_decision_schema()
+            if schema_path is None
+            else json.loads(Path(schema_path).read_text(encoding="utf-8"))
+        )
     except OSError as exc:
         return {"ok": False, "errors": [f"schema file unreadable: {exc}"], "lanes": dict(LANE_REGISTRY)}
     except json.JSONDecodeError as exc:

@@ -7,10 +7,12 @@ numbers, and writes EVIDENCE/RESULTS.md. Run from the harness root:
     cd routemap_eval_harness/routemap_eval_harness
     python run_evidence.py
 
-Offline steps need only Python + numpy. The matrix self-check needs torch+transformers (CPU).
+Offline steps use the declared ``dev`` dependencies. The matrix self-check needs
+torch+transformers (CPU).
 The live-ollama validator N=30 numbers and the GPU matrix numbers are environment-gated (see notes).
 """
 from __future__ import annotations
+import importlib.util
 import os
 import subprocess
 import sys
@@ -25,13 +27,14 @@ ENV = {**os.environ, "PYTHONPATH": str(SRC), "PYTHONPYCACHEPREFIX": str(OUT / "_
 
 def _have(mod: str) -> bool:
     try:
-        __import__(mod)
-        return True
+        return importlib.util.find_spec(mod) is not None
     except Exception:
         return False
 
 
 TORCH = _have("torch")
+TRANSFORMERS = _have("transformers")
+MATRIX_DEPS = TORCH and TRANSFORMERS
 
 STEPS = [
     ("pytest: validators", [sys.executable, "-m", "pytest", "rv_test_validator_package.py", "-q"], "sound checkers; tool-call firewall; FP 0.000"),
@@ -48,6 +51,21 @@ STEPS = [
     ("pytest: agent loop", [sys.executable, "-m", "pytest", "tests/test_agent.py", "-q"], "bounded agent control loop"),
     ("pytest: api+audit+web", [sys.executable, "-m", "pytest", "tests/test_api.py", "tests/test_audit.py", "tests/test_web.py", "-q"], "route endpoint + audit summaries + web surface"),
     ("pytest: run store + replay", [sys.executable, "-m", "pytest", "tests/test_run_store.py", "-q"], "replay/export run log"),
+    (
+        "pytest: remaining harness contracts",
+        [
+            sys.executable,
+            "-m",
+            "pytest",
+            "tests/test_adapters.py",
+            "tests/test_cli.py",
+            "tests/test_escalation.py",
+            "tests/test_repair.py",
+            "tests/test_scaffold.py",
+            "-q",
+        ],
+        "adapter, CLI, escalation, repair, and package-install contracts",
+    ),
     ("pytest: matrix core", [sys.executable, "-m", "pytest", "rm_test_matrix.py", "-q"], "route/validate core (numpy)"),
     ("bench: validators regression", [sys.executable, "-m", "routemap_validators.run_regression"], "FP 0.000; JSON rule-out 0.600 (cached corpus)"),
     ("bench: HugeArithmeticRouteBench", [sys.executable, "-m", "routemap_bench", "run", "--out", str(OUT / "bench_arith")], "catch 1.000; oracle agreement 1.000"),
@@ -86,11 +104,11 @@ def main():
         print(f"[{status}] {name}  ({time.time() - t0:.1f}s)")
         rows.append((name, status, note, _tail(log)))
     for name, argv, note in GATED:
-        if TORCH:
+        if MATRIX_DEPS:
             rc, log = _run(argv)
             status = "PASS" if rc == 0 else "FAIL"
         else:
-            status, log = "SKIP", "torch not installed"
+            status, log = "SKIP", "torch and/or transformers not installed"
         print(f"[{status}] {name}  ({note})")
         rows.append((name, status, note, _tail(log)))
 
@@ -107,7 +125,11 @@ def main():
     (OUT / "RESULTS.md").write_text("\n".join(lines), encoding="utf-8")
 
     npass = sum(1 for _, s, _, _ in rows if s == "PASS")
+    failed = [name for name, status, _, _ in rows if status == "FAIL"]
     print(f"\n{npass}/{len(rows)} steps passed (SKIP = needs torch/ollama/GPU). Wrote {OUT / 'RESULTS.md'}.")
+    if failed:
+        print(f"Evidence failed: {', '.join(failed)}", file=sys.stderr)
+        return 1
     return 0
 
 

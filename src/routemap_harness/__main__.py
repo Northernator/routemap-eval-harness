@@ -4,19 +4,13 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import sys
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
-from .audit_store import summarize
+from .audit_store import DEFAULT_AUDIT, summarize
 from .core import append_audit_record, harness_check, route_tokens, validate_config
 from .policy import repair, repair_stub
-
-
-ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_AUDIT = ROOT / "data" / "outputs" / "audit.jsonl"
-DEFAULT_SCHEMA = ROOT / "schemas" / "harness_decision_v1.schema.json"
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -118,7 +112,7 @@ def _cmd_route(args: argparse.Namespace) -> int:
 
 
 def _cmd_validate_config(args: argparse.Namespace) -> int:
-    result = validate_config(DEFAULT_SCHEMA)
+    result = validate_config()
     print(_json(result))
     return 0 if result["ok"] else 1
 
@@ -127,15 +121,8 @@ def _cmd_serve(args: argparse.Namespace) -> int:
     try:
         import uvicorn
     except ModuleNotFoundError:
-        print("serve needs the API extras: pip install -r requirements-api.txt", file=sys.stderr)
+        print("serve needs the API extras: pip install 'routemap-harness[api]'", file=sys.stderr)
         return 2
-    src = str(ROOT / "src")
-    if src not in sys.path:
-        sys.path.insert(0, src)
-    # let the --reload subprocess import the package without a manual PYTHONPATH
-    pythonpath = os.environ.get("PYTHONPATH", "")
-    if src not in pythonpath.split(os.pathsep):
-        os.environ["PYTHONPATH"] = os.pathsep.join(part for part in (src, pythonpath) if part)
     print(f"RouteMap cockpit -> http://{args.host}:{args.port}  (Ctrl+C to stop)", file=sys.stderr)
     uvicorn.run("routemap_harness.api:app", host=args.host, port=int(args.port), reload=bool(args.reload))
     return 0

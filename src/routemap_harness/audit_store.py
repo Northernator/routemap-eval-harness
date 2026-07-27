@@ -7,10 +7,10 @@ from collections import Counter
 from pathlib import Path
 from typing import Any, Iterable, Mapping
 
+from .schema import load_decision_schema
 
-ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_AUDIT = ROOT / "data" / "outputs" / "audit.jsonl"
-DEFAULT_SCHEMA = ROOT / "schemas" / "harness_decision_v1.schema.json"
+
+DEFAULT_AUDIT = Path("data") / "outputs" / "audit.jsonl"
 
 
 def append(decision: Any, path: str | Path = DEFAULT_AUDIT) -> dict[str, Any]:
@@ -160,7 +160,7 @@ def _as_record(decision: Any) -> dict[str, Any]:
 
 
 def _schema() -> dict[str, Any]:
-    return json.loads(DEFAULT_SCHEMA.read_text(encoding="utf-8"))
+    return load_decision_schema()
 
 
 def _validate_value(key: str, value: Any, spec: Mapping[str, Any]) -> None:

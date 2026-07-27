@@ -51,9 +51,12 @@ def main() -> int:
 
 def _check_requirements_dev() -> None:
     reqs = (ROOT / "requirements-dev.txt").read_text(encoding="utf-8")
-    for dep in ("numpy", "pytest", "jsonschema"):
-        assert dep in reqs, f"missing {dep}"
-    assert (ROOT / "pyproject.toml").read_text(encoding="utf-8").count("routemap-harness") >= 2
+    project = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert ".[dev" in reqs, "requirements-dev must install the declared dev extra"
+    assert "dev = [" in project, "missing dev dependency group"
+    for dep in ("numpy", "pytest", "jsonschema", "fastapi", "httpx"):
+        assert dep in project, f"missing {dep}"
+    assert project.count("routemap-harness") >= 2
 
 
 def _check_all_lanes() -> None:
@@ -108,7 +111,15 @@ def _check_run_evidence() -> None:
     text = (ROOT / "run_evidence.py").read_text(encoding="utf-8")
     assert "pytest: harness core+gold" in text
     assert "tests/test_harness_gold.py" in text
+    assert "pytest: remaining harness contracts" in text
+    assert "tests/test_adapters.py" in text
+    assert "tests/test_cli.py" in text
+    assert "tests/test_escalation.py" in text
+    assert "tests/test_repair.py" in text
+    assert "tests/test_scaffold.py" in text
     assert "demo: harness CLI check" in text
+    assert 'status == "FAIL"' in text
+    assert "return 1" in text
 
 
 def _check_docs_agree() -> None:

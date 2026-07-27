@@ -7,8 +7,7 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping
 
 
-ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_RUNS = ROOT / "data" / "outputs" / "runs.jsonl"
+DEFAULT_RUNS = Path("data") / "outputs" / "runs.jsonl"
 
 
 def append_run(record: Mapping[str, Any], path: str | Path = DEFAULT_RUNS) -> dict[str, Any]:

@@ -1,0 +1,8 @@
+include README.md
+include pyproject.toml
+recursive-include src/routemap_harness/schemas *.json
+recursive-include src/routemap_harness/web *.html
+prune data/outputs
+prune data/runs
+prune EVIDENCE
+global-exclude __pycache__ *.py[cod]
