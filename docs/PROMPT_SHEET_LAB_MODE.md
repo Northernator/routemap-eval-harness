@@ -1,5 +1,8 @@
 # RouteMap Lab Mode — VS Code / Codex Prompt Sheet
 
+> Historical build record. These paste-ready implementation slices may already be complete and must not be
+> treated as current repository instructions. Consult `README.md`, `CONTRIBUTING.md`, and current tests first.
+
 Paste-ready specs to implement `ROADMAP_LAB_MODE.md`. Built for the Codex paste-spec loop.
 
 ## How to use

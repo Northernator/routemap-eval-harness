@@ -11,13 +11,21 @@ integration, a locked audit schema, and a zero-false-positive / no-self-grading 
 > model from the browser.
 
 ## Quick start
+
+RouteMap supports Python 3.10+; CI verifies Python 3.10 and 3.11.
+
 ```powershell
-git clone https://github.com/Northernator/routemap-eval-harness
+git clone https://github.com/Northernator/routemap-eval-harness.git
 cd routemap-eval-harness                           # repo root = package root (src/, run_evidence.py live here)
-pip install -r requirements-dev.txt                # python + numpy + pytest
-$env:PYTHONPATH='src'                              # bash/macOS: export PYTHONPATH=src
-python run_evidence.py                             # runs the suites + offline benchmarks -> EVIDENCE/RESULTS.md
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1                       # bash/macOS: source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements-dev.txt
+python -m pytest -q
+python scripts/check_acceptance.py
 ```
+
+See [`docs/RUNNING.md`](docs/RUNNING.md) for API/UI setup and troubleshooting.
 
 ## Cockpit (Lab Mode)
 A local control page — a single-file UI plus a FastAPI surface — makes the route-and-validate loop visible.
@@ -86,6 +94,11 @@ export never weaken the audit contract.
 - Per-slice record of every result: `data/v1/digital_route/records/PHASE3_INDEX.md` + `SLICE_01..16_*.md`.
 - GPU (matrix) handoff: [`src/routemap_matrix/HANDOFF.md`](src/routemap_matrix/HANDOFF.md).
 
+Generated evidence is checkout-specific and written under ignored output directories. Record
+`git rev-parse HEAD`, Python/OS details, and any optional runtime/model configuration when publishing
+results. A passing run supports only the tested checkout, fixtures, and environment; it is not a
+general correctness or security certificate.
+
 ## Claims and no-claims
 **Claimed (verified):** a routed library of sound checkers holds 0.000 practical false positives on real
 wrapped model output across arithmetic/code/JSON; structured-output verification is genuinely useful (60% of
@@ -102,8 +115,8 @@ the value is integration, the audit schema, and the discipline. Three lanes are 
 negatives**: the token-routing ceiling, the embedding recall/speed split, and the matrix hardware wall.
 
 ## Status
-Seven phases built; four verified positives plus three characterized negatives. Internal correctness is
-verified (every slice re-run and re-derived against source), and a **frozen held-out blind benchmark**
+Seven phases built; four verified positives plus three characterized negatives. Current tests and named
+evidence pass (every slice re-run and re-derived against source), and a **frozen held-out blind benchmark**
 (`data/blind/v1/`, scored once, never tuned against) shows the arithmetic and structured-output lanes holding
 catch 1.000 / false-positive 0.000 on fresh data. Remaining: cross-model coverage and the hardware-gated GPU
 attention measurement.
@@ -130,4 +143,17 @@ route-extractor stub, and scores the outputs under `data/outputs/`. Batch evalua
 Key findings from this phase: an LLM role classifier beats deterministic baselines at every taxonomy level
 (in-domain 0.825 / out-of-domain 0.556); an extractive entity field with a domain-general fallback transfers
 where a fixed ontology collapses; and a lexical leakage probe showed synthetic gold cannot certify
-generalization — human gold is the gate. See `RouteMap_Phase2_Benchmark_Report.docx` and `data/v1/gold/`.
+generalization — human gold is the gate. See the tracked records under
+`data/v1/digital_route/records/` and the datasets under `data/v1/gold/`.
+
+## Contributing and project policies
+
+- Contribution setup and review expectations: [`CONTRIBUTING.md`](CONTRIBUTING.md)
+- Security reporting: [`SECURITY.md`](SECURITY.md)
+- Support and issue routing: [`SUPPORT.md`](SUPPORT.md)
+- Community standards: [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)
+- User-visible changes and known limitations: [`CHANGELOG.md`](CHANGELOG.md)
+- Maintainer release gate: [`docs/PUBLIC_RELEASE_CHECKLIST.md`](docs/PUBLIC_RELEASE_CHECKLIST.md)
+
+Before public release, maintainers must add an explicit repository license. Until then, no permission
+to copy, modify, or redistribute the code should be inferred.

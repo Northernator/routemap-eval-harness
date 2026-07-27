@@ -2,7 +2,10 @@
 
 **From "AI output checker" to "AI reliability cockpit."**
 
-Status: 2026-06-24 · Owner: Chris · Scope: product/UX surface over the existing harness (not new theory).
+> Historical implementation roadmap. Capabilities and status statements below describe the plan when written,
+> not the current release. Use the root README and tests for current behavior.
+
+Status: archived plan from 2026-06-24 · Owner: project maintainers · Scope: product/UX surface over the existing harness (not new theory).
 Companion build file: `PROMPT_SHEET_LAB_MODE.md` (paste-ready Codex specs, one slice at a time).
 
 ---

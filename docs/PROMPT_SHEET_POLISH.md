@@ -1,5 +1,8 @@
 # RouteMap Cockpit Polish — Codex Prompt Sheet
 
+> Historical build record. These paste-ready implementation slices may already be complete and must not be
+> treated as current repository instructions. Consult `README.md`, `CONTRIBUTING.md`, and current tests first.
+
 Paste-ready specs to polish the existing cockpit into an "AI reliability cockpit." No new theory lanes —
 presentation and one small API fix only. Built for the Codex paste-spec loop.
 

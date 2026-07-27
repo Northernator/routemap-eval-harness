@@ -3,7 +3,7 @@
 Run from:
 
 ```powershell
-Set-Location 'C:\dev\RouteMap\routemap_eval_harness\routemap_eval_harness'
+Set-Location '<path-to-clone>\routemap-eval-harness'
 ```
 
 ## First 5 Raw Outputs

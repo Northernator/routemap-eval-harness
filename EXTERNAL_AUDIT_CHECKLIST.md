@@ -6,10 +6,14 @@ Python + numpy.
 
 ## 0. Get the code
 ```
-git clone https://github.com/Northernator/routemap-eval-harness
+git clone https://github.com/Northernator/routemap-eval-harness.git
 cd routemap-eval-harness
-git rev-parse HEAD     # expect d3b773a74a40b0470f592afa506c61a1a6b4dd95
+git switch --detach <release-tag-or-full-commit>
+git rev-parse HEAD
+git status --short
 ```
+Use the tag or full commit named by the result being audited. Record the resolved full hash, and continue
+only from a clean checkout. For current unreleased work, omit `git switch` and label the result unreleased.
 
 ## 1. Environment
 - Python 3.11 (3.10 also works).
@@ -22,9 +26,11 @@ pip install -r requirements-dev.txt     # numpy + pytest (+ pandas/matplotlib fo
 ## 2. Run the test suites (expect all PASS)
 ```
 # set src on the path first:  PowerShell: $env:PYTHONPATH='src'   bash: export PYTHONPATH=src
-python -m pytest rv_test_validator_package.py rd_test_digital_engine.py rb_test_bench.py rt_test_token.py re_test_embedding.py rc_test_controller.py rm_test_matrix.py -q
+python -m pytest -q
+python scripts/check_acceptance.py
 ```
-Expected: seven suites pass (validators, digital, bench, token, embedding, controller, matrix-core).
+Expected: the full discovered suite and every acceptance check pass. Preserve complete output, including
+skip reasons; do not treat an omitted or skipped lane as passed.
 
 ## 3. Run the evidence runner (one command)
 ```
@@ -39,7 +45,7 @@ benchmarks/demos. The matrix self-check is skipped unless `torch` is installed.
 | Validators | `python -m routemap_validators.run_regression` | status PASS; arith/json extracted rule-out 1.000 / 0.600; FP 0.000 |
 | Digital engine | `rd_test_digital_engine.py`; `python -m routemap_digital check "7^1000000 mod 9"` | 8/8 tests; prints `7` |
 | Arithmetic bench | `python -m routemap_bench run` | catch 1.000, false-reject 0.000, oracle_verifier_agreement 1.000 |
-| Token routing | `python -m routemap_token run` | dataset v1_full_extraction_gold (99); ~0.34 reduction at <1% recall loss; min PASS / strong FAIL |
+| Token routing | `python -m routemap_token run` | default element router: about 0.44 reduction at <1% recall loss on the named dataset; inspect current output for exact values |
 | Embedding | `python -m routemap_embedding run` | recall/speed frontier; minimum_bar FAIL / strong_bar FAIL (characterized negative) |
 | Controller | `python -m routemap_controller demo --out EVIDENCE/controller_demo` | 7 plans, 7 schema-valid audit rows, 1 escalation |
 | Matrix core | `rm_test_matrix.py` | 9/9 (route/validate core; numpy) |
@@ -64,3 +70,13 @@ A held-out suite is in `data/blind/v1/` (seed 20260623, independent ground truth
 ## 8. Remaining honest gaps
 - Cross-model coverage: the validator numbers were developed against a single local model; multi-model runs are pending.
 - A human-annotated gold set for the semantic/extraction lane (the synthetic-gold leakage caveat from Phase 2 still applies; the blind extraction lane uses a deterministic baseline, LLM path ollama-gated).
+- `NOT_RULED_OUT` is one-sided: it records that implemented checks found no hard failure, not that an output is correct.
+- Dataset-level zero false accepts does not establish a universal zero-failure rate.
+- Cached outputs reproduce scoring logic, not current behavior of a changing model or provider.
+- Generated evidence under `EVIDENCE/` is ignored and must be paired with commit/environment metadata before publication.
+
+## 9. Audit record to retain
+
+Record the full commit hash, clean-status result, Python version, operating system, dependency versions,
+commands run, skipped steps and reasons, generated report hashes, and any model/provider/hardware identifiers.
+Use [`docs/PUBLIC_RELEASE_CHECKLIST.md`](docs/PUBLIC_RELEASE_CHECKLIST.md) for a maintainer release audit.

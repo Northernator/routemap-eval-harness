@@ -13,7 +13,7 @@ Important honesty note:
 
 Suggested placement:
 
-`C:\dev\RouteMap\routemap_eval_harness\routemap_eval_harness\data\v1\true_blind_natural_language\annotation\true_blind_gold.csv`
+`data/v1/true_blind_natural_language/annotation/true_blind_gold.csv`
 
 Columns included:
 - `segment_id`

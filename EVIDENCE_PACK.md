@@ -1,14 +1,17 @@
 # RouteMap Evidence Pack
 
-Everything needed for a third party to reproduce the headline numbers cold. The goal is to move from
-"the build reports it works" to "anyone can run it and get the same tables."
+Instructions and tracked inputs needed for a third party to rerun the project evidence locally. Results
+remain specific to a checkout, environment, and dataset; rerunning can reveal drift but does not certify
+general model correctness, production safety, or performance on untested distributions.
 
 ## 1. Repo state
 - Repository: https://github.com/Northernator/routemap-eval-harness
-- Reproduce against commit **`d3b773a`** ("Initial commit: RouteMap - route-and-validate control layer for LLMs").
-  Full hash: `d3b773a74a40b0470f592afa506c61a1a6b4dd95`.
-- Verify your checkout with `git rev-parse HEAD`. Run all commands from the repo root (`src/` and
-  `run_evidence.py` are at the top level), with `src` on `PYTHONPATH`.
+- For a published result, check out the release tag or full commit hash named with that result. For an
+  unreleased audit, use the current checkout and state that it is unreleased.
+- Record the exact checkout with `git rev-parse HEAD` and confirm `git status --short` is empty before
+  running evidence. Do not assume the latest `main` reproduces an older result.
+- Run all commands from the repository root (`src/` and `run_evidence.py` are at the top level), with
+  `src` on `PYTHONPATH`.
 
 ## 2. Environment
 - Python 3.11 (verified on 3.10/3.11). `numpy` only for six of the seven packages.
@@ -26,12 +29,12 @@ pip install -r requirements-matrix.txt   # + a torch build for your GPU (Maxwell
 
 ## 4. One command to reproduce
 ```
-cd routemap_eval_harness/routemap_eval_harness
 python run_evidence.py
 ```
 Runs the seven test suites and the offline benchmarks, then writes `EVIDENCE/RESULTS.md` with pass/fail and
 captured log tails. Offline steps need only Python + numpy; the matrix self-check needs torch; the live-ollama
-and GPU numbers are environment-gated (noted in the output).
+and GPU numbers are environment-gated (noted in the output). `EVIDENCE/` is ignored because these files are
+generated; preserve the result separately with the full commit hash and environment metadata when publishing it.
 
 ## 5. Headline results (verified) and how each reproduces
 | Lane | Verified headline | Reproduce |
@@ -65,8 +68,18 @@ No lossless recovery from any fingerprint (information floor); no digital-root m
 no universal speedup (residue verify is slower than recompute at ordinary sizes); the checkers are one-sided —
 they establish wrongness, never correctness; no novel core algorithms (residues/AST/schema/IDF/LSH are standard) —
 the contribution is integration, the audit schema, and the zero-false-positive / no-self-grading discipline.
-Full version: `ROADMAP_BASELINE.md` and the report's "What is not claimed" section.
+See [`README.md`](README.md#claims-and-no-claims) and the per-slice records listed below.
 
-## 9. Per-slice records and the report
+## 9. Per-slice records and generated reports
 - `data/v1/digital_route/records/PHASE3_INDEX.md` + `SLICE_01..16_*.md` — dated record of every slice with verified numbers.
-- `RouteMap_Intelligence_Architecture_Report.docx` (repo root / workspace) — the synthesized build & verification report.
+- `EVIDENCE/RESULTS.md` and `EVIDENCE/HARNESS_RESULTS.md` — generated, ignored reports for the current checkout.
+
+## 10. Interpretation limits
+
+- Zero observed false accepts means zero in the named fixtures and runs, not zero for every possible input.
+- `NOT_RULED_OUT` means no implemented hard check disproved the output; it never means "correct."
+- Cached model-output results can be rescored offline, but they do not measure current provider behavior.
+- Live model, API, Ollama, and GPU rows are conditional on explicitly recorded external software and hardware.
+- Small or synthetic datasets do not establish population-level generalization.
+- Timing and memory results vary by machine, operating system, Python build, and background load.
+- Generated evidence should include skipped/failed steps; a partial run must not be presented as a full pass.

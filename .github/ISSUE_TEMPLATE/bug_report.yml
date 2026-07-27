@@ -1,0 +1,51 @@
+name: Bug report
+description: Report reproducible RouteMap behavior
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include credentials, private prompts, or vulnerability details. Use SECURITY.md for security reports.
+  - type: input
+    id: commit
+    attributes:
+      label: RouteMap commit
+      description: Full output of `git rev-parse HEAD`
+      placeholder: 40-character commit hash
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, Python version, and relevant optional runtime
+      placeholder: Windows 11, Python 3.11, offline core
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Commands or UI actions using synthetic, non-sensitive data
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include redacted error output and whether behavior is deterministic
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification attempted
+      description: Tests, acceptance checks, or evidence commands run and their outcomes
