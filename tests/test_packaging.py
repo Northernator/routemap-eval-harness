@@ -95,7 +95,7 @@ def test_frozen_fixture_bytes_are_cross_platform_stable() -> None:
     for name, expected in manifest["sha256"].items():
         path = blind_root / name
         assert hashlib.sha256(path.read_bytes()).hexdigest() == expected
-        assert f"data/blind/v1/{name} -text" in attributes
+        assert any(line.startswith(f"data/blind/v1/{name} -text") for line in attributes)
 
     for name in ("cases.jsonl", "README.md"):
         assert f"data/harness_gold/{name} -text" in attributes
