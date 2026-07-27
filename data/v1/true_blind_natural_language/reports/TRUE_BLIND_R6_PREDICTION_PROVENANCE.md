@@ -1,8 +1,8 @@
 # Heldout R6 Generalisation Split Provenance
 
-- source split: `data\v1\true_blind_natural_language\annotation\true_blind_gold_frozen.csv`
+- source split: `data/v1/true_blind_natural_language/annotation/true_blind_gold_frozen.csv`
 - split status: existing test split, not newly sampled
-- row selection: all rows from `expanded_test_v2.csv`
+- row selection: all rows from `data/v1/true_blind_natural_language/annotation/true_blind_gold_frozen.csv`
 - evaluated rows requested: 72
 - calibration leakage check: no overlap with `HELDOUT2` calibration segment_ids
 - gold files modified: no

@@ -1,0 +1,26 @@
+RouteMap Evaluation Harness
+Copyright 2026 RouteMap contributors
+https://github.com/Northernator/routemap-eval-harness
+
+Software in this distribution is licensed under the Apache License,
+Version 2.0, in LICENSE. This includes source code, tests, scripts,
+schemas, configuration, packaging and build files, GitHub automation,
+and the cockpit HTML, CSS, and JavaScript.
+
+Repository-authored documentation, prompts, examples, benchmark
+fixtures, annotations, datasets, and reports are licensed under the
+Creative Commons Attribution 4.0 International Public License in
+LICENSE-DATA.
+
+For CC BY 4.0 attribution, identify "RouteMap contributors", name
+"RouteMap Evaluation Harness", link to the repository above when
+reasonably practicable, retain the license notice, and indicate changes.
+
+CC BY 4.0 applies to tracked model or provider outputs only to the
+extent RouteMap contributors hold rights that can be licensed. It does
+not license underlying models, services, third-party source material,
+trade names, trademarks, or other rights their owners retain.
+
+See THIRD_PARTY_NOTICES.md and data/README.md for provenance,
+third-party references, exclusions, and output-rights notes. This
+NOTICE is informational and does not modify either license.

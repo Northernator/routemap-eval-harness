@@ -5,8 +5,10 @@ was reviewed for the exact release commit; it is not a permanent certification.
 
 ## Blocking decisions
 
-- [ ] Maintainer selected an OSI-compatible license appropriate for code and tracked data/model-output fixtures.
-- [ ] `LICENSE` is present, README points to it, and third-party/data notices are consistent with that choice.
+- [ ] Maintainer confirmed Apache-2.0 for software and CC BY 4.0 for repository-authored documentation/data,
+   including redistribution rights for tracked model/provider outputs.
+- [ ] `LICENSE`, `LICENSE-DATA`, `NOTICE`, and `THIRD_PARTY_NOTICES.md` are present; README and data
+   provenance inventory describe the same scope and exclusions.
 - [ ] Maintainer reviewed Git history for personal data, local paths, secrets, and files that should not become
       public, then either rewrote history before publication or explicitly accepted the retained history.
 - [ ] Packaging metadata, runtime dependencies, optional extras, and included package data are complete.

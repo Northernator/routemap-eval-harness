@@ -1,5 +1,8 @@
 # RouteMap v1.0 Benchmark Workspace
 
+Repository-wide data provenance, redistribution scope, and third-party exclusions are documented in
+[`data/README.md`](../README.md).
+
 Place benchmark source documents in:
 
 ```text

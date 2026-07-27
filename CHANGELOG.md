@@ -11,12 +11,15 @@ Notable user-facing changes are recorded here. RouteMap follows semantic version
 - Local FastAPI cockpit, audit/replay stores, and fail-closed route-and-validate workflows.
 - Full CI, acceptance, evidence, packaging, and installed-wheel verification surfaces.
 - Contribution, support, security, conduct, issue, pull-request, and release-governance guidance.
+- Apache-2.0 software licensing, CC BY 4.0 documentation/data licensing, and centralized provenance and
+  third-party notices.
 
 ### Changed
 
 - Evidence execution now reports every required step and exits non-zero when an executed step fails.
 - CI tests supported Python 3.10 and 3.11 with SHA-pinned GitHub Actions.
 - Generated audit, run, evidence, build, environment, and secret-bearing files are ignored by default.
+- True-blind R6 provenance now names the configured source split instead of a legacy held-out split.
 
 ### Known limitations
 

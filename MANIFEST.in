@@ -1,5 +1,9 @@
 include README.md
 include pyproject.toml
+include LICENSE
+include LICENSE-DATA
+include NOTICE
+include THIRD_PARTY_NOTICES.md
 recursive-include src/routemap_harness/schemas *.json
 recursive-include src/routemap_harness/web *.html
 prune data/outputs

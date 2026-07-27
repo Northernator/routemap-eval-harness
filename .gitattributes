@@ -1,5 +1,8 @@
 * text=auto
 .gitattributes text eol=lf
+LICENSE text eol=lf
+LICENSE-DATA text eol=lf whitespace=-blank-at-eof
+NOTICE text eol=lf
 
 *.csv text eol=lf
 *.html text eol=lf

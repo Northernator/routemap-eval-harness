@@ -23,8 +23,49 @@ def test_public_package_metadata_and_extras_are_declared() -> None:
     assert project["version"] == "0.1.0"
     assert project["readme"] == "README.md"
     assert project["dependencies"] == ["numpy>=1.24,<3"]
+    assert project["license"] == "Apache-2.0"
+    assert config["build-system"]["requires"] == ["setuptools>=77"]
     assert set(project["optional-dependencies"]) == {"api", "benchmark", "dev", "matrix"}
     assert project["scripts"]["routemap-harness"] == "routemap_harness.__main__:main"
+    assert project["license-files"] == [
+        "LICENSE",
+        "LICENSE-DATA",
+        "NOTICE",
+        "THIRD_PARTY_NOTICES.md",
+    ]
+
+
+def test_public_license_and_provenance_files_are_declared() -> None:
+    required = {
+        "LICENSE",
+        "LICENSE-DATA",
+        "NOTICE",
+        "THIRD_PARTY_NOTICES.md",
+        "data/README.md",
+    }
+    assert all((ROOT / path).is_file() for path in required)
+
+    manifest = (ROOT / "MANIFEST.in").read_text(encoding="utf-8").splitlines()
+    for path in required - {"data/README.md"}:
+        assert f"include {path}" in manifest
+
+    notice = (ROOT / "NOTICE").read_text(encoding="utf-8")
+    normalized_notice = " ".join(notice.split())
+    assert "Apache License" in notice
+    assert "Creative Commons Attribution 4.0" in notice
+    assert "only to the extent RouteMap contributors hold rights" in normalized_notice
+
+
+def test_true_blind_provenance_names_its_actual_source() -> None:
+    report = ROOT / (
+        "data/v1/true_blind_natural_language/reports/"
+        "TRUE_BLIND_R6_PREDICTION_PROVENANCE.md"
+    )
+    text = report.read_text(encoding="utf-8")
+    source = "data/v1/true_blind_natural_language/annotation/true_blind_gold_frozen.csv"
+    assert f"- source split: `{source}`" in text
+    assert f"- row selection: all rows from `{source}`" in text
+    assert "expanded_test_v2.csv" not in text
 
 
 def test_bundled_schema_matches_canonical_schema() -> None:

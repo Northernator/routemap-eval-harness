@@ -51,6 +51,11 @@ generated; preserve the result separately with the full commit hash and environm
 | Blind held-out suite | on fresh data never tuned against: arithmetic + structured-output catch 1.000 / FP 0.000; retrieval route recall@10 0.910; extraction 0.667 (baseline) | `python src/blind/score_blind_v1.py` (verifies SHA-256, scores once); `data/blind/v1/BLIND_RESULTS.md` |
 
 ## 6. Datasets and frozen seeds
+
+Dataset provenance, redistribution scope, model-output rights, and third-party exclusions are centralized
+in [`data/README.md`](data/README.md) and [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md). Dataset cards
+and nearby provenance reports remain authoritative for split-specific generation and limitations.
+
 - Benchmark seed: **7** (all generators; deterministic — same seed gives byte-identical task files).
 - Synthetic: HugeArithmeticRouteBench tasks, TokenRouteQA constructed fallback, embedding distractors, needle-in-haystack — all seeded.
 - Real gold: `data/v1/gold/v1_full_extraction_gold_v1.csv` (99 segments), `data/gold/*.csv`, `data/v1/gold/v1_qa_targets.csv`.

@@ -155,5 +155,15 @@ generalization — human gold is the gate. See the tracked records under
 - User-visible changes and known limitations: [`CHANGELOG.md`](CHANGELOG.md)
 - Maintainer release gate: [`docs/PUBLIC_RELEASE_CHECKLIST.md`](docs/PUBLIC_RELEASE_CHECKLIST.md)
 
-Before public release, maintainers must add an explicit repository license. Until then, no permission
-to copy, modify, or redistribute the code should be inferred.
+## License
+
+- Software—including source, tests, scripts, schemas, configuration, packaging, automation, and cockpit
+  HTML/CSS/JavaScript—is licensed under [Apache License 2.0](LICENSE).
+- Repository-authored documentation, prompts, examples, benchmark fixtures, annotations, datasets, and
+  reports are licensed under [CC BY 4.0](LICENSE-DATA).
+- Cited or linked works, underlying models and services, names, marks, and other third-party rights are
+  excluded. See [`NOTICE`](NOTICE), [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md), and the
+  [data provenance inventory](data/README.md).
+
+Tracked model/provider outputs are included under CC BY 4.0 only to the extent RouteMap contributors hold
+licensable rights; applicable upstream terms continue to apply.

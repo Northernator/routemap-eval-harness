@@ -6,6 +6,15 @@ boundaries.
 
 By participating, you agree to follow [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
 
+## Contribution licensing
+
+By intentionally submitting a contribution for inclusion, you represent that you have the right to submit
+it and agree that it is licensed under the license applicable to that part of the repository: Apache-2.0
+for software, tests, scripts, schemas, configuration, packaging, automation, and cockpit code; CC BY 4.0
+for repository-authored documentation, prompts, examples, benchmark fixtures, annotations, datasets, and
+reports. Clearly identify material governed by different terms before submission; maintainers must accept
+those terms explicitly.
+
 ## Before opening a change
 
 - Use [`SUPPORT.md`](SUPPORT.md) to choose the right discussion or issue path.

@@ -297,12 +297,13 @@ def validate_no_calibration_overlap(heldout_rows):
 
 def write_provenance(row_count, setting, model_name, column, accuracy, raw_status):
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
+    source_label = SOURCE_SPLIT.relative_to(ROOT).as_posix()
     lines = [
         "# Heldout R6 Generalisation Split Provenance",
         "",
-        f"- source split: `{SOURCE_SPLIT.relative_to(ROOT)}`",
+        f"- source split: `{source_label}`",
         "- split status: existing test split, not newly sampled",
-        "- row selection: all rows from `expanded_test_v2.csv`",
+        f"- row selection: all rows from `{source_label}`",
         f"- evaluated rows requested: {row_count}",
         "- calibration leakage check: no overlap with `HELDOUT2` calibration segment_ids",
         "- gold files modified: no",
