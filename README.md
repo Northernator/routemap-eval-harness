@@ -1,16 +1,21 @@
 # RouteMap — a route-and-validate control layer for LLM reliability
 
-RouteMap applies one control loop at several layers of an LLM system: **fingerprint** an output cheaply,
-**route** to the subset that matters, **compute** only that subset, **validate** the shortcut, and
-**escalate** when it looks unsafe. The individual techniques are known; the contribution is their
-integration, a locked audit schema, and a zero-false-positive / no-self-grading discipline.
+RouteMap is a local Python evaluation harness for checking LLM output before it is trusted or used. It applies
+one control loop at several layers of an LLM system: **fingerprint** an output cheaply, **route** to the subset
+that matters, **compute** only that subset, **validate** the shortcut, and **escalate** when it looks unsafe.
+
+`model output → classify task → run the relevant checker → repair, retry, or escalate → append an audit record`
+
+RouteMap can rule out some wrong outputs. A result of `NOT_RULED_OUT` means only that the configured checker
+did not establish an error; it is not proof that the output is correct or safe. The default check and routing
+paths are local, offline, and deterministic.
 
 > RouteMap began as a semantic route-extraction evaluation harness (Phases 1–2, see *Origins* below). It grew
 > into a verified route-and-validate stack of seven standalone packages (slices 01–16), now surfaced through a
-> local **cockpit** (Lab Mode) that runs, compresses, verifies, repairs, escalates, compares, and audits any
-> model from the browser.
+> local **cockpit** (Lab Mode) that runs, compresses, verifies, repairs, escalates, compares, and audits output
+> through supported local and opt-in cloud model adapters.
 
-## Quick start
+## Quick start: local cockpit
 
 RouteMap supports Python 3.10+; CI verifies Python 3.10 and 3.11.
 
@@ -20,18 +25,48 @@ cd routemap-eval-harness                           # repo root = package root (s
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1                       # bash/macOS: source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install -r requirements-dev.txt
-python -m pytest -q
-python scripts/check_acceptance.py
+python -m pip install -r requirements-api.txt
+routemap-harness serve                             # open http://127.0.0.1:8000/
 ```
 
-See [`docs/RUNNING.md`](docs/RUNNING.md) for API/UI setup and troubleshooting.
+No model, API key, database, Docker service, or online account is needed to use the prefilled **Check** example,
+the **Lab** token visualizer, or the local dashboard. Interactive API documentation is available at
+http://127.0.0.1:8000/docs while the server is running.
+
+### One offline CLI check
+
+After the installation above, this checks a known-correct arithmetic claim and writes an ignored local audit
+record under `data/outputs/`:
+
+```powershell
+routemap-harness check --task arithmetic --input examples/arithmetic/correct.json
+```
+
+CLI exit codes are automation-safe: `0` means accepted or repaired, `1` means rejected or escalated, and `2`
+means invalid input or invocation. Always inspect the decision JSON; `accepted` still means only
+`NOT_RULED_OUT`, never a correctness guarantee.
+
+To install only the offline core and CLI, use `python -m pip install -e .`. Contributors and evidence reviewers
+should instead use `python -m pip install -r requirements-dev.txt`, then run `python -m pytest -q` and
+`python scripts/check_acceptance.py`. See [`docs/RUNNING.md`](docs/RUNNING.md) for the complete setup,
+cross-platform commands, model adapters, and troubleshooting.
+
+## Privacy defaults
+
+- The cockpit binds to `127.0.0.1` by default. Do not use `--host 0.0.0.0` unless you intend to expose it on
+  your network and have added appropriate access controls.
+- Checks, routing, and evidence run offline by default. Ollama is an optional local model runtime.
+- OpenAI and Anthropic adapters are disabled unless their environment variables are present. Using them sends
+  the selected prompts to that provider and may incur charges.
+- Audit and replay files can contain prompts, model outputs, and repairs in plaintext. They are written to
+  gitignored `data/outputs/` paths; review and redact them before sharing.
+- API keys belong only in your process environment. RouteMap does not automatically load `.env` files. Never
+  put credentials in prompts, screenshots, issues, fixtures, audit logs, or commits.
 
 ## Cockpit (Lab Mode)
 A local control page — a single-file UI plus a FastAPI surface — makes the route-and-validate loop visible.
 
 ```powershell
-pip install -r requirements-api.txt
 python -m routemap_harness serve            # http://127.0.0.1:8000/   (add --reload for dev)
 ```
 
@@ -154,6 +189,7 @@ generalization — human gold is the gate. See the tracked records under
 - Community standards: [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)
 - User-visible changes and known limitations: [`CHANGELOG.md`](CHANGELOG.md)
 - Maintainer release gate: [`docs/PUBLIC_RELEASE_CHECKLIST.md`](docs/PUBLIC_RELEASE_CHECKLIST.md)
+- First-publication rollover: [`docs/PUBLIC_LAUNCH_RUNBOOK.md`](docs/PUBLIC_LAUNCH_RUNBOOK.md)
 
 ## License
 

@@ -38,33 +38,50 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 
 def _build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="routemap-harness")
+    parser = argparse.ArgumentParser(
+        prog="routemap-harness",
+        description="Route and validate model output with one-sided, auditable checks.",
+        epilog="Exit codes: 0 accepted/repaired, 1 rejected/escalated, 2 invalid input or invocation.",
+    )
     subcommands = parser.add_subparsers(dest="command", required=True)
 
-    check = subcommands.add_parser("check")
-    check.add_argument("--task", required=True)
-    check.add_argument("--schema")
-    check.add_argument("--strict", action="store_true")
-    check.add_argument("--risk", choices=("low", "high"), default="low")
-    check.add_argument("--input", default="-")
-    check.add_argument("--audit", default=str(DEFAULT_AUDIT))
+    check = subcommands.add_parser(
+        "check", help="validate one JSON payload; exits 0 only when accepted"
+    )
+    check.add_argument(
+        "--task",
+        required=True,
+        help="arithmetic, json_schema, tool_call, grounded_qa, python_code, extraction, long_context_qa, or retrieval",
+    )
+    check.add_argument("--schema", help="optional JSON Schema file (json_schema task)")
+    check.add_argument("--strict", action="store_true", help="block uncheckable/escalated output")
+    check.add_argument("--risk", choices=("low", "high"), default="low", help="policy risk level")
+    check.add_argument("--input", default="-", help="JSON payload file, or - for standard input")
+    check.add_argument("--audit", default=str(DEFAULT_AUDIT), help="audit JSONL destination")
 
-    repair = subcommands.add_parser("repair")
-    repair.add_argument("--decision-id", required=True)
-    repair.add_argument("--input")
-    repair.add_argument("--audit", default=str(DEFAULT_AUDIT))
-    repair.add_argument("--max-retries", type=int, default=2)
-    repair.add_argument("--model-output", action="append", default=[])
+    repair = subcommands.add_parser(
+        "repair", help="retry one rejected decision; exits 0 only when repaired or accepted"
+    )
+    repair.add_argument("--decision-id", required=True, help="decision identifier being repaired")
+    repair.add_argument("--input", help="original JSON payload file; omit for a repair-plan stub")
+    repair.add_argument("--audit", default=str(DEFAULT_AUDIT), help="audit JSONL destination")
+    repair.add_argument("--max-retries", type=int, default=2, help="maximum offline repair attempts")
+    repair.add_argument(
+        "--model-output",
+        action="append",
+        default=[],
+        help="candidate repaired output; repeat for multiple attempts",
+    )
 
-    route = subcommands.add_parser("route")
-    route.add_argument("--passage", required=True)
-    route.add_argument("--question", required=True)
-    route.add_argument("--router", choices=("element", "token"), default="element")
+    route = subcommands.add_parser("route", help="preview offline token routing for one passage")
+    route.add_argument("--passage", required=True, help="UTF-8 passage file")
+    route.add_argument("--question", required=True, help="question used to protect relevant tokens")
+    route.add_argument("--router", choices=("element", "token"), default="element", help="routing policy")
 
-    summarize = subcommands.add_parser("summarize")
-    summarize.add_argument("--audit", default=str(DEFAULT_AUDIT))
+    summarize = subcommands.add_parser("summarize", help="summarize a local audit JSONL file")
+    summarize.add_argument("--audit", default=str(DEFAULT_AUDIT), help="audit JSONL source")
 
-    subcommands.add_parser("validate-config")
+    subcommands.add_parser("validate-config", help="validate lane registry and bundled decision schema")
 
     serve = subcommands.add_parser("serve", help="run the RouteMap cockpit (FastAPI UI + API) via uvicorn")
     serve.add_argument("--host", default="127.0.0.1")
@@ -81,7 +98,7 @@ def _cmd_check(args: argparse.Namespace) -> int:
     decision = harness_check(payload, risk=args.risk, strict=args.strict)
     append_audit_record(args.audit, decision)
     print(decision.to_json())
-    return 1 if decision.is_blocking() else 0
+    return _decision_exit_code(decision)
 
 
 def _cmd_repair(args: argparse.Namespace) -> int:
@@ -102,7 +119,7 @@ def _cmd_repair(args: argparse.Namespace) -> int:
     decision = harness_check(payload)
     result = repair(decision, payload, model_fn, max_retries=args.max_retries, audit_path=args.audit)
     print(_json(result.to_dict()))
-    return 1 if result.final_decision.is_blocking() else 0
+    return _decision_exit_code(result.final_decision)
 
 
 def _cmd_route(args: argparse.Namespace) -> int:
@@ -144,6 +161,10 @@ def _load_json_file(path: str) -> Any:
 
 def _json(value: Any) -> str:
     return json.dumps(value, ensure_ascii=True, sort_keys=True, default=str)
+
+
+def _decision_exit_code(decision: Any) -> int:
+    return 0 if decision.final_status in {"accepted", "repaired"} else 1
 
 
 if __name__ == "__main__":

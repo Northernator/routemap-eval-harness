@@ -35,6 +35,10 @@ Runs the seven test suites and the offline benchmarks, then writes `EVIDENCE/RES
 captured log tails. Offline steps need only Python + numpy; the matrix self-check needs torch; the live-ollama
 and GPU numbers are environment-gated (noted in the output). `EVIDENCE/` is ignored because these files are
 generated; preserve the result separately with the full commit hash and environment metadata when publishing it.
+The first required step runs `python scripts/check_public_tree.py`, which fails if tracked files contain common
+secret formats, private-key filenames, personal user-home paths, or local generated-output paths. This guard
+complements the full-history release scan and GitHub secret scanning; it is not a guarantee that arbitrary
+private text can be recognized automatically.
 
 ## 5. Headline results (verified) and how each reproduces
 | Lane | Verified headline | Reproduce |

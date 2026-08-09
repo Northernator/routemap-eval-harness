@@ -37,6 +37,7 @@ TRANSFORMERS = _have("transformers")
 MATRIX_DEPS = TORCH and TRANSFORMERS
 
 STEPS = [
+    ("guard: public tree", [sys.executable, "scripts/check_public_tree.py"], "no tracked secrets, private-key files, user-home paths, or local generated output"),
     ("pytest: validators", [sys.executable, "-m", "pytest", "rv_test_validator_package.py", "-q"], "sound checkers; tool-call firewall; FP 0.000"),
     ("pytest: digital engine", [sys.executable, "-m", "pytest", "rd_test_digital_engine.py", "-q"], "residue/CRT/cycles; off-by-M sound"),
     ("pytest: arithmetic bench", [sys.executable, "-m", "pytest", "rb_test_bench.py", "-q"], "oracle-verifier agreement; GT independent"),

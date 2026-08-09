@@ -65,6 +65,64 @@ def test_cli_validate_config_passes() -> None:
     assert payload["lanes"]["extraction"] == "explicit_escalation"
 
 
+def test_cli_help_explains_tasks_inputs_and_exit_codes() -> None:
+    root_help = _run_cli("--help")
+    check_help = _run_cli("check", "--help")
+
+    assert root_help.returncode == 0
+    assert "one-sided, auditable checks" in root_help.stdout
+    assert "0 accepted/repaired, 1 rejected/escalated, 2 invalid" in root_help.stdout
+    assert "preview offline token routing" in root_help.stdout
+    assert check_help.returncode == 0
+    assert "arithmetic, json_schema, tool_call" in check_help.stdout
+    assert "JSON payload file, or - for standard input" in check_help.stdout
+
+
+def test_cli_check_returns_nonzero_when_output_is_rejected(tmp_path: Path) -> None:
+    payload_path = tmp_path / "payload.json"
+    audit_path = tmp_path / "audit.jsonl"
+    payload_path.write_text(
+        json.dumps({"expr": "2 + 3", "claimed_answer": 6}),
+        encoding="utf-8",
+    )
+
+    result = _run_cli(
+        "check",
+        "--task",
+        "arithmetic",
+        "--input",
+        str(payload_path),
+        "--audit",
+        str(audit_path),
+    )
+
+    assert result.returncode == 1
+    decision = json.loads(result.stdout)
+    assert decision["verdict"] == "RULED_OUT_WRONG"
+    assert decision["final_status"] == "rejected"
+    assert len(audit_path.read_text(encoding="utf-8").splitlines()) == 1
+
+
+def test_cli_check_returns_nonzero_when_output_is_escalated(tmp_path: Path) -> None:
+    payload_path = tmp_path / "payload.json"
+    audit_path = tmp_path / "audit.jsonl"
+    payload_path.write_text(json.dumps({"raw": "unsupported"}), encoding="utf-8")
+
+    result = _run_cli(
+        "check",
+        "--task",
+        "unknown",
+        "--input",
+        str(payload_path),
+        "--audit",
+        str(audit_path),
+    )
+
+    assert result.returncode == 1
+    decision = json.loads(result.stdout)
+    assert decision["final_status"] == "escalated"
+
+
 def test_cli_repair_runs_offline_model_output(tmp_path: Path) -> None:
     payload_path = tmp_path / "payload.json"
     audit_path = tmp_path / "audit.jsonl"
@@ -106,6 +164,39 @@ def test_cli_repair_runs_offline_model_output(tmp_path: Path) -> None:
     assert payload["final_decision"]["final_status"] == "repaired"
     assert len(payload["attempts"]) == 1
     assert len(audit_path.read_text(encoding="utf-8").splitlines()) == 1
+
+
+def test_cli_repair_returns_nonzero_when_retries_are_exhausted(tmp_path: Path) -> None:
+    payload_path = tmp_path / "payload.json"
+    audit_path = tmp_path / "audit.jsonl"
+    payload_path.write_text(
+        json.dumps(
+            {
+                "task_type": "arithmetic",
+                "expr": "2 + 3",
+                "claimed_answer": 6,
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = _run_cli(
+        "repair",
+        "--decision-id",
+        "demo",
+        "--input",
+        str(payload_path),
+        "--audit",
+        str(audit_path),
+        "--max-retries",
+        "1",
+        "--model-output",
+        "6",
+    )
+
+    assert result.returncode == 1
+    payload = json.loads(result.stdout)
+    assert payload["final_decision"]["final_status"] == "escalated"
 
 
 def test_cli_serve_invokes_uvicorn(monkeypatch: pytest.MonkeyPatch) -> None:

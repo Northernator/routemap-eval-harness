@@ -1,0 +1,12 @@
+title = "RouteMap Gitleaks configuration"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Synthetic matrix needle used only as a retrieval benchmark fixture"
+condition = "AND"
+targetRules = ["generic-api-key"]
+regexTarget = "line"
+regexes = ['''secret="BLUE-MARLIN-42"''']
+paths = ['''(?:^|.*/)src/routemap_matrix/bench\.py$''']

@@ -3,6 +3,10 @@
 Use this checklist for the first public release and each later tagged release. A checked item means evidence
 was reviewed for the exact release commit; it is not a permanent certification.
 
+For the first launch, follow [`PUBLIC_LAUNCH_RUNBOOK.md`](PUBLIC_LAUNCH_RUNBOOK.md). It keeps the existing
+repository private because historical pull-request refs retain pre-rewrite metadata and pushes only sanitized
+`main` into a clean replacement.
+
 ## Blocking decisions
 
 - [ ] Maintainer confirmed Apache-2.0 for software and CC BY 4.0 for repository-authored documentation/data,
@@ -43,6 +47,7 @@ python -m venv .venv
 python -m pip install --upgrade pip
 python -m pip install -r requirements-dev.txt
 $env:PYTHONPATH = "src"
+python scripts/check_public_tree.py
 python -m pytest -q
 python scripts/check_acceptance.py
 python run_evidence.py

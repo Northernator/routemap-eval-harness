@@ -28,4 +28,7 @@ The harness (`src/routemap_harness/`) is the external reliability layer: `AI -> 
 - **Core stays offline and deterministic.** numpy + stdlib only on the check path; zero network calls. All model I/O sits behind the `model_fn` adapter contract (`adapters.py`). Isolate extra deps in their own file (`requirements-api.txt` for the FastAPI service); the API handlers call core functions and contain no logic.
 - **Audit is canonical and schema-locked.** Every emitted record validates against `schemas/harness_decision_v1.schema.json` (100% schema-valid) and embeds the lane record under `validator_record`. No silent prune: every accept/repair/prune names the validator/guard or an explicit `escalation_target`.
 - **Zero false accepts is a test, not a claim.** Changes that touch any lane must keep `tests/test_harness_gold.py` green (`false_accepts == 0`, sound-lane FP `0.000`). Every new behavior ships a pytest test, a one-line `EVIDENCE_PACK.md` note, and (for durable checks) a `run_evidence.py` step.
-- **Run from repo root** (`routemap_eval_harness/routemap_eval_harness/`, the dir with `.git`) using `PYTHONPATH=src`, Python 3.11. Primary CLI surface is `python -m routemap_harness`. Note: this is a Windows/PowerShell environment — `grep` is unavailable; use `git` pathspecs or native scans.
+- **Run from the repository root** (the directory containing `.git`, `src/`, and `run_evidence.py`) using
+  `PYTHONPATH=src` when the package is not installed editable. Python 3.11 is the primary development version;
+  CI also verifies Python 3.10. Primary CLI surface is `python -m routemap_harness`. Use platform-native
+  environment-variable syntax and prefer `rg` for repository searches when available.

@@ -81,6 +81,7 @@ def test_evidence_workflow_is_complete_and_fail_closed() -> None:
         "python -m pytest -q tests",
         "rt_test_elements.py",
         "rt_test_grounding.py",
+        "python scripts/check_public_tree.py",
         "python scripts/check_acceptance.py",
         "python run_evidence.py",
         "if-no-files-found: error",
