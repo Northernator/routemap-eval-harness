@@ -7,6 +7,14 @@ git clone https://github.com/Northernator/routemap-eval-harness.git
 cd routemap-eval-harness
 ```
 
+On Windows, retained research artifacts can make the checkout path long. If Git reports `Filename too long`,
+use a short destination and enable long-path handling for that clone:
+
+```powershell
+git -c core.longpaths=true clone https://github.com/Northernator/routemap-eval-harness.git C:\src\routemap
+cd C:\src\routemap
+```
+
 You need Python 3.10 or newer and Git. The local cockpit does not require Docker, a database, an account, an
 API key, or a model for its Check, Lab, and Dashboard flows.
 

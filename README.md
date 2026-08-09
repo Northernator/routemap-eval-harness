@@ -29,6 +29,14 @@ python -m pip install -r requirements-api.txt
 routemap-harness serve                             # open http://127.0.0.1:8000/
 ```
 
+On Windows, some retained research artifacts have long paths. If Git reports `Filename too long`, clone to a
+short destination with long-path support enabled:
+
+```powershell
+git -c core.longpaths=true clone https://github.com/Northernator/routemap-eval-harness.git C:\src\routemap
+cd C:\src\routemap
+```
+
 No model, API key, database, Docker service, or online account is needed to use the prefilled **Check** example,
 the **Lab** token visualizer, or the local dashboard. Interactive API documentation is available at
 http://127.0.0.1:8000/docs while the server is running.

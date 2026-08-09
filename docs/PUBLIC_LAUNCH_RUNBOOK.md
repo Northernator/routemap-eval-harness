@@ -32,10 +32,13 @@ Create a disposable clone from the final local checkout:
 
 ```powershell
 $PublicStage = Join-Path $env:TEMP ("routemap-public-" + [guid]::NewGuid())
-git clone --no-local --single-branch --branch main --no-tags . $PublicStage
+git -c core.longpaths=true clone --no-local --single-branch --branch main --no-tags . $PublicStage
 git -C $PublicStage fsck --full --no-reflogs --unreachable
 git -C $PublicStage show-ref
 ```
+
+The per-command `core.longpaths` setting is needed when the Windows temporary-directory prefix plus a retained
+research-artifact path exceeds the default checkout limit. It changes only this clone operation.
 
 Confirm this clone contains only the intended `main` history and its `HEAD` and tree hashes match the recorded
 candidate. Never use `git push --mirror`, `--all`, or `--tags`, and never restore the private backup bundle into

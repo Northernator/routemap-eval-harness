@@ -22,6 +22,7 @@ Notable user-facing changes are recorded here. RouteMap follows semantic version
 - True-blind R6 provenance now names the configured source split instead of a legacy held-out split.
 - Public onboarding now separates minimal CLI, local cockpit, and contributor installs, with explicit local-log,
   network-binding, and opt-in cloud-provider privacy guidance.
+- Windows onboarding and the launch runbook document safe cloning for retained long-path research artifacts.
 - CI and the evidence runner now reject common tracked secret formats, private-key files, personal user-home
   paths, and local generated-output paths.
 - CLI `check` and `repair` now return non-zero for rejected or escalated decisions, making shell automation
