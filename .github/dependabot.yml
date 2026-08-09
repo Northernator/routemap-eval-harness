@@ -9,12 +9,9 @@ updates:
       python-dependencies:
         patterns:
           - "*"
-    ignore:
-      # The optional matrix lane is not yet qualified against transformers 5.x.
-      - dependency-name: transformers
-        update-types:
-          - version-update:semver-major
-    open-pull-requests-limit: 5
+    # Hold routine version-update PRs until public-launch protections are active.
+    # Dependabot vulnerability alerts and security updates are configured separately.
+    open-pull-requests-limit: 0
 
   - package-ecosystem: github-actions
     directory: /
