@@ -20,7 +20,15 @@ python scripts/check_acceptance.py
 python run_evidence.py
 git diff --check
 git status --short
-git rev-parse HEAD
+$FinalSha = (git rev-parse HEAD).Trim()
+$FinalTree = (git show -s --format=%T HEAD).Trim()
+$PrivateBackupDir = (Resolve-Path -LiteralPath (Read-Host "Existing private backup directory")).Path
+$Bundle = Join-Path $PrivateBackupDir ("routemap-public-candidate-" + $FinalSha + ".bundle")
+git bundle create $Bundle main
+git bundle verify $Bundle
+Get-FileHash -Algorithm SHA256 -LiteralPath $Bundle
+$FinalSha
+$FinalTree
 ```
 
 Record the final commit and tree hashes. Retain a private main-only bundle and its SHA-256 checksum outside the
@@ -33,8 +41,14 @@ Create a disposable clone from the final local checkout:
 ```powershell
 $PublicStage = Join-Path $env:TEMP ("routemap-public-" + [guid]::NewGuid())
 git -c core.longpaths=true clone --no-local --single-branch --branch main --no-tags . $PublicStage
-git -C $PublicStage fsck --full --no-reflogs --unreachable
+$Unreachable = @(git -C $PublicStage fsck --full --no-reflogs --unreachable 2>&1)
+if ($LASTEXITCODE -ne 0 -or $Unreachable.Count -ne 0) { throw "Transport clone contains errors or unreachable objects: $Unreachable" }
 git -C $PublicStage show-ref
+$StageSha = (git -C $PublicStage rev-parse HEAD).Trim()
+$StageTree = (git -C $PublicStage show -s --format=%T HEAD).Trim()
+if ($StageSha -ne $FinalSha -or $StageTree -ne $FinalTree) { throw "Transport clone does not match the candidate" }
+python "$PublicStage\scripts\check_public_tree.py"
+if ($LASTEXITCODE -ne 0) { throw "Transport clone failed the public-tree guard" }
 ```
 
 The per-command `core.longpaths` setting is needed when the Windows temporary-directory prefix plus a retained
@@ -80,6 +94,15 @@ the replacement repository.
 Before proceeding, confirm the replacement has a different repository ID from the archive; the expected commit
 and tree hashes; no old commit IDs; no pull requests, releases, deployments, secrets, variables, deploy keys, or
 webhooks; no secret-scan findings; and only refs descended from the sanitized candidate.
+
+After those checks pass, remove only the disposable transport clone:
+
+```powershell
+$ResolvedStage = [IO.Path]::GetFullPath((Resolve-Path -LiteralPath $PublicStage).Path)
+$ExpectedStagePrefix = [IO.Path]::GetFullPath($env:TEMP).TrimEnd('\') + '\routemap-public-'
+if (-not $ResolvedStage.StartsWith($ExpectedStagePrefix, [StringComparison]::OrdinalIgnoreCase)) { throw "Unexpected stage path: $ResolvedStage" }
+Remove-Item -LiteralPath $ResolvedStage -Recurse -Force
+```
 
 ## 5. Explicit visibility gate
 

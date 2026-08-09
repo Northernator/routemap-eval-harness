@@ -33,9 +33,12 @@ On Windows, some retained research artifacts have long paths. If Git reports `Fi
 short destination with long-path support enabled:
 
 ```powershell
+New-Item -ItemType Directory -Force C:\src | Out-Null
 git -c core.longpaths=true clone https://github.com/Northernator/routemap-eval-harness.git C:\src\routemap
 cd C:\src\routemap
 ```
+
+Then continue at `python -m venv .venv` in the quick start above.
 
 No model, API key, database, Docker service, or online account is needed to use the prefilled **Check** example,
 the **Lab** token visualizer, or the local dashboard. Interactive API documentation is available at

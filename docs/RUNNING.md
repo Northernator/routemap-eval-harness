@@ -11,9 +11,12 @@ On Windows, retained research artifacts can make the checkout path long. If Git 
 use a short destination and enable long-path handling for that clone:
 
 ```powershell
+New-Item -ItemType Directory -Force C:\src | Out-Null
 git -c core.longpaths=true clone https://github.com/Northernator/routemap-eval-harness.git C:\src\routemap
 cd C:\src\routemap
 ```
+
+Then continue with step 1 below.
 
 You need Python 3.10 or newer and Git. The local cockpit does not require Docker, a database, an account, an
 API key, or a model for its Check, Lab, and Dashboard flows.
