@@ -9,6 +9,11 @@ updates:
       python-dependencies:
         patterns:
           - "*"
+    ignore:
+      # The optional matrix lane is not yet qualified against transformers 5.x.
+      - dependency-name: transformers
+        update-types:
+          - version-update:semver-major
     open-pull-requests-limit: 5
 
   - package-ecosystem: github-actions
