@@ -29,6 +29,17 @@ def test_classify_element_known_and_deterministic() -> None:
         assert classify_element(tok) == el  # deterministic
 
 
+def test_formula_classification_preserves_call_and_operator_grammar() -> None:
+    for token in ["F()", "prefixF(123)suffix", "x=7", "a/b", "a_b", "G(\u0661\u0662)"]:
+        assert classify_element(token) == "FORMULA"
+    assert classify_element("F(12x)") == "ENTITY"
+
+
+def test_formula_classification_handles_long_adversarial_input() -> None:
+    assert classify_element("A" * 100_000 + "(1" * 100_000) == "ENTITY"
+    assert classify_element("a" * 100_000 + "=") == "FORMULA"
+
+
 def test_codon_value_bounded() -> None:
     assert 0.0 <= codon_value(("NEGATION", "MODAL", "ACTION")) <= 1.0
     # an operator bound to contentful tokens scores higher than pure filler

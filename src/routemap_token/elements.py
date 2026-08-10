@@ -70,6 +70,7 @@ ELEMENT_WEIGHT: dict[str, float] = {
 }
 
 CODE_TOKENS = {"def", "import", "return", "class", "==", "!=", "{", "}", ";", "=>", "->", "(", ")"}
+_FORMULA_OPERATORS = frozenset("^=/*_<>")
 
 
 def classify_element(token: str) -> str:
@@ -93,7 +94,7 @@ def classify_element(token: str) -> str:
         return "NUMBER"
     if value in {"%"} or base in {"percent", "kg", "mb", "gb", "ms"}:
         return "UNIT"
-    if re.search(r"[\^=/*_<>]|[A-Za-z]+\(\d*\)", value):
+    if any(character in _FORMULA_OPERATORS for character in value) or _contains_formula_call(value):
         return "FORMULA"
     if base in {">=", "<=", ">", "<"}:
         return "THRESHOLD"
@@ -152,6 +153,32 @@ def classify_element(token: str) -> str:
     if re.search(r"[A-Za-z]", value):
         return "CONCEPT"
     return "UNKNOWN"
+
+
+def _contains_formula_call(value: str) -> bool:
+    """Return whether *value* contains the ASCII-name/digit-call grammar."""
+    index = 0
+    length = len(value)
+    while index < length:
+        character = value[index]
+        if not ("A" <= character <= "Z" or "a" <= character <= "z"):
+            index += 1
+            continue
+
+        index += 1
+        while index < length and (
+            "A" <= value[index] <= "Z" or "a" <= value[index] <= "z"
+        ):
+            index += 1
+        if index >= length or value[index] != "(":
+            continue
+
+        index += 1
+        while index < length and value[index].isdecimal():
+            index += 1
+        if index < length and value[index] == ")":
+            return True
+    return False
 
 
 # --- codon motif scoring ------------------------------------------------------

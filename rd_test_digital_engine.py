@@ -84,6 +84,30 @@ def test_parser_and_engine_residues() -> None:
     assert fingerprint(fact_spec, (fact_mod,))[fact_mod] == math.factorial(12) % 11
 
 
+def test_parser_preserves_power_factorial_and_modulus_grammar() -> None:
+    assert parse_expression("-7 ** 3 MOD 11") == (
+        {"family": "power", "base": -7, "exponent": 3},
+        11,
+    )
+    assert parse_expression("20!") == ({"family": "factorial", "n": 20}, None)
+    assert parse_expression("2 + 3\nmod\t7") == ({"family": "bigsum", "values": [2, 3]}, 7)
+
+
+def test_parser_handles_long_adversarial_inputs_without_regex_backtracking() -> None:
+    malformed = (
+        "9" * 100_000 + "^",
+        "9" * 100_000 + "x!",
+        "a" + " " * 100_000,
+    )
+    for value in malformed:
+        try:
+            parse_expression(value)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("malformed expression should be rejected")
+
+
 def test_engine_matches_python_exact_for_supported_families() -> None:
     rng = random.Random(8)
     for _ in range(80):

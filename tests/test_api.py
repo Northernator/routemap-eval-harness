@@ -102,11 +102,16 @@ def test_api_repair_runs_model_and_repairs(tmp_path: Path, monkeypatch: pytest.M
     assert body["decision"]["final_status"] == "repaired"
 
 
-def test_api_repair_no_model_returns_503(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_api_repair_no_model_returns_503(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
     app.state.audit_path = str(tmp_path / "audit.jsonl")
+    private_detail = "private-adapter-path:/srv/models/secret.bin"
 
     def boom(prompt: str, **kw: object) -> str:
-        raise api.ModelAdapterUnavailable("no model")
+        raise api.ModelAdapterUnavailable(private_detail)
 
     monkeypatch.setattr(api, "model_fn", boom)
     client = TestClient(app)
@@ -122,6 +127,9 @@ def test_api_repair_no_model_returns_503(tmp_path: Path, monkeypatch: pytest.Mon
     )
 
     assert response.status_code == 503
+    assert response.json() == {"detail": "repair needs a model (start Ollama or set an API key)"}
+    assert private_detail not in response.text
+    assert private_detail not in caplog.text
 
 
 def test_route_endpoint_highlights_tokens(tmp_path: Path) -> None:
@@ -437,13 +445,18 @@ def test_compare_runs_each_model(tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     assert all("decision" in result for result in body["results"])
 
 
-def test_compare_isolates_model_failure(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_compare_isolates_model_failure(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
     app.state.audit_path = str(tmp_path / "audit.jsonl")
     app.state.runs_path = str(tmp_path / "runs.jsonl")
+    private_detail = "private-adapter-path:/srv/models/secret.bin"
 
     def maybe_fail(prompt: str, **kwargs: object) -> str:
         if kwargs["model_ref"] == "bad-model":
-            raise api.ModelAdapterUnavailable("bad model unavailable")
+            raise api.ModelAdapterUnavailable(private_detail)
         return "ok"
 
     monkeypatch.setattr(api, "model_fn", maybe_fail)
@@ -466,6 +479,8 @@ def test_compare_isolates_model_failure(tmp_path: Path, monkeypatch: pytest.Monk
     failed = next(result for result in results if result["model_ref"] == "bad-model")
     ok = next(result for result in results if result["model_ref"] == "good-model")
     assert failed["available"] is False
-    assert "bad model unavailable" in failed["error"]
+    assert failed["error"] == "model unavailable"
+    assert private_detail not in response.text
+    assert private_detail not in caplog.text
     assert ok["available"] is True
     assert ok["model_output"] == "ok"

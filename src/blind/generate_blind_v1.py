@@ -116,8 +116,9 @@ def gen_retrieval(rng, n=100):
     corpus, queries = [], []
     for i in range(n):
         topic = rng.choice(TERMS) + "-" + rng.choice(ENTS).lower()
-        secret = f"{rng.choice(ENTS)}-{rng.randint(100,999)}"
-        text = (f"The {topic} dossier records that the responsible custodian is {secret}. "
+        # Public synthetic fixture code; no credential or user-supplied value enters this generator.
+        custodian_code = f"{rng.choice(ENTS)}-{rng.randint(100,999)}"
+        text = (f"The {topic} dossier records that the responsible custodian is {custodian_code}. "
                 f"All {topic} entries are reconciled quarterly by the oversight board.")
         did = f"doc_{i:04d}"
         corpus.append({"id": did, "text": text})

@@ -39,6 +39,8 @@ The first required step runs `python scripts/check_public_tree.py`, which fails 
 secret formats, private-key filenames, personal user-home paths, or local generated-output paths. This guard
 complements the full-history release scan and GitHub secret scanning; it is not a guarantee that arbitrary
 private text can be recognized automatically.
+Security regressions also cover long adversarial parser/extractor inputs, synthetic-fixture privacy, and API
+exception-detail redaction in the standard test suite.
 
 ## 5. Headline results (verified) and how each reproduces
 | Lane | Verified headline | Reproduce |

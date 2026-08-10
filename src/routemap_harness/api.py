@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 from pathlib import Path
 from typing import Any
@@ -30,6 +31,7 @@ from routemap_token import route_passage, route_passage_detail
 
 
 app = FastAPI(title="RouteMap Harness API")
+logger = logging.getLogger(__name__)
 _LAST_MODEL_METADATA: dict[str, Any] = {}
 
 
@@ -161,12 +163,13 @@ def compare(body: dict[str, Any]) -> dict[str, Any]:
         }
         try:
             run_result = _run_once(run_body, runtime=runtime, model_ref=model_ref)
-        except (ModelAdapterUnavailable, ModelAdapterError) as exc:
+        except (ModelAdapterUnavailable, ModelAdapterError):
+            logger.warning("Model comparison unavailable")
             results.append({
                 "runtime": runtime,
                 "model_ref": model_ref,
                 "available": False,
-                "error": str(exc),
+                "error": "model unavailable",
             })
             continue
         decision = dict(run_result.get("decision") or {})
@@ -231,9 +234,10 @@ def repair_decision(body: dict[str, Any]) -> dict[str, Any]:
     try:
         result = repair(base, payload, model_fn, max_retries=2, audit_path=_audit_path())
     except (ModelAdapterUnavailable, ModelAdapterError) as exc:
+        logger.warning("Repair model unavailable")
         raise HTTPException(
             status_code=503,
-            detail=f"repair needs a model (start Ollama or set an API key): {exc}",
+            detail="repair needs a model (start Ollama or set an API key)",
         ) from exc
     final = _with_model_record(result.final_decision, model_ref)
     out = _api_decision(final)
