@@ -239,8 +239,8 @@ BACKEND (src/routemap_harness/api.py) — replace the BODY of the POST /repair h
       return out
   try:
       result = repair(base, payload, model_fn, max_retries=2, audit_path=_audit_path())
-  except (ModelAdapterUnavailable, ModelAdapterError) as exc:
-      raise HTTPException(status_code=503, detail=f"repair needs a model (start Ollama or set an API key): {exc}")
+  except (ModelAdapterUnavailable, ModelAdapterError):
+      raise HTTPException(status_code=503, detail="repair service is temporarily unavailable")
   final = _with_model_record(result.final_decision, model_ref)
   out = _api_decision(final)
   out["scorecard"] = scorecard(final.to_dict())

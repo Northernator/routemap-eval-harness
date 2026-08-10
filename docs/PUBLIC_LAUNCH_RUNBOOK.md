@@ -112,13 +112,17 @@ Immediately after changing visibility to public:
 
 1. Enable private vulnerability reporting.
 2. Verify secret scanning and push protection are enabled and have zero unresolved alerts.
-3. Enable CodeQL default setup for Python and GitHub Actions; wait for its initial result before requiring its
-   check by name.
+3. Keep CodeQL default setup disabled. Verify the tracked advanced workflow at
+   `.github/workflows/codeql.yml` uses full commit-SHA pins, analyzes Python and GitHub Actions on pushes and
+   pull requests to `main`, and completes successfully. Advanced setup is required here because default setup
+   excludes pull requests from forks.
 4. Require approval for workflows from every external fork contributor.
 5. Protect `main`: require the exact `evidence (3.10)` and `evidence (3.11)` checks, require an up-to-date branch,
    apply the rule to administrators, require a pull request with zero approvals for a solo-maintainer-safe flow,
    require linear history and resolved conversations, and prohibit force pushes and deletion.
-6. After CodeQL's first successful run, add its exact reported check to branch protection.
+6. After the advanced CodeQL workflow's first successful run, require its exact `Analyze (actions)` and
+   `Analyze (python)` checks. Add an active, no-bypass `code_scanning` ruleset for `main` that requires CodeQL,
+   blocks medium-or-higher security alerts, and blocks non-security errors.
 7. Verify the license, community profile, security policy, issue forms, repository description, and topics while
    signed out.
 8. Make a new anonymous clone, follow the README quick start, and confirm the installed CLI and cockpit work.
